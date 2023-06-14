@@ -1,0 +1,1 @@
+# Styclick mobile application.
