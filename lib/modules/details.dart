@@ -8,8 +8,8 @@ import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
 import 'package:stylclick/shared/widgets/custom_bottom_sheet.dart';
 
-class Details extends StatelessWidget {
-  Details({Key? key}) : super(key: key);
+class CategoryDetails extends StatelessWidget {
+  CategoryDetails({Key? key}) : super(key: key);
 
   Gradient gradient = const LinearGradient(
     colors: [
@@ -24,235 +24,324 @@ class Details extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: homeBgColor,
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          height: 100.h,
+          decoration: BoxDecoration(gradient: gradient),
+          child: Padding(
+            padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    pop();
+                  },
+                  child: Image.asset(
+                    backIcon,
+                    width: 24.w,
+                    color: white,
+                  ),
+                ),
+                8.width,
+                Text(
+                  'Details',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(gradient: gradient),
-                height: 56.h,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 17.0.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          backIcon,
-                          width: 24.w,
-                        ),
-                      ),
-                      Text(
-                        'Details',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              16.height,
               Padding(
                 padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
                 child: Row(
                   children: [
-                    Container(
-                      width: 199.w,
-                      height: 195.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(
-                          image: AssetImage(femaleAsoebi),
-                          fit: BoxFit.cover,
+                    Expanded(
+                      child: Container(
+                        width: 180.w,
+                        height: 180.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(femaleAsoebi),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 199.w,
-                      height: 195.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(
-                          image: AssetImage(femaleAsoebi),
-                          fit: BoxFit.cover,
+                    8.width,
+                    Expanded(
+                      child: Container(
+                        width: 180.w,
+                        height: 180.h,
+                        decoration: const BoxDecoration(
+                          // borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: AssetImage(femaleAsoebi),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     )
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: white, borderRadius: BorderRadius.circular(5.r)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Female lace aso ebi',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: storeNameColor,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w600,
+              16.height,
+              Padding(
+                padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+                child: Container(
+                  height: 150.h,
+                  decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage(walletBg),
+                        fit: BoxFit.cover,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    4.height,
-                    Text(
-                      'NGN 50,000 - 100,000',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: cinta,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    4.height,
-                    Row(
+                      color: white,
+                      borderRadius: BorderRadius.circular(5.r)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, top: 16, right: 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RatingBar.builder(
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemSize: 12,
-                          // itemPadding: EdgeInsets.symmetric(
-                          //     horizontal: 2.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 5,
-                          ),
-                          onRatingUpdate: (rating) {
-                            log(rating);
-                          },
-                        ),
-                        4.width,
                         Text(
-                          '13 Reviews',
+                          'Female lace aso ebi',
                           style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.bold,
-                              color: signinTextColor),
+                            fontSize: 16.sp,
+                            color: storeNameColor,
+                            fontFamily: cinta,
+                            fontWeight: FontWeight.w600,
+                          ),
                           textAlign: TextAlign.center,
+                        ),
+                        8.height,
+                        Text(
+                          'NGN 50,000 - 100,000',
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: cinta,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        8.height,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RatingBar.builder(
+                              initialRating: 3,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 12,
+                              // itemPadding: EdgeInsets.symmetric(
+                              //     horizontal: 2.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 5,
+                              ),
+                              onRatingUpdate: (rating) {
+                                log(rating);
+                              },
+                            ),
+                            4.width,
+                            Text(
+                              '13 Reviews',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.bold,
+                                  color: signinTextColor),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        8.height,
+                        const Divider(
+                          thickness: 1,
+                          color: Color.fromRGBO(0, 0, 0, 0.16),
+                        ),
+                        // 8.height,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Size',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xff263238)),
+                              textAlign: TextAlign.center,
+                            ),
+                            const Spacer(),
+                            Text(
+                              '13 Reviews',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.bold,
+                                  color: signinTextColor),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-              Text(
-                'Product details',
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    fontFamily: cinta,
-                    fontWeight: FontWeight.w500,
-                    color: productDetailsColor),
-                textAlign: TextAlign.center,
+              16.height,
+              Padding(
+                padding: EdgeInsets.only(left: 17.0.w, right: 17.w, bottom: 8),
+                child: Text(
+                  'Product details',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: cinta,
+                      fontWeight: FontWeight.w500,
+                      color: productDetailsColor),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: white, borderRadius: BorderRadius.circular(5.r)),
-                height: 119.h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Padding(
+                padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage(walletBg),
+                        fit: BoxFit.cover,
+                      ),
+                      color: white,
+                      borderRadius: BorderRadius.circular(5.r)),
+                  height: 100.h,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, top: 16, right: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'Description',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w600,
-                              color: productDetailsTextColor),
-                          textAlign: TextAlign.center,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Description',
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.w700,
+                                  color: productDetailsTextColor),
+                              textAlign: TextAlign.center,
+                            ),
+                            Spacer(),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: viewAllTextColor,
+                              size: 14,
+                            )
+                          ],
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: viewAllTextColor,
-                          size: 16,
+                        8.height,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Category',
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.w700,
+                                  color: productDetailsTextColor),
+                              textAlign: TextAlign.center,
+                            ),
+                            8.width,
+                            Text(
+                              'Asoebi gown',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.w500,
+                                  color: productDetailsText2Color),
+                              // textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        8.height,
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Clothing material',
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.w700,
+                                  color: productDetailsTextColor),
+                              // textAlign: TextAlign.center,
+                            ),
+                            8.width,
+                            Text(
+                              'Beaded lace and bridal satin',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: cinta,
+                                  fontWeight: FontWeight.w500,
+                                  color: productDetailsText2Color),
+                              // textAlign: TextAlign.center,
+                            ),
+                          ],
                         )
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Category',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w600,
-                              color: productDetailsTextColor),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          'Asoebi gown',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w500,
-                              color: productDetailsText2Color),
-                          // textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Clothing material',
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w600,
-                              color: productDetailsTextColor),
-                          // textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          'Beaded lace and bridal satin',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w500,
-                              color: productDetailsText2Color),
-                          // textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
               ),
-              Text(
-                'Seller information',
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    fontFamily: cinta,
-                    fontWeight: FontWeight.w500,
-                    color: productDetailsColor),
-                textAlign: TextAlign.center,
+              16.height,
+              Padding(
+                padding: EdgeInsets.only(left: 17.0.w, right: 17.w, bottom: 8),
+                child: Text(
+                  'Seller information',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: cinta,
+                      fontWeight: FontWeight.w500,
+                      color: productDetailsColor),
+                  textAlign: TextAlign.center,
+                ),
               ),
               Container(
                 height: 127.h,
                 width: logicalWidth(),
-                decoration: BoxDecoration(color: white),
+                decoration: const BoxDecoration(color: white),
                 child: InkWell(
                   onTap: () {
                     addToCartSheet(context);
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+                    padding: EdgeInsets.only(
+                        left: 20.w, right: 20.w, top: 20.h, bottom: 50.h),
                     child: Container(
-                      height: 61.h,
+                      height: 48.h,
                       decoration: BoxDecoration(
                           // color: white,
                           borderRadius: BorderRadius.circular(9),
@@ -286,7 +375,7 @@ class Details extends StatelessWidget {
         context: ctx,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(9.r), topRight: Radius.circular(9.r)),
+              topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
         ),
         builder: (ctx) =>
             StatefulBuilder(builder: (context, StateSetter setState) {
@@ -300,6 +389,7 @@ class Details extends StatelessWidget {
                           color: productDetailsTextColor,
                           fontWeight: FontWeight.w500)),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,8 +409,9 @@ class Details extends StatelessWidget {
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
+                      Spacer(),
                       Container(
-                        height: 75.h,
+                        height: 24.h,
                         width: 33.w,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(3.r),
@@ -358,10 +449,10 @@ class Details extends StatelessWidget {
                       addedToCartSheet(ctx);
                     },
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+                      padding: EdgeInsets.only(top: 20.h, bottom: 24.h),
                       child: Container(
-                        height: 61.h,
+                        height: 48.h,
+                        width: logicalWidth(),
                         decoration: BoxDecoration(
                             // color: white,
                             borderRadius: BorderRadius.circular(9),
@@ -392,13 +483,15 @@ class Details extends StatelessWidget {
         context: ctx,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(9.r), topRight: Radius.circular(9.r)),
+              topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
         ),
         builder: (ctx) =>
             StatefulBuilder(builder: (context, StateSetter setState) {
               return CustomBottomSheet(
                 height: deviceHeight(context) * 0.4,
                 children: [
+                  24.height,
+                  24.height,
                   Text(
                     '2M, 2XL of Lace Aso ebi has been\nadded to your order',
                     style: TextStyle(
@@ -411,10 +504,9 @@ class Details extends StatelessWidget {
                   InkWell(
                     onTap: () {},
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+                      padding: EdgeInsets.only(top: 20.h, bottom: 24.h),
                       child: Container(
-                        height: 61.h,
+                        height: 48.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border:

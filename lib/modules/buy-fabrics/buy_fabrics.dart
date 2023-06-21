@@ -98,22 +98,20 @@ class _BuyFabricsState extends State<BuyFabrics> {
                           child: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.start,
                             children: [
-                              Expanded(
-                                child: Image.asset(
-                                  images[index],
-                                  fit: BoxFit.cover,
-                                  height: 184.h,
-                                  width: 184.w,
-                                ),
+                              Image.asset(
+                                images[index],
+                                fit: BoxFit.cover,
+                                height: 184.h,
+                                width: 184.w,
                               ),
                               4.height,
                               Text(
-                                'Image $index',
+                                'Swiss lace',
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 13.sp,
                                   color: storeNameColor,
                                   fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -123,13 +121,13 @@ class _BuyFabricsState extends State<BuyFabrics> {
                                   const Icon(
                                     (Icons.location_on),
                                     color: locationIconColor,
-                                    size: 14,
+                                    size: 16,
                                   ),
                                   4.width,
                                   Text(
                                     'Image $index',
                                     style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
                                       fontFamily: cinta,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,

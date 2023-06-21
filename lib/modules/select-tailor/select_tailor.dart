@@ -90,7 +90,7 @@ class _SelectTailorState extends State<SelectTailor> {
                         },
                         child: Container(
                           width: context.width() * 0.4,
-                          height: 300,
+                          height: 250,
                           decoration: const BoxDecoration(
                             // borderRadius: BorderRadius.circular(8),
                             color: Colors.white,
@@ -108,12 +108,12 @@ class _SelectTailorState extends State<SelectTailor> {
                               ),
                               4.height,
                               Text(
-                                'Image $index',
+                                'Morah Stitches',
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 13.sp,
                                   color: storeNameColor,
                                   fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -123,13 +123,13 @@ class _SelectTailorState extends State<SelectTailor> {
                                   const Icon(
                                     (Icons.location_on),
                                     color: locationIconColor,
-                                    size: 14,
+                                    size: 16,
                                   ),
                                   4.width,
                                   Text(
-                                    'Image $index',
+                                    'Akure, Ondo',
                                     style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
                                       fontFamily: cinta,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
