@@ -10,18 +10,18 @@ import 'package:stylclick/shared/app_providers.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
 
-SharedPreferences? sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initialize();
+  runApp(
+    //   MultiProvider(
+    // providers: appProviders,
+    // child:
 
-  // runApp(MultiProvider(
-  //   providers: appProviders,
-  //   child: const MyApp(),
-  // ));
+    const MyApp(),
+  // )
 
-  runApp(MyApp());
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -64,6 +64,9 @@ class _MyAppState extends State<MyApp> {
         scrollBehavior: SBehavior(),
         title: appName,
         home: LoginScreen(),
+        theme: ThemeData(
+          fontFamily: 'Cinta',
+        ),
         // home: moveToHome
         //     ? Redirect()
         //     : moveToOnboarding

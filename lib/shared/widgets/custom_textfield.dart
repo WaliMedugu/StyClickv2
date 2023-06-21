@@ -65,7 +65,7 @@ class CustomTextField extends StatelessWidget {
       this.hintTextColor,
       this.filledColor,
       this.maxLines,
-        this.fontWeight,
+      this.fontWeight,
       this.labelColor});
 
   @override

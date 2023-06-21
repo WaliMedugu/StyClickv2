@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stylclick/modules/vendor/index.dart';
+import 'package:stylclick/modules/wallet/wallet.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/constants/strings.dart';
@@ -78,7 +79,8 @@ class AccountPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),8.height,
+                ),
+                8.height,
                 Container(
                   decoration: BoxDecoration(
                     color: white,
@@ -124,7 +126,11 @@ class AccountPage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           24.height,
-                          Image.asset(helpIcon,height: 32,width: 32,),
+                          Image.asset(
+                            helpIcon,
+                            height: 32,
+                            width: 32,
+                          ),
                           16.height,
                           Text(
                             'Help',
@@ -137,28 +143,37 @@ class AccountPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 100.h,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(6.r)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          24.height,
-                          Image.asset(wallet,height: 32,width: 32,),
-                          16.height,
-                          Text(
-                            'Wallet',
-                            style: TextStyle(
-                                fontFamily: cinta,
-                                fontSize: 14.sp,
-                                color: quickAccessTextColor,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
+                    InkWell(
+                      onTap: (){
+                        WalletPage().launch(context);
+                      },
+                      child: Container(
+                        height: 100.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(6.r)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            24.height,
+                            Image.asset(
+                              wallet,
+                              height: 32,
+                              width: 32,
+                            ),
+                            16.height,
+                            Text(
+                              'Wallet',
+                              style: TextStyle(
+                                  fontFamily: cinta,
+                                  fontSize: 14.sp,
+                                  color: quickAccessTextColor,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -172,7 +187,11 @@ class AccountPage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           24.height,
-                          Image.asset(activity,height: 32,width: 32,),
+                          Image.asset(
+                            activity,
+                            height: 32,
+                            width: 32,
+                          ),
                           16.height,
                           Text(
                             'Activity',
@@ -194,46 +213,64 @@ class AccountPage extends StatelessWidget {
                   color: accountDividerColor,
                 ),
                 24.height,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(orders,height: 24,width: 24,),
-                    8.width,
-                    Text(
-                      'My Orders',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: quickAccessTextColor,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                24.height,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(chats,height: 24,width: 24,),
-                    8.width,
-                    Text(
-                      'Chats',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: quickAccessTextColor,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        orders,
+                        height: 24,
+                        width: 24,
+                      ),
+                      8.width,
+                      Text(
+                        'My Orders',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: quickAccessTextColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 ),
                 24.height,
                 InkWell(
-                  onTap: (){
+                  onTap: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        chats,
+                        height: 24,
+                        width: 24,
+                      ),
+                      8.width,
+                      Text(
+                        'Chats',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: quickAccessTextColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                24.height,
+                InkWell(
+                  onTap: () {
                     VendorPage().launch(context);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset(becomeVendor,height: 24,width: 24,),
+                      Image.asset(
+                        becomeVendor,
+                        height: 24,
+                        width: 24,
+                      ),
                       8.width,
                       Text(
                         'Become a vendor',
@@ -247,52 +284,73 @@ class AccountPage extends StatelessWidget {
                   ),
                 ),
                 24.height,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(shareEarn,height: 24,width: 24,),
-                    8.width,
-                    Text(
-                      'Share and Earn',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: quickAccessTextColor,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        shareEarn,
+                        height: 24,
+                        width: 24,
+                      ),
+                      8.width,
+                      Text(
+                        'Share and Earn',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: quickAccessTextColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 ),
                 24.height,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(settings,height: 24,width: 24,),
-                    8.width,
-                    Text(
-                      'Settings',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: quickAccessTextColor,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        settings,
+                        height: 24,
+                        width: 24,
+                      ),
+                      8.width,
+                      Text(
+                        'Settings',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: quickAccessTextColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 ),
                 24.height,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(support,height: 24,width: 24,),
-                    8.width,
-                    Text(
-                      'Supports',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: quickAccessTextColor,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        support,
+                        height: 24,
+                        width: 24,
+                      ),
+                      8.width,
+                      Text(
+                        'Supports',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: quickAccessTextColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

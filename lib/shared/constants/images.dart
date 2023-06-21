@@ -47,3 +47,6 @@ const cashIcon = "$basePath/cash.png";
 const creditIcon = "$basePath/credit.png";
 const debitIcon = "$basePath/debit.png";
 const paymentIcon = "$basePath/payment.png";
+const logoutIcon = "$basePath/logout.png";
+const savedIcon = "$basePath/saved.png";
+const styleitIcon = "$basePath/styleit.png";

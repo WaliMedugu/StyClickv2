@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/modules/auth/forgot_password.dart';
 import 'package:stylclick/modules/auth/register.dart';
-import 'package:stylclick/modules/home.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:stylclick/shared/widgets/nav.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -130,12 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
               36.height,
               InkWell(
                 onTap: () {
-                  HomePage().launch(context);
+                  Nav().launch(context);
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Container(
-                    height: 61.h,
+                    height: 48.h,
                     decoration: BoxDecoration(
                         // color: white,
                         borderRadius: BorderRadius.circular(9),
