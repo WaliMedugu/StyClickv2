@@ -122,21 +122,21 @@ class _VendorPageState extends State<VendorPage> {
                     _buildPartnerCard(
                       title: 'Fashion Designer',
                       desc: 'Showcase your craftsmanship to a global audience.',
-                      image: 'assets/images/userRoles/fashionDesigner.png',
+                      iconAsset: sewingMachine,
                       onTap: () => const BecomeVendor().launch(context),
                     ),
-                    24.height,
+                    20.height,
                     _buildPartnerCard(
                       title: 'Fabrics Seller',
                       desc: 'Supply premium materials to top designers.',
-                      image: 'assets/images/userRoles/fashionSeller.png',
+                      iconAsset: fabric,
                       onTap: () => const BecomeSeller().launch(context),
                     ),
-                    24.height,
+                    20.height,
                     _buildPartnerCard(
                       title: 'Dispatch Rider',
                       desc: 'Be the bridge between fashion and the customer.',
-                      image: 'assets/images/userRoles/dispatchRider.png',
+                      iconAsset: dispatchRider,
                       onTap: () => const BecomeRider().launch(context),
                     ),
                     40.height,
@@ -150,74 +150,78 @@ class _VendorPageState extends State<VendorPage> {
     );
   }
 
-  Widget _buildPartnerCard({required String title, required String desc, required String image, required VoidCallback onTap}) {
+  Widget _buildPartnerCard({required String title, required String desc, required String iconAsset, required VoidCallback onTap}) {
     return InkWell(
       onTap: onTap,
       child: Container(
         width: double.infinity,
+        height: 100.h,
         decoration: BoxDecoration(
           color: white,
-          borderRadius: BorderRadius.circular(24.r),
+          borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: sand),
           boxShadow: [
             BoxShadow(
-              color: ink.withOpacity(0.03),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+              color: ink.withOpacity(0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+            16.width,
+            // Small role icon from original assets, styled beautifully!
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: primary.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
               child: Image.asset(
-                image,
-                height: 160.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
+                iconAsset,
+                height: 40.h,
+                width: 40.w,
+                color: primary,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(24.w),
-              child: Row(
+            16.width,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(fontFamily: 'Cinta', 
-                            fontSize: 20.sp,
-                            color: ink,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        4.height,
-                        Text(
-                          desc,
-                          style: TextStyle(fontFamily: 'Cinta', 
-                            fontSize: 13.sp,
-                            color: textLight,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    title,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18.sp,
+                      color: ink,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  16.width,
-                  Container(
-                    padding: EdgeInsets.all(10.w),
-                    decoration: BoxDecoration(
-                      color: primary.withOpacity(0.1),
-                      shape: BoxShape.circle,
+                  4.height,
+                  Text(
+                    desc,
+                    style: TextStyle(
+                      fontFamily: cinta,
+                      fontSize: 12.sp,
+                      color: textLight,
                     ),
-                    child: Icon(FeatherIcons.arrowRight, color: primary, size: 18.sp),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
+            ),
+            16.width,
+            Container(
+              margin: EdgeInsets.only(right: 16.w),
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: primary.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(FeatherIcons.arrowRight, color: primary, size: 16.sp),
             ),
           ],
         ),
