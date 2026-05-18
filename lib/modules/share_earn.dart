@@ -41,7 +41,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                     20.width,
                     Text(
                       'Share & Earn',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -71,7 +71,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                     children: [
                       Text(
                         'Earn NGN 1,000',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 28.sp,
                           color: white,
                           fontWeight: FontWeight.w700,
@@ -81,7 +81,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                       Text(
                         'For every friend who registers and makes their first purchase.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: white.withOpacity(0.7),
                         ),
@@ -99,7 +99,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                           children: [
                             Text(
                               _referralCode,
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 20.sp,
                                 color: white,
                                 fontWeight: FontWeight.w700,
@@ -142,7 +142,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                   children: [
                     Text(
                       'HOW IT WORKS',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -165,7 +165,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                   children: [
                     Text(
                       'QUICK SHARE',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -207,12 +207,12 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
           children: [
             Text(
               label,
-              style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight, fontWeight: FontWeight.w700),
+              style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight, fontWeight: FontWeight.w700),
             ),
             8.height,
             Text(
               value,
-              style: GoogleFonts.dmMono(fontSize: 16.sp, color: ink, fontWeight: FontWeight.w800),
+              style: GoogleFonts.montserrat(fontSize: 16.sp, color: ink, fontWeight: FontWeight.w800),
             ),
           ],
         ),
@@ -236,7 +236,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
             child: Center(
               child: Text(
                 number.toString(),
-                style: GoogleFonts.dmMono(color: primary, fontWeight: FontWeight.w800),
+                style: GoogleFonts.montserrat(color: primary, fontWeight: FontWeight.w800),
               ),
             ),
           ),
@@ -247,12 +247,12 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.lora(fontSize: 16.sp, color: ink, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: ink, fontWeight: FontWeight.w700),
                 ),
                 4.height,
                 Text(
                   desc,
-                  style: GoogleFonts.lora(fontSize: 13.sp, color: textLight, height: 1.4),
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 13.sp, color: textLight, height: 1.4),
                 ),
               ],
             ),
@@ -277,7 +277,7 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
         8.height,
         Text(
           label,
-          style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight, fontWeight: FontWeight.w700),
+          style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight, fontWeight: FontWeight.w700),
         ),
       ],
     );

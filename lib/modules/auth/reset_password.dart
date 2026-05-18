@@ -53,7 +53,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Text(
                 'Reset Password',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 32.sp,
                   color: ink,
                   fontWeight: FontWeight.w900,
@@ -63,7 +63,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Text(
                 'Create a new password for your account',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lora(
+                style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 14.sp,
                   color: textLight,
                   fontWeight: FontWeight.w400,
@@ -111,7 +111,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     alignment: Alignment.center,
                     child: Text(
                       'RESET PASSWORD',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,
                         fontWeight: FontWeight.w600,

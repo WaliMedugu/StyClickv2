@@ -48,7 +48,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                     20.width,
                     Text(
                       'Add Funds',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 24.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -67,7 +67,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                   children: [
                     Text(
                       'ENTER AMOUNT',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -86,7 +86,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                         children: [
                           Text(
                             'NGN',
-                            style: GoogleFonts.dmMono(
+                            style: GoogleFonts.montserrat(
                               fontSize: 18.sp,
                               color: textLight,
                               fontWeight: FontWeight.w700,
@@ -97,14 +97,14 @@ class _AddFundsPageState extends State<AddFundsPage> {
                             child: TextField(
                               controller: _amountController,
                               keyboardType: TextInputType.number,
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 24.sp,
                                 color: ink,
                                 fontWeight: FontWeight.w800,
                               ),
                               decoration: InputDecoration(
                                 hintText: '0.00',
-                                hintStyle: GoogleFonts.dmMono(color: sand),
+                                hintStyle: GoogleFonts.montserrat(color: sand),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -133,7 +133,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                         ),
                         child: Text(
                           'NGN $amt',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             fontSize: 13.sp,
                             color: ink,
                             fontWeight: FontWeight.w700,
@@ -153,7 +153,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                   children: [
                     Text(
                       'SELECT PAYMENT METHOD',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -172,7 +172,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                 child: AppButton(
                   width: double.infinity,
                   text: 'Proceed to Payment',
-                  textStyle: GoogleFonts.dmMono(
+                  textStyle: GoogleFonts.montserrat(
                     color: white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
@@ -226,7 +226,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                   children: [
                     Text(
                       method['name'],
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 15.sp,
                         color: ink,
                         fontWeight: FontWeight.w700,
@@ -234,7 +234,7 @@ class _AddFundsPageState extends State<AddFundsPage> {
                     ),
                     Text(
                       method['desc'],
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 12.sp,
                         color: textLight,
                       ),

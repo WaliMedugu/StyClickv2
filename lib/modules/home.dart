@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'StyClick',
-                        style: GoogleFonts.comfortaa(
+                        style: GoogleFonts.montserrat(
                           fontSize: 26.sp,
                           color: primary,
                           fontWeight: FontWeight.w900,
@@ -169,10 +169,10 @@ class _HomePageState extends State<HomePage> {
                       12.width,
                       Expanded(
                         child: TextField(
-                          style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                          style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                           decoration: InputDecoration(
                             hintText: 'Search for tailors or fabrics...',
-                            hintStyle: GoogleFonts.lora(
+                            hintStyle: TextStyle(fontFamily: 'Cinta', 
                               color: ink.withOpacity(0.4),
                               fontSize: 14.sp,
                             ),
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       Text(
                                         data['title']!,
-                                        style: GoogleFonts.lora(
+                                        style: TextStyle(fontFamily: 'Cinta', 
                                           color: Colors.white,
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w700,
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                         width: 160.w,
                                         child: Text(
                                           data['sub']!,
-                                          style: GoogleFonts.dmMono(
+                                          style: GoogleFonts.montserrat(
                                             color: Colors.white.withOpacity(0.7),
                                             fontSize: 11.sp,
                                           ),
@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: Text(
                   'Categories',
-                  style: GoogleFonts.comfortaa(
+                  style: GoogleFonts.montserrat(
                     fontSize: 20.sp,
                     color: ink,
                     fontWeight: FontWeight.w900,
@@ -365,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 categoriesText[index],
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.lora(
+                                style: TextStyle(fontFamily: 'Cinta', 
                                   color: Colors.white,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w700,
@@ -387,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Featured',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 20.sp,
                         color: ink,
                         fontWeight: FontWeight.w900,
@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
                     InkWell(
                       child: Text(
                         'View All',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           fontSize: 12.sp,
                           color: primary,
                           fontWeight: FontWeight.w700,
@@ -464,7 +464,7 @@ class _HomePageState extends State<HomePage> {
                                     'Lace Asoebi',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.lora(
+                                    style: TextStyle(fontFamily: 'Cinta', 
                                       fontSize: 14.sp,
                                       color: ink,
                                       fontWeight: FontWeight.w700,
@@ -505,7 +505,7 @@ class _HomePageState extends State<HomePage> {
                                 4.width,
                                 Text(
                                   '(13)',
-                                  style: GoogleFonts.dmMono(
+                                  style: GoogleFonts.montserrat(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w700,
                                     color: textLight,
@@ -516,7 +516,7 @@ class _HomePageState extends State<HomePage> {
                             8.height,
                             Text(
                               'NGN 45,000',
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 13.sp,
                                 color: primary,
                                 fontWeight: FontWeight.w900,
@@ -567,7 +567,7 @@ class _HomePageState extends State<HomePage> {
             12.height,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 13.sp,
                 color: ink,
                 fontWeight: FontWeight.w700,
@@ -608,7 +608,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -619,7 +619,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () => const EditProfile().launch(context),
                         child: Text(
                           'UPDATE PROFILE',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
@@ -713,7 +713,7 @@ class _HomePageState extends State<HomePage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -737,7 +737,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -813,7 +813,7 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: ink,
                           fontWeight: FontWeight.w700,
@@ -825,7 +825,7 @@ class _HomePageState extends State<HomePage> {
                     8.width,
                     Text(
                       time,
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 10.sp,
                         color: textLight,
                       ),
@@ -835,7 +835,7 @@ class _HomePageState extends State<HomePage> {
                 4.height,
                 Text(
                   sub,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 12.sp,
                     color: textLight,
                   ),

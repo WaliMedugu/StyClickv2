@@ -119,7 +119,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                   const Spacer(),
                   Text(
                     'Order History',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -159,10 +159,10 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                       child: TextField(
                         controller: _searchController,
                         onChanged: (value) => setState(() => _searchQuery = value),
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                         decoration: InputDecoration(
                           hintText: 'Search by ID or product...',
-                          hintStyle: GoogleFonts.lora(color: ink.withOpacity(0.3)),
+                          hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
                           border: InputBorder.none,
                         ),
                       ),
@@ -177,7 +177,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
               padding: EdgeInsets.symmetric(horizontal: 17.w),
               child: Text(
                 'YOUR TRANSACTIONS',
-                style: GoogleFonts.dmMono(
+                style: GoogleFonts.montserrat(
                   fontSize: 12.sp,
                   color: textLight,
                   fontWeight: FontWeight.w700,
@@ -195,7 +195,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                         children: [
                           Icon(FeatherIcons.package, size: 48.sp, color: sand),
                           16.height,
-                          Text('No orders found', style: GoogleFonts.lora(fontSize: 16.sp, color: textLight)),
+                          Text('No orders found', style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: textLight)),
                         ],
                       ),
                     )
@@ -274,7 +274,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                   children: [
                     Text(
                       order['id'],
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 11.sp,
                         color: primary,
                         fontWeight: FontWeight.w700,
@@ -282,7 +282,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                     ),
                     Text(
                       order['date'],
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 10.sp,
                         color: textLight.withOpacity(0.6),
                       ),
@@ -292,7 +292,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                 8.height,
                 Text(
                   order['title'],
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 15.sp,
                     color: ink,
                     fontWeight: FontWeight.w700,
@@ -303,7 +303,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                 4.height,
                 Text(
                   order['items'],
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 12.sp,
                     color: textLight,
                   ),
@@ -314,7 +314,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                   children: [
                     Text(
                       order['price'],
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: ink,
                         fontWeight: FontWeight.w800,
@@ -333,7 +333,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                           6.width,
                           Text(
                             order['status'],
-                            style: GoogleFonts.dmMono(
+                            style: GoogleFonts.montserrat(
                               color: statusColor,
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w700,
@@ -381,7 +381,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -390,7 +390,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                       4.height,
                       Text(
                         'DASHBOARD',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
@@ -481,7 +481,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -505,7 +505,7 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -561,17 +561,17 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

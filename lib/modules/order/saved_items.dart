@@ -76,7 +76,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                   const Spacer(),
                   Text(
                     'Saved Items',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -116,10 +116,10 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                       child: TextField(
                         controller: _searchController,
                         onChanged: (value) => setState(() => _searchQuery = value),
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                         decoration: InputDecoration(
                           hintText: 'Search your favorites...',
-                          hintStyle: GoogleFonts.lora(color: ink.withOpacity(0.3)),
+                          hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
                           border: InputBorder.none,
                         ),
                       ),
@@ -175,7 +175,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                                 index % 2 == 0 ? 'Lace Asoebi' : 'Ankara Style',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.lora(
+                                style: TextStyle(fontFamily: 'Cinta', 
                                   fontSize: 14.sp,
                                   color: ink,
                                   fontWeight: FontWeight.w700,
@@ -197,7 +197,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                             2.width,
                             Text(
                               '4.8',
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 11.sp,
                                 fontWeight: FontWeight.w700,
                                 color: ink,
@@ -206,7 +206,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                             4.width,
                             Text(
                               '(13)',
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w500,
                                 color: textLight,
@@ -217,7 +217,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                         8.height,
                         Text(
                           'NGN 45,000',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             fontSize: 13.sp,
                             color: primary,
                             fontWeight: FontWeight.w900,
@@ -264,7 +264,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -273,7 +273,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                       4.height,
                       Text(
                         'DASHBOARD',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
@@ -365,7 +365,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -389,7 +389,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -445,17 +445,17 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

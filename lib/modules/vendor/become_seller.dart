@@ -47,7 +47,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
                   20.width,
                   Text(
                     'Seller Registration',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 22.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -144,7 +144,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
                 ),
                 child: Text(
                   opt,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 14.sp,
                     color: isSelected ? white : ink,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
@@ -165,7 +165,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
               Expanded(
                 child: Text(
                   'Do you offer nationwide shipping?',
-                  style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w600),
                 ),
               ),
               Switch(value: true, onChanged: (v) {}, activeColor: primary),
@@ -188,7 +188,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
         32.height,
         Text(
           'By submitting, you agree to Styclick\'s Seller Quality Guidelines.',
-          style: GoogleFonts.lora(fontSize: 12.sp, color: textLight, fontStyle: FontStyle.italic),
+          style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight, fontStyle: FontStyle.italic),
         ),
       ],
     );
@@ -200,12 +200,12 @@ class _BecomeSellerState extends State<BecomeSeller> {
       children: [
         Text(
           title,
-          style: GoogleFonts.dmMono(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+          style: GoogleFonts.montserrat(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
         ),
         8.height,
         Text(
           sub,
-          style: GoogleFonts.lora(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+          style: TextStyle(fontFamily: 'Cinta', fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -223,10 +223,10 @@ class _BecomeSellerState extends State<BecomeSeller> {
             child: TextField(
               controller: controller,
               keyboardType: type,
-              style: GoogleFonts.lora(fontSize: 15.sp, color: ink),
+              style: TextStyle(fontFamily: 'Cinta', fontSize: 15.sp, color: ink),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: GoogleFonts.lora(color: sand),
+                hintStyle: TextStyle(fontFamily: 'Cinta', color: sand),
                 border: InputBorder.none,
               ),
             ),
@@ -251,9 +251,9 @@ class _BecomeSellerState extends State<BecomeSeller> {
           children: [
             Icon(FeatherIcons.image, color: primary, size: 28.sp),
             12.height,
-            Text(label, style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+            Text(label, style: TextStyle(fontFamily: 'Cinta', fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
             4.height,
-            Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+            Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
           ],
         ),
       ),
@@ -271,7 +271,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
                 padding: EdgeInsets.only(right: 12.w),
                 child: AppButton(
                   text: 'Back',
-                  textStyle: GoogleFonts.dmMono(color: ink, fontWeight: FontWeight.w700),
+                  textStyle: GoogleFonts.montserrat(color: ink, fontWeight: FontWeight.w700),
                   color: white,
                   onTap: () => setState(() => _currentStep--),
                   shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r), side: BorderSide(color: sand)),
@@ -282,7 +282,7 @@ class _BecomeSellerState extends State<BecomeSeller> {
             flex: 2,
             child: AppButton(
               text: _currentStep == 2 ? 'Submit Registration' : 'Next Step',
-              textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+              textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
               onTap: () {
                 if (_currentStep < 2) {

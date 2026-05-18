@@ -7,6 +7,7 @@ import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:stylclick/shared/constants/strings.dart';
 
 class BecomeVendor extends StatefulWidget {
   const BecomeVendor({Key? key}) : super(key: key);
@@ -28,6 +29,10 @@ class _BecomeVendorState extends State<BecomeVendor> {
   List<String> _specializations = [];
   final List<String> _options = ['Traditional', 'Corporate', 'Casual', 'Bridal', 'Asoebi', 'Streetwear'];
 
+  // Image Upload Paths
+  String? _cacImagePath;
+  String? _portfolioImagePath;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +53,7 @@ class _BecomeVendorState extends State<BecomeVendor> {
                   20.width,
                   Text(
                     'Designer Registration',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 22.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -145,10 +150,11 @@ class _BecomeVendorState extends State<BecomeVendor> {
                 ),
                 child: Text(
                   opt,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(
+                    fontFamily: cinta,
                     fontSize: 14.sp,
                     color: isSelected ? white : ink,
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),
               ),
@@ -167,9 +173,27 @@ class _BecomeVendorState extends State<BecomeVendor> {
       children: [
         _buildSectionHeader('VERIFICATION', 'Upload proof of your craft.'),
         24.height,
-        _buildUploadField('Business Registration (CAC)', 'PDF or Image'),
+        _buildUploadField(
+          'Business Registration (CAC)',
+          'PDF or Image',
+          _cacImagePath,
+          () {
+            setState(() {
+              _cacImagePath = bizImage; // Mock uploaded file using bizImage asset
+            });
+          },
+        ),
         16.height,
-        _buildUploadField('Portfolio/Recent Work', 'Min. 3 high-quality images'),
+        _buildUploadField(
+          'Portfolio/Recent Work',
+          'Min. 3 high-quality images',
+          _portfolioImagePath,
+          () {
+            setState(() {
+              _portfolioImagePath = sewingMachine; // Mock uploaded file using sewingMachine asset
+            });
+          },
+        ),
         32.height,
         Row(
           children: [
@@ -178,7 +202,7 @@ class _BecomeVendorState extends State<BecomeVendor> {
             Expanded(
               child: Text(
                 'Approval typically takes 24-48 hours after manual review.',
-                style: GoogleFonts.lora(fontSize: 12.sp, color: textLight),
+                style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight),
               ),
             ),
           ],
@@ -193,12 +217,12 @@ class _BecomeVendorState extends State<BecomeVendor> {
       children: [
         Text(
           title,
-          style: GoogleFonts.dmMono(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+          style: GoogleFonts.montserrat(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
         ),
         8.height,
         Text(
           sub,
-          style: GoogleFonts.lora(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+          style: GoogleFonts.montserrat(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -216,10 +240,10 @@ class _BecomeVendorState extends State<BecomeVendor> {
             child: TextField(
               controller: controller,
               keyboardType: type,
-              style: GoogleFonts.lora(fontSize: 15.sp, color: ink),
+              style: TextStyle(fontFamily: cinta, fontSize: 15.sp, color: ink),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: GoogleFonts.lora(color: sand),
+                hintStyle: TextStyle(fontFamily: cinta, color: sand),
                 border: InputBorder.none,
               ),
             ),
@@ -229,25 +253,54 @@ class _BecomeVendorState extends State<BecomeVendor> {
     );
   }
 
-  Widget _buildUploadField(String label, String sub) {
-    return DottedBorder(
-      color: sand,
-      strokeWidth: 1,
-      dashPattern: const [8, 4],
-      borderType: BorderType.RRect,
-      radius: Radius.circular(16.r),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
-        child: Column(
-          children: [
-            Icon(FeatherIcons.uploadCloud, color: primary, size: 32.sp),
-            12.height,
-            Text(label, style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
-            4.height,
-            Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
-          ],
+  Widget _buildUploadField(String label, String sub, String? imagePath, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: DottedBorder(
+        color: sand,
+        strokeWidth: 1,
+        dashPattern: const [8, 4],
+        borderType: BorderType.RRect,
+        radius: Radius.circular(16.r),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(20.w),
+          decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
+          child: imagePath != null
+              ? Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Image.asset(
+                        imagePath,
+                        height: 50.h,
+                        width: 50.w,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+                          4.height,
+                          Text('File uploaded successfully', style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: successColor)),
+                        ],
+                      ),
+                    ),
+                    Icon(FeatherIcons.checkCircle, color: successColor, size: 20.sp),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Icon(FeatherIcons.uploadCloud, color: primary, size: 32.sp),
+                    12.height,
+                    Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+                    4.height,
+                    Text(sub, style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight)),
+                  ],
+                ),
         ),
       ),
     );
@@ -264,7 +317,7 @@ class _BecomeVendorState extends State<BecomeVendor> {
                 padding: EdgeInsets.only(right: 12.w),
                 child: AppButton(
                   text: 'Back',
-                  textStyle: GoogleFonts.dmMono(color: ink, fontWeight: FontWeight.w700),
+                  textStyle: GoogleFonts.montserrat(color: ink, fontWeight: FontWeight.w700),
                   color: white,
                   onTap: () => setState(() => _currentStep--),
                   shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r), side: BorderSide(color: sand)),
@@ -275,7 +328,7 @@ class _BecomeVendorState extends State<BecomeVendor> {
             flex: 2,
             child: AppButton(
               text: _currentStep == 2 ? 'Submit Application' : 'Next Step',
-              textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+              textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
               onTap: () {
                 if (_currentStep < 2) {

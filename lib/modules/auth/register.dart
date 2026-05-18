@@ -86,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 'Registration',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 32.sp,
                   color: ink,
                   fontWeight: FontWeight.w900,
@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 'Join the StyClick community today',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lora(
+                style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 14.sp,
                   color: textLight,
                   fontWeight: FontWeight.w400,
@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   Text(
                     'PHONE NUMBER',
-                    style: GoogleFonts.dmMono(
+                    style: GoogleFonts.montserrat(
                       fontSize: 10.sp,
                       color: textLight,
                       fontWeight: FontWeight.w500,
@@ -158,10 +158,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           showCountryOnly: false,
                           showOnlyCountryWhenClosed: false,
                           alignLeft: false,
-                          textStyle: GoogleFonts.lora(color: ink, fontSize: 14.sp),
+                          textStyle: TextStyle(fontFamily: 'Cinta', color: ink, fontSize: 14.sp),
                           dialogBackgroundColor: cream,
-                          searchStyle: GoogleFonts.lora(color: ink),
-                          dialogTextStyle: GoogleFonts.lora(color: ink),
+                          searchStyle: TextStyle(fontFamily: 'Cinta', color: ink),
+                          dialogTextStyle: TextStyle(fontFamily: 'Cinta', color: ink),
                           barrierColor: ink.withOpacity(0.5),
                         ),
                       ),
@@ -193,7 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Text(
                           'STATE',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             fontSize: 10.sp,
                             color: textLight,
                             fontWeight: FontWeight.w500,
@@ -214,11 +214,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               value: selectedState,
                               dropdownColor: cream,
                               icon: Icon(Icons.keyboard_arrow_down_rounded, color: textLight, size: 20.sp),
-                              hint: Text('Select State', style: GoogleFonts.lora(color: textLight.withOpacity(0.5), fontSize: 14.sp)),
+                              hint: Text('Select State', style: TextStyle(fontFamily: 'Cinta', color: textLight.withOpacity(0.5), fontSize: 14.sp)),
                               items: states.map((state) {
                                 return DropdownMenuItem<String>(
                                   value: state,
-                                  child: Text(state, style: GoogleFonts.lora(color: ink, fontSize: 14.sp)),
+                                  child: Text(state, style: TextStyle(fontFamily: 'Cinta', color: ink, fontSize: 14.sp)),
                                 );
                               }).toList(),
                               onChanged: (value) {
@@ -321,7 +321,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     alignment: Alignment.center,
                     child: Text(
                       'CREATE ACCOUNT',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,
                         fontWeight: FontWeight.w600,
@@ -337,7 +337,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   Text(
                     'Already have an account? ',
-                    style: GoogleFonts.lora(
+                    style: TextStyle(fontFamily: 'Cinta', 
                       fontSize: 14.sp,
                       color: textLight,
                     ),
@@ -351,7 +351,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     child: Text(
                       'Sign In',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 14.sp,
                         color: primary,
                         fontWeight: FontWeight.w700,

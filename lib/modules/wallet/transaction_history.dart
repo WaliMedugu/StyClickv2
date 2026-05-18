@@ -69,7 +69,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Filter by Type', style: GoogleFonts.comfortaa(fontSize: 20.sp, fontWeight: FontWeight.w900, color: primary)),
+                  Text('Filter by Type', style: GoogleFonts.montserrat(fontSize: 20.sp, fontWeight: FontWeight.w900, color: primary)),
                   20.height,
                   _buildFilterOption(setModalState, 'All'),
                   _buildFilterOption(setModalState, 'Credits'),
@@ -96,7 +96,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
         padding: EdgeInsets.symmetric(vertical: 16.h),
         child: Row(
           children: [
-            Text(type, style: GoogleFonts.lora(fontSize: 16.sp, color: isSelected ? primary : ink, fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500)),
+            Text(type, style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: isSelected ? primary : ink, fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500)),
             const Spacer(),
             if (isSelected) Icon(Icons.check_circle_rounded, color: primary, size: 20.sp),
           ],
@@ -134,7 +134,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   const Spacer(),
                   Text(
                     'My Invoices',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -174,10 +174,10 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                       child: TextField(
                         controller: _searchController,
                         onChanged: (value) => setState(() => _searchQuery = value),
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                         decoration: InputDecoration(
                           hintText: 'Search invoices...',
-                          hintStyle: GoogleFonts.lora(color: ink.withOpacity(0.3)),
+                          hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
                           border: InputBorder.none,
                         ),
                       ),
@@ -198,7 +198,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                 children: [
                   Text(
                     'RECENT TRANSACTIONS',
-                    style: GoogleFonts.dmMono(
+                    style: GoogleFonts.montserrat(
                       fontSize: 12.sp,
                       color: textLight,
                       fontWeight: FontWeight.w700,
@@ -210,7 +210,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                       decoration: BoxDecoration(color: primary.withOpacity(0.1), borderRadius: BorderRadius.circular(4.r)),
-                      child: Text(_filterType, style: GoogleFonts.dmMono(fontSize: 9.sp, color: primary, fontWeight: FontWeight.w700)),
+                      child: Text(_filterType, style: GoogleFonts.montserrat(fontSize: 9.sp, color: primary, fontWeight: FontWeight.w700)),
                     ),
                 ],
               ),
@@ -225,7 +225,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                         children: [
                           Icon(FeatherIcons.fileText, size: 48.sp, color: sand),
                           16.height,
-                          Text('No results found', style: GoogleFonts.lora(fontSize: 16.sp, color: textLight)),
+                          Text('No results found', style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: textLight)),
                         ],
                       ),
                     )
@@ -295,7 +295,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 14.sp,
                     color: ink,
                     fontWeight: FontWeight.w700,
@@ -304,7 +304,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                 4.height,
                 Text(
                   subtitle,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 12.sp,
                     color: textLight,
                   ),
@@ -317,7 +317,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
             children: [
               Text(
                 amount,
-                style: GoogleFonts.dmMono(
+                style: GoogleFonts.montserrat(
                   fontSize: 14.sp,
                   color: isCredit ? successColor : ink,
                   fontWeight: FontWeight.w700,
@@ -326,7 +326,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               4.height,
               Text(
                 time,
-                style: GoogleFonts.dmMono(
+                style: GoogleFonts.montserrat(
                   fontSize: 9.sp,
                   color: textLight.withOpacity(0.5),
                 ),
@@ -367,7 +367,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -376,7 +376,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                       4.height,
                       Text(
                         'DASHBOARD',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
@@ -468,7 +468,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -492,7 +492,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -548,17 +548,17 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

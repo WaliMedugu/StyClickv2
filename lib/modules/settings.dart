@@ -42,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     20.width,
                     Text(
                       'Settings',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -117,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: AppButton(
                   width: double.infinity,
                   text: 'Log Out',
-                  textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+                  textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
                   color: primary,
                   onTap: () {
                     setValue('home', false);
@@ -139,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 16.h),
       child: Text(
         title,
-        style: GoogleFonts.dmMono(
+        style: GoogleFonts.montserrat(
           fontSize: 12.sp,
           color: textLight,
           fontWeight: FontWeight.w700,
@@ -171,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 15.sp,
                         color: ink,
                         fontWeight: FontWeight.w700,
@@ -181,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       4.height,
                       Text(
                         subtitle,
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 12.sp,
                           color: textLight,
                         ),
@@ -215,7 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.lora(
+                style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 15.sp,
                   color: ink,
                   fontWeight: FontWeight.w700,

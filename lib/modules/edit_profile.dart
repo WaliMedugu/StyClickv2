@@ -73,7 +73,7 @@ class _EditProfileState extends State<EditProfile> {
                     const Spacer(),
                     Text(
                       'Edit Profile',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -180,7 +180,7 @@ class _EditProfileState extends State<EditProfile> {
                         child: Center(
                           child: Text(
                             'Save Changes',
-                            style: GoogleFonts.dmMono(
+                            style: GoogleFonts.montserrat(
                               color: white,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w700,
@@ -204,7 +204,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title.toUpperCase(),
-      style: GoogleFonts.dmMono(
+      style: GoogleFonts.montserrat(
         fontSize: 12.sp,
         color: textLight,
         fontWeight: FontWeight.w700,
@@ -219,7 +219,7 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         Text(
           label,
-          style: GoogleFonts.lora(
+          style: TextStyle(fontFamily: 'Cinta', 
             fontSize: 14.sp,
             color: ink,
             fontWeight: FontWeight.w600,
@@ -240,10 +240,10 @@ class _EditProfileState extends State<EditProfile> {
               16.width,
               Expanded(
                 child: TextField(
-                  style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                   decoration: InputDecoration(
                     hintText: hint,
-                    hintStyle: GoogleFonts.lora(color: ink.withOpacity(0.3)),
+                    hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
                     border: InputBorder.none,
                   ),
                 ),
@@ -261,7 +261,7 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         Text(
           label,
-          style: GoogleFonts.lora(
+          style: TextStyle(fontFamily: 'Cinta', 
             fontSize: 14.sp,
             color: ink,
             fontWeight: FontWeight.w600,
@@ -286,7 +286,7 @@ class _EditProfileState extends State<EditProfile> {
                   value: item,
                   child: Text(
                     item,
-                    style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                    style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                   ),
                 );
               }).toList(),
@@ -315,7 +315,7 @@ class _EditProfileState extends State<EditProfile> {
             16.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 15.sp,
                 color: ink,
                 fontWeight: FontWeight.w600,
@@ -358,7 +358,7 @@ class _EditProfileState extends State<EditProfile> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -369,7 +369,7 @@ class _EditProfileState extends State<EditProfile> {
                         onTap: () => Navigator.pop(context),
                         child: Text(
                           'BACK TO PROFILE',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
@@ -450,7 +450,7 @@ class _EditProfileState extends State<EditProfile> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -474,7 +474,7 @@ class _EditProfileState extends State<EditProfile> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -530,17 +530,17 @@ class _EditProfileState extends State<EditProfile> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

@@ -17,11 +17,8 @@ class CustomTextField extends StatelessWidget {
   final TextAlign? textAlign;
   final Function(String)? onChanged;
   final TextEditingController? controller;
-  // final bool? readOnly;
   final bool obscureText;
   final String? obscuringCharacter;
-
-  // final String? labelText;
   final bool? enabled;
   final Function()? onTap;
   final String? initialVlaue;
@@ -37,7 +34,7 @@ class CustomTextField extends StatelessWidget {
   Color? enabledBorderColor;
   int? maxLines;
   FontWeight? fontWeight;
-  // ignore: use_key_in_widget_constructors
+
   CustomTextField(
       {this.borderColor,
       this.focusedBorderColor,
@@ -52,10 +49,8 @@ class CustomTextField extends StatelessWidget {
       this.textAlign,
       this.onChanged,
       this.controller,
-      // this.readOnly,
       this.obscureText = false,
       this.obscuringCharacter,
-      // this.labelText,
       this.enabled = true,
       this.onTap,
       this.initialVlaue,
@@ -77,10 +72,10 @@ class CustomTextField extends StatelessWidget {
         if (label.validate().isNotEmpty)
           Text(
             label!.toUpperCase(),
-            style: GoogleFonts.dmMono(
-              fontSize: 10.sp,
+            style: GoogleFonts.montserrat(
+              fontSize: 11.sp,
               color: labelColor ?? textLight,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
           ),
@@ -92,7 +87,8 @@ class CustomTextField extends StatelessWidget {
           enabled: enabled,
           textInputAction: textInputAction,
           inputFormatters: inputFormmater,
-          style: GoogleFonts.lora(
+          style: TextStyle(
+            fontFamily: cinta,
             fontWeight: FontWeight.w500,
             fontSize: 15.sp,
             color: ink,
@@ -105,8 +101,9 @@ class CustomTextField extends StatelessWidget {
               horizontal: 16.w,
             ),
             hintText: hintText,
-            hintStyle: GoogleFonts.lora(
-              color: hintTextColor ?? textLight.withOpacity(0.5),
+            hintStyle: TextStyle(
+              fontFamily: cinta,
+              color: hintTextColor ?? sand,
               fontWeight: FontWeight.w400,
               fontSize: 14.sp,
             ),
@@ -116,21 +113,21 @@ class CustomTextField extends StatelessWidget {
             fillColor: filledColor ?? white,
             border: OutlineInputBorder(
               borderSide: BorderSide(color: borderColor ?? sand),
-              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(16.r),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: focusedBorderColor ?? primary, width: 1.5),
-              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(16.r),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: enabledBorderColor ?? sand,
               ),
-              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(16.r),
             ),
             errorBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.redAccent, width: 1),
-              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(16.r),
             ),
           ),
           obscureText: obscureText,

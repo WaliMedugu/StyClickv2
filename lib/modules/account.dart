@@ -66,7 +66,7 @@ class _AccountPageState extends State<AccountPage> {
                     const Spacer(),
                     Text(
                       'Account',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -111,7 +111,7 @@ class _AccountPageState extends State<AccountPage> {
                         children: [
                           Text(
                             'You',
-                            style: GoogleFonts.lora(
+                            style: TextStyle(fontFamily: 'Cinta', 
                               color: ink,
                               fontSize: 28.sp,
                               fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class _AccountPageState extends State<AccountPage> {
                               ),
                               child: Text(
                                 'UPDATE PROFILE',
-                                style: GoogleFonts.dmMono(
+                                style: GoogleFonts.montserrat(
                                   color: primary,
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w700,
@@ -222,7 +222,7 @@ class _AccountPageState extends State<AccountPage> {
           children: [
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 18.sp,
                 color: white,
                 fontWeight: FontWeight.w700,
@@ -259,7 +259,7 @@ class _AccountPageState extends State<AccountPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -302,7 +302,7 @@ class _AccountPageState extends State<AccountPage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -313,7 +313,7 @@ class _AccountPageState extends State<AccountPage> {
                         onTap: () => const EditProfile().launch(context),
                         child: Text(
                           'UPDATE PROFILE',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
@@ -407,7 +407,7 @@ class _AccountPageState extends State<AccountPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -431,7 +431,7 @@ class _AccountPageState extends State<AccountPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -507,7 +507,7 @@ class _AccountPageState extends State<AccountPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: ink,
                           fontWeight: FontWeight.w700,
@@ -519,7 +519,7 @@ class _AccountPageState extends State<AccountPage> {
                     8.width,
                     Text(
                       time,
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 10.sp,
                         color: textLight,
                       ),
@@ -529,7 +529,7 @@ class _AccountPageState extends State<AccountPage> {
                 4.height,
                 Text(
                   sub,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 12.sp,
                     color: textLight,
                   ),

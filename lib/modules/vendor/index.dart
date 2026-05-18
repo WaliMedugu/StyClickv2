@@ -65,7 +65,7 @@ class _VendorPageState extends State<VendorPage> {
                     const Spacer(),
                     Text(
                       'Partnership',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -94,7 +94,7 @@ class _VendorPageState extends State<VendorPage> {
                   children: [
                     Text(
                       'Grow with Styclick',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 32.sp,
                         color: ink,
                         fontWeight: FontWeight.w700,
@@ -104,7 +104,7 @@ class _VendorPageState extends State<VendorPage> {
                     12.height,
                     Text(
                       'Join our curated ecosystem of creators, suppliers, and logistics experts. Select your path below.',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 15.sp,
                         color: textLight,
                         height: 1.5,
@@ -189,7 +189,7 @@ class _VendorPageState extends State<VendorPage> {
                       children: [
                         Text(
                           title,
-                          style: GoogleFonts.lora(
+                          style: TextStyle(fontFamily: 'Cinta', 
                             fontSize: 20.sp,
                             color: ink,
                             fontWeight: FontWeight.w700,
@@ -198,7 +198,7 @@ class _VendorPageState extends State<VendorPage> {
                         4.height,
                         Text(
                           desc,
-                          style: GoogleFonts.lora(
+                          style: TextStyle(fontFamily: 'Cinta', 
                             fontSize: 13.sp,
                             color: textLight,
                             height: 1.4,
@@ -254,7 +254,7 @@ class _VendorPageState extends State<VendorPage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -263,7 +263,7 @@ class _VendorPageState extends State<VendorPage> {
                       4.height,
                       Text(
                         'DASHBOARD',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
@@ -355,7 +355,7 @@ class _VendorPageState extends State<VendorPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -379,7 +379,7 @@ class _VendorPageState extends State<VendorPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -435,17 +435,17 @@ class _VendorPageState extends State<VendorPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

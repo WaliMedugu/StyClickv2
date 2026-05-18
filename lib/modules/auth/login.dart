@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Welcome back',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.comfortaa(
+                  style: GoogleFonts.montserrat(
                     fontSize: 32.sp,
                     color: ink,
                     fontWeight: FontWeight.w900,
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Your Style in one Click',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 14.sp,
                     color: textLight,
                     fontWeight: FontWeight.w400,
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Text(
                       'Forgot Password?',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: primary,
                         fontWeight: FontWeight.w700,
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ? const CircularProgressIndicator(color: white)
                           : Text(
                               'SIGN IN',
-                              style: GoogleFonts.dmMono(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 14.sp,
                                 color: white,
                                 fontWeight: FontWeight.w600,
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
                         'OR',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           fontSize: 12.sp,
                           color: textLight,
                         ),
@@ -226,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: Image.asset(fingerprint, height: 24.h),
                   label: Text(
                     'SIGN IN WITH BIOMETRICS',
-                    style: GoogleFonts.dmMono(
+                    style: GoogleFonts.montserrat(
                       fontSize: 12.sp,
                       color: ink,
                       fontWeight: FontWeight.w500,
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       'Don’t have an account? ',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 14.sp,
                         color: textLight,
                       ),
@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Text(
                         'Sign Up',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: primary,
                           fontWeight: FontWeight.w700,

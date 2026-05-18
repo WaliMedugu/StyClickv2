@@ -88,7 +88,7 @@ class _CataloguePageState extends State<CataloguePage> {
                   const Spacer(),
                   Text(
                     'Catalogue',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -136,10 +136,10 @@ class _CataloguePageState extends State<CataloguePage> {
                           12.width,
                           Expanded(
                             child: TextField(
-                              style: GoogleFonts.lora(fontSize: 14.sp, color: ink),
+                              style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                               decoration: InputDecoration(
                                 hintText: 'Search styles...',
-                                hintStyle: GoogleFonts.lora(
+                                hintStyle: TextStyle(fontFamily: 'Cinta', 
                                   color: ink.withOpacity(0.4),
                                   fontSize: 14.sp,
                                 ),
@@ -220,7 +220,7 @@ class _CataloguePageState extends State<CataloguePage> {
                                   index % 2 == 0 ? 'Lace Asoebi' : 'Ankara Style',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.lora(
+                                  style: TextStyle(fontFamily: 'Cinta', 
                                     fontSize: 14.sp,
                                     color: ink,
                                     fontWeight: FontWeight.w700,
@@ -248,7 +248,7 @@ class _CataloguePageState extends State<CataloguePage> {
                               2.width,
                               Text(
                                 '4.8',
-                                style: GoogleFonts.dmMono(
+                                style: GoogleFonts.montserrat(
                                   fontSize: 11.sp,
                                   fontWeight: FontWeight.w700,
                                   color: ink,
@@ -257,7 +257,7 @@ class _CataloguePageState extends State<CataloguePage> {
                               4.width,
                               Text(
                                 '(13)',
-                                style: GoogleFonts.dmMono(
+                                style: GoogleFonts.montserrat(
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w500,
                                   color: textLight,
@@ -268,7 +268,7 @@ class _CataloguePageState extends State<CataloguePage> {
                           8.height,
                           Text(
                             'NGN 45,000',
-                            style: GoogleFonts.dmMono(
+                            style: GoogleFonts.montserrat(
                               fontSize: 13.sp,
                               color: primary,
                               fontWeight: FontWeight.w900,
@@ -338,7 +338,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     children: [
                       Text(
                         'Filter Selection',
-                        style: GoogleFonts.comfortaa(
+                        style: GoogleFonts.montserrat(
                           fontSize: 24.sp,
                           color: primary,
                           fontWeight: FontWeight.w900,
@@ -352,7 +352,7 @@ class _CataloguePageState extends State<CataloguePage> {
                         },
                         child: Text(
                           'CLEAR',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             fontSize: 12.sp,
                             color: textLight,
                             fontWeight: FontWeight.w700,
@@ -365,7 +365,7 @@ class _CataloguePageState extends State<CataloguePage> {
                   12.height,
                   Text(
                     'Select categories to personalize your feed',
-                    style: GoogleFonts.lora(
+                    style: TextStyle(fontFamily: 'Cinta', 
                       fontSize: 14.sp,
                       color: textLight,
                       fontStyle: FontStyle.italic,
@@ -374,7 +374,7 @@ class _CataloguePageState extends State<CataloguePage> {
                   32.height,
                   Text(
                     'CATEGORIES',
-                    style: GoogleFonts.dmMono(
+                    style: GoogleFonts.montserrat(
                       fontSize: 12.sp,
                       color: ink,
                       fontWeight: FontWeight.w700,
@@ -420,7 +420,7 @@ class _CataloguePageState extends State<CataloguePage> {
                               ),
                               child: Text(
                                 category,
-                                style: GoogleFonts.lora(
+                                style: TextStyle(fontFamily: 'Cinta', 
                                   fontSize: 13.sp,
                                   color: isSelected ? white : ink,
                                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
@@ -453,7 +453,7 @@ class _CataloguePageState extends State<CataloguePage> {
                       child: Center(
                         child: Text(
                           'Apply Filter',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             color: white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w700,
@@ -502,7 +502,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -513,7 +513,7 @@ class _CataloguePageState extends State<CataloguePage> {
                         onTap: () => const EditProfile().launch(context),
                         child: Text(
                           'UPDATE PROFILE',
-                          style: GoogleFonts.dmMono(
+                          style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
@@ -607,7 +607,7 @@ class _CataloguePageState extends State<CataloguePage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -631,7 +631,7 @@ class _CataloguePageState extends State<CataloguePage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -707,7 +707,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: ink,
                           fontWeight: FontWeight.w700,
@@ -719,7 +719,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     8.width,
                     Text(
                       time,
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 10.sp,
                         color: textLight,
                       ),
@@ -729,7 +729,7 @@ class _CataloguePageState extends State<CataloguePage> {
                 4.height,
                 Text(
                   sub,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 12.sp,
                     color: textLight,
                   ),

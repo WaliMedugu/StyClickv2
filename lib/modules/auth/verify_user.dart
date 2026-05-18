@@ -74,7 +74,7 @@ class _VerifyUserState extends State<VerifyUser> {
                 Text(
                   'Verification',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.comfortaa(
+                  style: GoogleFonts.montserrat(
                     fontSize: 32.sp,
                     color: ink,
                     fontWeight: FontWeight.w900,
@@ -84,7 +84,7 @@ class _VerifyUserState extends State<VerifyUser> {
                 Text(
                   'Enter the 4-digit code sent to\n${widget.phone ?? widget.email ?? "your device"}',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.lora(
+                  style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 16.sp,
                     color: textLight,
                     height: 1.5,
@@ -107,7 +107,7 @@ class _VerifyUserState extends State<VerifyUser> {
                     autoHideKeyboard: false,
                     fieldBackgroundColor: white,
                     borderColor: sand,
-                    textStyle: GoogleFonts.dmMono(
+                    textStyle: GoogleFonts.montserrat(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w600,
                       color: ink,
@@ -124,7 +124,7 @@ class _VerifyUserState extends State<VerifyUser> {
                   children: [
                     Text(
                       'I haven’t received code (0:${_start.toString().padLeft(2, '0')}) ',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 14.sp,
                         color: textLight,
                       ),
@@ -139,7 +139,7 @@ class _VerifyUserState extends State<VerifyUser> {
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text(
                         'Resend',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           fontSize: 14.sp,
                           color: _start == 0 ? primary : textLight.withOpacity(0.5),
                           fontWeight: FontWeight.w700,
@@ -176,7 +176,7 @@ class _VerifyUserState extends State<VerifyUser> {
                       alignment: Alignment.center,
                       child: Text(
                         'VERIFY CODE',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           fontSize: 14.sp,
                           color: white,
                           fontWeight: FontWeight.w600,
@@ -193,7 +193,7 @@ class _VerifyUserState extends State<VerifyUser> {
                   },
                   child: Text(
                     'Wrong Email?',
-                    style: GoogleFonts.lora(
+                    style: TextStyle(fontFamily: 'Cinta', 
                       fontSize: 14.sp,
                       color: primary,
                       fontWeight: FontWeight.w600,

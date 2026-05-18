@@ -7,6 +7,7 @@ import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:stylclick/shared/constants/strings.dart';
 
 class BecomeRider extends StatefulWidget {
   const BecomeRider({Key? key}) : super(key: key);
@@ -28,6 +29,11 @@ class _BecomeRiderState extends State<BecomeRider> {
 
   String _vehicleType = 'Motorcycle';
 
+  // Image Upload Paths
+  String? _licenseImagePath;
+  String? _insuranceImagePath;
+  String? _ninImagePath;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +54,7 @@ class _BecomeRiderState extends State<BecomeRider> {
                   20.width,
                   Text(
                     'Rider Registration',
-                    style: GoogleFonts.comfortaa(
+                    style: GoogleFonts.montserrat(
                       fontSize: 22.sp,
                       color: primary,
                       fontWeight: FontWeight.w900,
@@ -105,7 +111,7 @@ class _BecomeRiderState extends State<BecomeRider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('PERSONAL DETAILS', 'Who is on the road?'),
+        _buildSectionHeader('PERSONAL DETAILS', 'Create your dispatch profile.'),
         24.height,
         _buildTextField('Full Name', _fullName, FeatherIcons.user),
         16.height,
@@ -122,10 +128,15 @@ class _BecomeRiderState extends State<BecomeRider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('VEHICLE DETAILS', 'What are you driving?'),
+        _buildSectionHeader('VEHICLE DETAILS', 'Register your vehicle.'),
         24.height,
+        Text(
+          'Vehicle Type',
+          style: GoogleFonts.montserrat(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+        ),
+        12.height,
         Row(
-          children: ['Motorcycle', 'Van', 'Car'].map((type) {
+          children: ['Motorcycle', 'Bicycle', 'Car'].map((type) {
             bool isSelected = _vehicleType == type;
             return Expanded(
               child: InkWell(
@@ -135,16 +146,17 @@ class _BecomeRiderState extends State<BecomeRider> {
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                   decoration: BoxDecoration(
                     color: isSelected ? primary : white,
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(16.r),
                     border: Border.all(color: isSelected ? primary : sand),
                   ),
                   child: Center(
                     child: Text(
                       type,
-                      style: GoogleFonts.dmMono(
-                        fontSize: 12.sp,
+                      style: TextStyle(
+                        fontFamily: cinta,
+                        fontSize: 14.sp,
                         color: isSelected ? white : ink,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                       ),
                     ),
                   ),
@@ -167,11 +179,38 @@ class _BecomeRiderState extends State<BecomeRider> {
       children: [
         _buildSectionHeader('DOCUMENTATION', 'Verify your credentials.'),
         24.height,
-        _buildUploadField('Driver\'s License', 'Front & Back View'),
+        _buildUploadField(
+          'Driver\'s License',
+          'Front & Back View',
+          _licenseImagePath,
+          () {
+            setState(() {
+              _licenseImagePath = bizImage; // Mock uploaded file using bizImage
+            });
+          },
+        ),
         16.height,
-        _buildUploadField('Vehicle Insurance/Reg', 'Valid Documents'),
+        _buildUploadField(
+          'Vehicle Insurance/Reg',
+          'Valid Documents',
+          _insuranceImagePath,
+          () {
+            setState(() {
+              _insuranceImagePath = sewingMachine; // Mock uploaded file using sewingMachine
+            });
+          },
+        ),
         16.height,
-        _buildUploadField('NIN/ID Card', 'National Identification'),
+        _buildUploadField(
+          'NIN/ID Card',
+          'National Identification',
+          _ninImagePath,
+          () {
+            setState(() {
+              _ninImagePath = profileAvatar; // Mock uploaded file using profileAvatar
+            });
+          },
+        ),
         32.height,
         Container(
           padding: EdgeInsets.all(16.w),
@@ -183,7 +222,7 @@ class _BecomeRiderState extends State<BecomeRider> {
               Expanded(
                 child: Text(
                   'Your data is encrypted and only used for verification purposes.',
-                  style: GoogleFonts.lora(fontSize: 12.sp, color: ink.withOpacity(0.7)),
+                  style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: ink.withOpacity(0.7)),
                 ),
               ),
             ],
@@ -199,12 +238,12 @@ class _BecomeRiderState extends State<BecomeRider> {
       children: [
         Text(
           title,
-          style: GoogleFonts.dmMono(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+          style: GoogleFonts.montserrat(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
         ),
         8.height,
         Text(
           sub,
-          style: GoogleFonts.lora(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+          style: GoogleFonts.montserrat(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -222,10 +261,10 @@ class _BecomeRiderState extends State<BecomeRider> {
             child: TextField(
               controller: controller,
               keyboardType: type,
-              style: GoogleFonts.lora(fontSize: 15.sp, color: ink),
+              style: TextStyle(fontFamily: cinta, fontSize: 15.sp, color: ink),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: GoogleFonts.lora(color: sand),
+                hintStyle: TextStyle(fontFamily: cinta, color: sand),
                 border: InputBorder.none,
               ),
             ),
@@ -235,25 +274,54 @@ class _BecomeRiderState extends State<BecomeRider> {
     );
   }
 
-  Widget _buildUploadField(String label, String sub) {
-    return DottedBorder(
-      color: sand,
-      strokeWidth: 1,
-      dashPattern: const [8, 4],
-      borderType: BorderType.RRect,
-      radius: Radius.circular(16.r),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
-        child: Column(
-          children: [
-            Icon(FeatherIcons.camera, color: primary, size: 28.sp),
-            12.height,
-            Text(label, style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
-            4.height,
-            Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
-          ],
+  Widget _buildUploadField(String label, String sub, String? imagePath, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: DottedBorder(
+        color: sand,
+        strokeWidth: 1,
+        dashPattern: const [8, 4],
+        borderType: BorderType.RRect,
+        radius: Radius.circular(16.r),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(20.w),
+          decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
+          child: imagePath != null
+              ? Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Image.asset(
+                        imagePath,
+                        height: 50.h,
+                        width: 50.w,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+                          4.height,
+                          Text('File uploaded successfully', style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: successColor)),
+                        ],
+                      ),
+                    ),
+                    Icon(FeatherIcons.checkCircle, color: successColor, size: 20.sp),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Icon(FeatherIcons.camera, color: primary, size: 28.sp),
+                    12.height,
+                    Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+                    4.height,
+                    Text(sub, style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight)),
+                  ],
+                ),
         ),
       ),
     );
@@ -270,7 +338,7 @@ class _BecomeRiderState extends State<BecomeRider> {
                 padding: EdgeInsets.only(right: 12.w),
                 child: AppButton(
                   text: 'Back',
-                  textStyle: GoogleFonts.dmMono(color: ink, fontWeight: FontWeight.w700),
+                  textStyle: GoogleFonts.montserrat(color: ink, fontWeight: FontWeight.w700),
                   color: white,
                   onTap: () => setState(() => _currentStep--),
                   shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r), side: BorderSide(color: sand)),
@@ -281,7 +349,7 @@ class _BecomeRiderState extends State<BecomeRider> {
             flex: 2,
             child: AppButton(
               text: _currentStep == 2 ? 'Submit Application' : 'Next Step',
-              textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+              textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
               onTap: () {
                 if (_currentStep < 2) {
@@ -289,7 +357,7 @@ class _BecomeRiderState extends State<BecomeRider> {
                 } else {
                   const SuccessPage(
                     medium: 'Application Sent',
-                    message: 'Our logistics team will verify your documents shortly.',
+                    message: 'Your rider profile is being reviewed. We will contact you shortly.',
                   ).launch(context);
                 }
               },

@@ -55,7 +55,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Text(
                 'Forgot password',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 32.sp,
                   color: ink,
                   fontWeight: FontWeight.w900,
@@ -65,7 +65,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Text(
                 'Please type in the email address linked to your StyClick account to reset your password.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lora(
+                style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 14.sp,
                   color: textLight,
                   height: 1.6,
@@ -87,14 +87,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Remember Password? ',
-                      style: GoogleFonts.lora(
+                      style: TextStyle(fontFamily: 'Cinta', 
                         fontSize: 14.sp,
                         color: textLight,
                       ),
                       children: [
                         TextSpan(
                           text: 'Sign in',
-                          style: GoogleFonts.lora(
+                          style: TextStyle(fontFamily: 'Cinta', 
                             fontSize: 14.sp,
                             color: primary,
                             fontWeight: FontWeight.w700,
@@ -133,7 +133,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     alignment: Alignment.center,
                     child: Text(
                       'SEND RESET LINK',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,
                         fontWeight: FontWeight.w600,

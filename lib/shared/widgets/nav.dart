@@ -124,7 +124,7 @@ class _NavState extends State<Nav> {
               8.width,
               Text(
                 label,
-                style: GoogleFonts.dmMono(
+                style: GoogleFonts.montserrat(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w800,
                   color: primary,

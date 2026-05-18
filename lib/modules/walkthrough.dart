@@ -51,7 +51,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                 },
                 child: Text(
                   'SKIP',
-                  style: GoogleFonts.dmMono(
+                  style: GoogleFonts.montserrat(
                     fontSize: 12.sp,
                     color: textLight,
                     fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                         Text(
                           item.title,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.comfortaa(
+                          style: GoogleFonts.montserrat(
                             fontSize: 28.sp,
                             color: ink,
                             fontWeight: FontWeight.w900,
@@ -113,7 +113,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                         Text(
                           item.description,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.lora(
+                          style: TextStyle(fontFamily: 'Cinta', 
                             fontSize: 15.sp,
                             color: textLight,
                             height: 1.6,

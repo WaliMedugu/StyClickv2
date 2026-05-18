@@ -65,7 +65,7 @@ class _WalletPageState extends State<WalletPage> {
                     const Spacer(),
                     Text(
                       'Wallet',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -116,7 +116,7 @@ class _WalletPageState extends State<WalletPage> {
                         children: [
                           Text(
                             'CURRENT BALANCE',
-                            style: GoogleFonts.dmMono(
+                            style: GoogleFonts.montserrat(
                               color: white.withOpacity(0.5),
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w700,
@@ -139,7 +139,7 @@ class _WalletPageState extends State<WalletPage> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 _isBalanceVisible ? 'NGN 9,500.00' : '••••••••',
-                                style: GoogleFonts.dmMono(
+                                style: GoogleFonts.montserrat(
                                   color: white,
                                   fontSize: 32.sp,
                                   fontWeight: FontWeight.w800,
@@ -188,7 +188,7 @@ class _WalletPageState extends State<WalletPage> {
                   children: [
                     Text(
                       'PAYMENT METHODS',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -233,7 +233,7 @@ class _WalletPageState extends State<WalletPage> {
                             children: [
                               Text(
                                 'Transaction History',
-                                style: GoogleFonts.lora(
+                                style: TextStyle(fontFamily: 'Cinta', 
                                   fontSize: 16.sp,
                                   color: ink,
                                   fontWeight: FontWeight.w700,
@@ -241,7 +241,7 @@ class _WalletPageState extends State<WalletPage> {
                               ),
                               Text(
                                 'View all your recent activities',
-                                style: GoogleFonts.lora(
+                                style: TextStyle(fontFamily: 'Cinta', 
                                   fontSize: 12.sp,
                                   color: textLight,
                                 ),
@@ -281,7 +281,7 @@ class _WalletPageState extends State<WalletPage> {
               8.width,
               Text(
                 label,
-                style: GoogleFonts.dmMono(
+                style: GoogleFonts.montserrat(
                   color: white,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
@@ -310,7 +310,7 @@ class _WalletPageState extends State<WalletPage> {
             16.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 14.sp,
                 color: ink,
                 fontWeight: FontWeight.w600,
@@ -353,7 +353,7 @@ class _WalletPageState extends State<WalletPage> {
                     children: [
                       Text(
                         'You',
-                        style: GoogleFonts.lora(
+                        style: TextStyle(fontFamily: 'Cinta', 
                           color: ink,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -362,7 +362,7 @@ class _WalletPageState extends State<WalletPage> {
                       4.height,
                       Text(
                         'DASHBOARD',
-                        style: GoogleFonts.dmMono(
+                        style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
@@ -454,7 +454,7 @@ class _WalletPageState extends State<WalletPage> {
             20.width,
             Text(
               title,
-              style: GoogleFonts.lora(
+              style: TextStyle(fontFamily: 'Cinta', 
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -478,7 +478,7 @@ class _WalletPageState extends State<WalletPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 24.sp,
                   color: primary,
                   fontWeight: FontWeight.w900,
@@ -534,17 +534,17 @@ class _WalletPageState extends State<WalletPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     8.width,
-                    Text(time, style: GoogleFonts.dmMono(fontSize: 10.sp, color: textLight)),
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
                   ],
                 ),
                 4.height,
-                Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
               ],
             ),
           ),

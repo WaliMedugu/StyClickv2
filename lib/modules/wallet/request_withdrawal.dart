@@ -54,7 +54,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                     20.width,
                     Text(
                       'Withdraw Funds',
-                      style: GoogleFonts.comfortaa(
+                      style: GoogleFonts.montserrat(
                         fontSize: 24.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
@@ -80,11 +80,11 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                     children: [
                       Text(
                         'Available to Withdraw',
-                        style: GoogleFonts.lora(fontSize: 14.sp, color: textLight),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: textLight),
                       ),
                       Text(
                         'NGN 9,500.00',
-                        style: GoogleFonts.dmMono(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        style: GoogleFonts.montserrat(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -99,7 +99,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                   children: [
                     Text(
                       'WITHDRAWAL AMOUNT',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -125,7 +125,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                   children: [
                     Text(
                       'BANK DETAILS',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -148,7 +148,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                           children: [
                             Text(
                               _selectedBank,
-                              style: GoogleFonts.lora(
+                              style: TextStyle(fontFamily: 'Cinta', 
                                 fontSize: 15.sp,
                                 color: _selectedBank == 'Select Bank' ? sand : ink,
                                 fontWeight: FontWeight.w600,
@@ -180,7 +180,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                 child: AppButton(
                   width: double.infinity,
                   text: 'Confirm Withdrawal',
-                  textStyle: GoogleFonts.dmMono(
+                  textStyle: GoogleFonts.montserrat(
                     color: white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
@@ -216,17 +216,17 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
       child: Row(
         children: [
           if (prefix != null) ...[
-            Text(prefix, style: GoogleFonts.dmMono(color: sand, fontWeight: FontWeight.w700)),
+            Text(prefix, style: GoogleFonts.montserrat(color: sand, fontWeight: FontWeight.w700)),
             16.width,
           ],
           Expanded(
             child: TextField(
               controller: controller,
               keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-              style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w600),
+              style: TextStyle(fontFamily: 'Cinta', fontSize: 15.sp, color: ink, fontWeight: FontWeight.w600),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: GoogleFonts.lora(color: sand),
+                hintStyle: TextStyle(fontFamily: 'Cinta', color: sand),
                 border: InputBorder.none,
               ),
             ),
@@ -250,7 +250,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
             children: [
               Text(
                 'Select Bank',
-                style: GoogleFonts.comfortaa(fontSize: 20.sp, color: primary, fontWeight: FontWeight.w900),
+                style: GoogleFonts.montserrat(fontSize: 20.sp, color: primary, fontWeight: FontWeight.w900),
               ),
               20.height,
               Expanded(
@@ -261,7 +261,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                       contentPadding: EdgeInsets.zero,
                       title: Text(
                         _banks[index],
-                        style: GoogleFonts.lora(fontSize: 16.sp, color: ink),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: ink),
                       ),
                       onTap: () {
                         setState(() => _selectedBank = _banks[index]);

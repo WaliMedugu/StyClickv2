@@ -11,7 +11,7 @@ void showMessage(BuildContext context, String message) {
         child: Text(
           message,
           textAlign: TextAlign.center,
-          style: GoogleFonts.dmMono(
+          style: GoogleFonts.montserrat(
             fontSize: 12.sp,
             color: Colors.white,
             fontWeight: FontWeight.w600,

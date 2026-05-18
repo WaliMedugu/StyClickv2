@@ -33,7 +33,7 @@ class SuccessPage extends StatelessWidget {
               Text(
                 'Successful',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.comfortaa(
+                style: GoogleFonts.montserrat(
                   fontSize: 32.sp,
                   color: ink,
                   fontWeight: FontWeight.w900,
@@ -43,7 +43,7 @@ class SuccessPage extends StatelessWidget {
               Text(
                 message ?? 'Your request has been processed successfully.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lora(
+                style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 16.sp,
                   color: textLight,
                   height: 1.5,
@@ -58,7 +58,7 @@ class SuccessPage extends StatelessWidget {
                   },
                   child: Text(
                     'View $medium',
-                    style: GoogleFonts.dmMono(
+                    style: GoogleFonts.montserrat(
                       fontSize: 14.sp,
                       color: primary,
                       fontWeight: FontWeight.w600,
@@ -95,7 +95,7 @@ class SuccessPage extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       'CONTINUE',
-                      style: GoogleFonts.dmMono(
+                      style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,
                         fontWeight: FontWeight.w600,

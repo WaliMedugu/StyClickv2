@@ -110,7 +110,10 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Cinta
+      fonts:
+        - asset: assets/fonts/CintaRegular.ttf
 
 flutter_launcher_icons:
   android: "launcher_icon"
