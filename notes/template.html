@@ -1,0 +1,1707 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --cream: #faf6f0;
+    --warm-white: #fdf9f4;
+    --sand: #e8ddd0;
+    --tan: #c9b99e;
+    --terracotta: #c4724a;
+    --rust: #a85535;
+    --brown: #5c3d2e;
+    --dark: #2a1f17;
+    --text: #3d2b1f;
+    --text-light: #7a5c4a;
+    --ink: #1a110a;
+    --gradient: linear-gradient(145deg, #c4724a 0%, #a85535 60%, #8a3f22 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body, .wrap {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--cream);
+    color: var(--text);
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 0 2rem;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-light);
+    padding: 1.8rem 1rem 0.5rem;
+    border-top: 0.5px solid var(--sand);
+    margin-top: 1.5rem;
+  }
+
+  .screens-row {
+    display: flex;
+    gap: 12px;
+    padding: 0 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .screens-row::-webkit-scrollbar { display: none; }
+
+  .phone {
+    flex: 0 0 200px;
+    background: var(--warm-white);
+    border-radius: 28px;
+    border: 1px solid var(--sand);
+    overflow: hidden;
+    position: relative;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(90,40,15,0.07);
+  }
+
+  .phone-header {
+    background: var(--gradient);
+    padding: 1rem 1rem 1.2rem;
+    color: var(--cream);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .phone-header.short { padding: 1rem 1rem 0.8rem; }
+
+  .ph-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+  .ph-brand-italic {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    font-style: italic;
+    text-align: center;
+  }
+  .ph-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .ph-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .back-btn {
+    font-size: 14px;
+    color: rgba(250,246,240,0.8);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .phone-body {
+    flex: 1;
+    overflow: hidden;
+    background: var(--warm-white);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-bar {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 20px;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    color: var(--text-light);
+  }
+  .search-icon {
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid var(--tan);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .search-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 5px;
+    height: 1.5px;
+    background: var(--tan);
+    transform: rotate(45deg);
+  }
+
+  .hero-banner {
+    background: var(--dark);
+    border-radius: 14px;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .hero-banner::before {
+    content: '';
+    position: absolute;
+    right: 0; top: 0;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--dark) 0%, transparent 40%);
+    z-index: 1;
+  }
+  .hero-text {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-text p {
+    font-family: 'Lora', serif;
+    font-size: 10px;
+    color: rgba(250,246,240,0.7);
+    margin-bottom: 2px;
+  }
+  .hero-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--terracotta);
+    line-height: 1.3;
+  }
+  .hero-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .hero-dot {
+    width: 18px; height: 3px;
+    border-radius: 2px;
+    background: rgba(196,114,74,0.4);
+  }
+  .hero-dot.active { background: var(--terracotta); }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  .service-card {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 10px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .service-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(196,114,74,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .service-card span {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  .cat-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    height: 60px;
+    background: var(--brown);
+  }
+  .cat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,17,10,0.8) 0%, transparent 60%);
+  }
+  .cat-label {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    z-index: 2;
+    font-family: 'Playfair Display', serif;
+    font-size: 8px;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  .feat-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--tan);
+  }
+  .feat-img {
+    height: 80px;
+    background: var(--brown);
+    position: relative;
+  }
+  .feat-img-tall { height: 110px; }
+  .feat-heart {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--terracotta);
+  }
+  .feat-info {
+    padding: 5px 6px;
+    background: white;
+  }
+  .feat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .feat-loc {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 1px;
+  }
+
+  .bottom-nav {
+    display: flex;
+    align-items: center;
+    background: var(--dark);
+    border-radius: 0 0 28px 28px;
+    padding: 8px 12px 10px;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--tan);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .nav-item.active { color: var(--terracotta); }
+  .nav-center {
+    width: 36px;
+    height: 36px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -10px;
+  }
+
+  .menu-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 68%;
+    background: var(--warm-white);
+    border-right: 0.5px solid var(--sand);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.75rem;
+  }
+  .menu-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 0.75rem;
+    border-bottom: 0.5px solid var(--sand);
+    margin-bottom: 0.5rem;
+  }
+  .menu-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--terracotta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-avatar svg { width: 18px; height: 18px; }
+  .menu-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .menu-update {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 4px;
+    border-radius: 8px;
+  }
+  .menu-item span {
+    font-family: 'Lora', serif;
+    font-size: 10px;
+    color: var(--text);
+  }
+  .menu-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sand);
+    flex-shrink: 0;
+  }
+  .menu-sep {
+    height: 0.5px;
+    background: var(--sand);
+    margin: 4px 0;
+  }
+  .menu-logout span { color: var(--rust); }
+  .menu-bg-dim {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 68%;
+    background: rgba(42,31,23,0.35);
+  }
+
+  .account-header {
+    padding: 1rem 0.75rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .account-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .account-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--cream);
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-top: 4px;
+    width: fit-content;
+  }
+  .account-rating span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-light);
+  }
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 0 0.75rem;
+  }
+  .qa-card {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 10px;
+    padding: 10px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .qa-card span {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  .qa-icon {
+    width: 24px; height: 24px;
+    background: rgba(196,114,74,0.08);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .acct-divider {
+    height: 8px;
+    background: var(--sand);
+    margin: 0.5rem 0;
+    opacity: 0.4;
+  }
+  .acct-menu-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.75rem;
+    gap: 0;
+  }
+  .acct-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--sand);
+  }
+  .acct-item-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .acct-item-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .acct-item span {
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .acct-chevron {
+    font-size: 9px;
+    color: var(--tan);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .catalogue-header {
+    padding: 1rem 0.75rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .cat-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .filter-btn {
+    width: 32px; height: 32px;
+    background: rgba(250,246,240,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cat-list-item {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+  }
+  .cat-list-img {
+    width: 70px;
+    background: var(--tan);
+    flex-shrink: 0;
+  }
+  .cat-list-info {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+  }
+  .cat-list-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cat-list-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .cat-list-wide {
+    height: 110px;
+    flex-direction: column;
+  }
+  .cat-list-wide .cat-list-img {
+    width: 100%;
+    height: 70px;
+  }
+
+  .saved-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .saved-item {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .saved-img {
+    height: 80px;
+    background: var(--brown);
+    position: relative;
+  }
+  .saved-heart {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px; height: 20px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--rust);
+  }
+  .saved-info { padding: 6px 8px; }
+  .saved-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .saved-loc {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--text-light);
+    margin-top: 1px;
+  }
+
+  .order-card {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 0.75rem;
+  }
+  .order-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+  .order-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .order-sub {
+    font-family: 'Lora', serif;
+    font-size: 9px;
+    color: var(--text-light);
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .order-sep {
+    height: 0.5px;
+    background: var(--sand);
+    margin: 8px 0;
+  }
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    gap: 6px;
+  }
+  .empty-icon {
+    width: 36px; height: 36px;
+    border: 1.5px dashed var(--tan);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .empty-text {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .cta-btn {
+    background: var(--gradient);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+  .cta-btn-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+  }
+
+  .wallet-card {
+    background: var(--dark);
+    border-radius: 14px;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .wallet-card::before {
+    content: '';
+    position: absolute;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 1px solid rgba(196,114,74,0.15);
+    top: -20px; right: -20px;
+  }
+  .wallet-card::after {
+    content: '';
+    position: absolute;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    border: 1px solid rgba(196,114,74,0.1);
+    bottom: -10px; left: 30px;
+  }
+  .wallet-bal-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--tan);
+  }
+  .wallet-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cream);
+    margin: 4px 0 12px;
+  }
+  .wallet-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .wallet-btn-fill {
+    flex: 1;
+    background: var(--terracotta);
+    border-radius: 20px;
+    padding: 6px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--cream);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .wallet-btn-outline {
+    flex: 1;
+    border: 1px solid var(--terracotta);
+    border-radius: 20px;
+    padding: 6px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .payment-list { display: flex; flex-direction: column; gap: 0; }
+  .pay-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--sand);
+  }
+  .pay-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pay-icon {
+    width: 28px; height: 28px;
+    background: rgba(196,114,74,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .pay-name {
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .settings-banner {
+    height: 90px;
+    background: var(--gradient);
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75rem;
+    flex-shrink: 0;
+  }
+  .settings-list { display: flex; flex-direction: column; }
+  .settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0.75rem;
+    border-bottom: 0.5px solid var(--sand);
+  }
+  .settings-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .settings-icon-wrap {
+    width: 32px; height: 32px;
+    background: rgba(196,114,74,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .settings-item-label {
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .vendor-intro {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+  .vendor-option {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+  .vendor-opt-icon {
+    width: 32px; height: 32px;
+    background: rgba(196,114,74,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .vendor-opt-info {}
+  .vendor-opt-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--terracotta);
+  }
+  .vendor-opt-sub {
+    font-family: 'Lora', serif;
+    font-size: 9px;
+    color: var(--text-light);
+    margin-top: 1px;
+  }
+  .vendor-arrow {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--tan);
+  }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 0.75rem;
+    margin: 0.5rem 0;
+  }
+  .step-node {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-node.active {
+    background: var(--terracotta);
+  }
+  .step-node.inactive {
+    background: var(--sand);
+  }
+  .step-icon-inner {
+    font-size: 10px;
+    color: white;
+    font-family: 'DM Mono', monospace;
+  }
+  .step-line {
+    flex: 1;
+    height: 1.5px;
+    background: var(--sand);
+  }
+  .step-label-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .step-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    text-align: center;
+    flex: 1;
+  }
+  .step-label.active { color: var(--terracotta); }
+  .form-field { display: flex; flex-direction: column; gap: 3px; }
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+  }
+  .form-input {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: 'Lora', serif;
+    font-size: 9px;
+    color: var(--text-light);
+  }
+
+  .help-input {
+    background: white;
+    border: 0.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 9px 12px;
+    font-family: 'Lora', serif;
+    font-size: 10px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+  .help-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--sand);
+    gap: 8px;
+  }
+  .help-item-text {
+    font-family: 'Lora', serif;
+    font-size: 10px;
+    color: var(--text);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .help-chevron {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--tan);
+    flex-shrink: 0;
+  }
+  .help-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--terracotta);
+    flex-shrink: 0;
+    width: 16px;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="section-label">01 — Home</div>
+  <div class="screens-row">
+
+    <div class="phone">
+      <div class="phone-header">
+        <div class="ph-row">
+          <svg width="16" height="12" fill="none"><rect y="0" width="16" height="2" rx="1" fill="rgba(250,246,240,0.7)"/><rect y="5" width="10" height="2" rx="1" fill="rgba(250,246,240,0.7)"/><rect y="10" width="13" height="2" rx="1" fill="rgba(250,246,240,0.7)"/></svg>
+          <div class="ph-brand">Styclick</div>
+          <svg width="16" height="18" fill="none"><path d="M8 1C5.8 1 4 2.8 4 5c0 3.5-1.5 5-1.5 5h11S12 8.5 12 5c0-2.2-1.8-4-4-4zm0 16c1.1 0 2-.9 2-2H6c0 1.1.9 2 2 2z" fill="rgba(250,246,240,0.8)"/></svg>
+        </div>
+        <div style="height:8px"></div>
+        <div class="search-bar" style="background:rgba(255,255,255,0.15); border-color:rgba(250,246,240,0.2); color:rgba(250,246,240,0.65);">
+          <div class="search-icon" style="border-color:rgba(250,246,240,0.4)"></div>
+          Search for a tailor or fabrics seller
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="hero-banner">
+          <div class="hero-text">
+            <p>Get your clothes</p>
+            <h3>sewn by expert tailors</h3>
+            <div class="hero-dots">
+              <div class="hero-dot active"></div>
+              <div class="hero-dot"></div>
+              <div class="hero-dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="service-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="14" height="12" viewBox="0 0 14 12" fill="none"><rect x="1" y="3" width="12" height="8" rx="1" stroke="#c4724a" stroke-width="1.2"/><circle cx="10" cy="7" r="1.5" stroke="#c4724a" stroke-width="1.2"/><path d="M1 6h4M1 8h3" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <span>Select Tailor</span>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M2 6l3-3 2 2 3-4 2 2" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h12" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <span>Buy Fabrics</span>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="14" height="12" viewBox="0 0 14 12" fill="none"><circle cx="10" cy="5" r="2.5" stroke="#c4724a" stroke-width="1.2"/><path d="M4 9c0-2.2 1.8-4 4-4" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/><circle cx="4" cy="9" r="1.5" stroke="#c4724a" stroke-width="1.2"/></svg>
+            </div>
+            <span>Dispatch Rider</span>
+          </div>
+        </div>
+        <div class="section-title">Categories</div>
+        <div class="cat-grid">
+          <div class="cat-card" style="background:linear-gradient(135deg,#5c3d2e,#8a5a40)">
+            <div class="cat-label">Female Aso-ebi</div>
+          </div>
+          <div class="cat-card" style="background:linear-gradient(135deg,#2a1f17,#4a3020)">
+            <div class="cat-label">Male Aso-ebi</div>
+          </div>
+          <div class="cat-card" style="background:linear-gradient(135deg,#7a4a25,#a85535)">
+            <div class="cat-label">Ankara</div>
+          </div>
+        </div>
+        <div class="section-title">Featured</div>
+        <div class="featured-grid">
+          <div class="feat-card">
+            <div class="feat-img" style="background:linear-gradient(135deg,#c9b99e,#8a6040)">
+              <div class="feat-heart">♥</div>
+            </div>
+            <div class="feat-info">
+              <div class="feat-name">Classy Matt</div>
+              <div class="feat-loc">◉ Maraba</div>
+            </div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-img" style="background:linear-gradient(135deg,#e8ddd0,#a08060)">
+              <div class="feat-heart" style="color:var(--terracotta)">♡</div>
+            </div>
+            <div class="feat-info">
+              <div class="feat-name">Maraba</div>
+              <div class="feat-loc">◉ Maraba</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/></svg>
+          Catalogue
+        </div>
+        <div class="nav-center">
+          <svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg>
+        </div>
+        <div class="nav-item">
+          <svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c9b99e" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c9b99e" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Account
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header">
+        <div class="ph-row">
+          <svg width="16" height="12" fill="none"><rect y="0" width="16" height="2" rx="1" fill="rgba(250,246,240,0.7)"/><rect y="5" width="10" height="2" rx="1" fill="rgba(250,246,240,0.7)"/><rect y="10" width="13" height="2" rx="1" fill="rgba(250,246,240,0.7)"/></svg>
+          <div class="ph-brand">Styclick</div>
+          <svg width="16" height="18" fill="none"><path d="M8 1C5.8 1 4 2.8 4 5c0 3.5-1.5 5-1.5 5h11S12 8.5 12 5c0-2.2-1.8-4-4-4zm0 16c1.1 0 2-.9 2-2H6c0 1.1.9 2 2 2z" fill="rgba(250,246,240,0.8)"/></svg>
+        </div>
+      </div>
+      <div style="position:relative; flex:1; display:flex; flex-direction:column;">
+        <div class="phone-body" style="filter:brightness(0.7)">
+          <div class="hero-banner" style="height:60px"></div>
+          <div class="service-grid">
+            <div class="service-card"></div><div class="service-card"></div><div class="service-card"></div>
+          </div>
+        </div>
+        <div class="menu-overlay">
+          <div class="menu-user">
+            <div class="menu-avatar">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="7" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M3 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="menu-name">Wali</div>
+              <div class="menu-update">Update Profile</div>
+            </div>
+          </div>
+          <div class="menu-item"><div class="menu-dot"></div><span>My Invoices</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>My Orders</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Saved</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Chat</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Wallet</span></div>
+          <div class="menu-sep"></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Become a vendor</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Share &amp; Earn</span></div>
+          <div class="menu-sep"></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Settings</span></div>
+          <div class="menu-item"><div class="menu-dot"></div><span>Support</span></div>
+          <div class="menu-sep"></div>
+          <div class="menu-item menu-logout"><div class="menu-dot" style="background:rgba(168,85,53,0.3)"></div><span>Logout</span></div>
+        </div>
+        <div class="menu-bg-dim"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>
+          Catalogue
+        </div>
+        <div class="nav-center">
+          <svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg>
+        </div>
+        <div class="nav-item active">
+          <svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Account
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">02 — Account</div>
+  <div class="screens-row">
+
+    <div class="phone">
+      <div class="account-header" style="background:var(--cream)">
+        <div class="account-name">Wali Medugu</div>
+        <div class="account-rating">
+          <span style="color:var(--terracotta)">★</span>
+          <span>—</span>
+        </div>
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--terracotta),var(--rust));border-radius:50%;position:absolute;top:1rem;right:0.75rem;"></div>
+      </div>
+      <div class="quick-actions">
+        <div class="qa-card">
+          <div class="qa-icon">
+            <svg width="14" height="14" fill="none"><circle cx="7" cy="7" r="5" stroke="#c4724a" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Help</span>
+        </div>
+        <div class="qa-card">
+          <div class="qa-icon">
+            <svg width="14" height="14" fill="none"><rect x="2" y="4" width="10" height="7" rx="1" stroke="#c4724a" stroke-width="1.2"/><path d="M5 4V3a2 2 0 014 0v1" stroke="#c4724a" stroke-width="1.2"/></svg>
+          </div>
+          <span>Wallet</span>
+        </div>
+        <div class="qa-card">
+          <div class="qa-icon">
+            <svg width="14" height="14" fill="none"><circle cx="7" cy="7" r="5" stroke="#c4724a" stroke-width="1.2"/><path d="M7 5v4M5 7h4" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Activity</span>
+        </div>
+      </div>
+      <div class="acct-divider"></div>
+      <div class="acct-menu-list">
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1" stroke="#5c3d2e" stroke-width="1.2"/><path d="M5 7h6M5 10h4" stroke="#5c3d2e" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>My Orders</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><path d="M14 4H9.5L8 2H2a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1V5a1 1 0 00-1-1z" stroke="#5c3d2e" stroke-width="1.2"/></svg>
+            <span>Chats</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="#5c3d2e" stroke-width="1.2"/><path d="M5 4V3a2 2 0 014 0v1" stroke="#5c3d2e" stroke-width="1.2"/></svg>
+            <span>Become a vendor</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><path d="M10 3H6L3 8l4 5h6l4-5-3-5z" stroke="#5c3d2e" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            <span>Share and Earn</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><circle cx="8" cy="8" r="3" stroke="#5c3d2e" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.3 3.3l1.4 1.4M11.3 11.3l1.4 1.4M3.3 12.7l1.4-1.4M11.3 4.7l1.4-1.4" stroke="#5c3d2e" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>Settings</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+        <div class="acct-item">
+          <div class="acct-item-left">
+            <svg width="16" height="16" fill="none"><circle cx="8" cy="8" r="5" stroke="#5c3d2e" stroke-width="1.2"/><path d="M8 6v2M8 10v.5" stroke="#5c3d2e" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>Support</span>
+          </div>
+          <span class="acct-chevron">›</span>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>
+          Catalogue
+        </div>
+        <div class="nav-center" style="background:var(--brown)">
+          <svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg>
+        </div>
+        <div class="nav-item active">
+          <svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Account
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Saved</div>
+          <div style="width:20px"></div>
+        </div>
+        <div style="height:6px"></div>
+        <div class="search-bar" style="background:rgba(255,255,255,0.15); border-color:rgba(250,246,240,0.2); color:rgba(250,246,240,0.65);">
+          <div class="search-icon" style="border-color:rgba(250,246,240,0.4)"></div>
+          Search saved orders
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="saved-grid">
+          <div class="saved-item">
+            <div class="saved-img" style="background:linear-gradient(135deg,#c9b99e,#7a4a30)">
+              <div class="saved-heart">♥</div>
+            </div>
+            <div class="saved-info">
+              <div class="saved-name">Classy Matt</div>
+              <div class="saved-loc">◉ Maraba</div>
+            </div>
+          </div>
+          <div class="saved-item" style="border:0.5px dashed var(--sand); background:transparent; min-height:120px; display:flex; align-items:center; justify-content:center;">
+            <div style="font-family:'DM Mono',monospace; font-size:8px; color:var(--tan); text-align:center; line-height:1.6;">Add more<br>favourites</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">03 — Orders & Wallet</div>
+  <div class="screens-row">
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">My Order</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="order-card">
+          <div class="order-label">Order Summary</div>
+          <div class="order-amount">NGN 0.00</div>
+          <div class="order-sub">Delivery fee not included yet</div>
+          <div class="order-sep"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'DM Mono',monospace; font-size:8px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.08em;">Cart (0)</span>
+          </div>
+        </div>
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="16" height="16" fill="none"><path d="M4 6V4a4 4 0 018 0v2" stroke="#c9b99e" stroke-width="1.2" stroke-linecap="round"/><rect x="2" y="6" width="12" height="8" rx="1.5" stroke="#c9b99e" stroke-width="1.2"/></svg>
+          </div>
+          <div class="empty-text">No purchase order<br>to display yet</div>
+        </div>
+        <div class="cta-btn">
+          <div class="cta-btn-text">Checkout — NGN 0</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Wallet</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="wallet-card">
+          <div class="wallet-bal-label">Balance</div>
+          <div class="wallet-amount">NGN 0</div>
+          <div class="wallet-actions">
+            <div class="wallet-btn-fill">+ Add funds</div>
+            <div class="wallet-btn-outline">− Withdraw</div>
+          </div>
+        </div>
+        <div class="section-title" style="margin-top:4px">Payment Methods</div>
+        <div class="payment-list">
+          <div class="pay-item">
+            <div class="pay-left">
+              <div class="pay-icon">💳</div>
+              <span class="pay-name">Card</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:9px; color:var(--tan)">›</span>
+          </div>
+          <div class="pay-item">
+            <div class="pay-left">
+              <div class="pay-icon" style="font-size:9px; font-family:'DM Mono',monospace; color:var(--terracotta); font-weight:500;">USSD</div>
+              <span class="pay-name">USSD</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:9px; color:var(--tan)">›</span>
+          </div>
+          <div class="pay-item">
+            <div class="pay-left">
+              <div class="pay-icon">🏦</div>
+              <span class="pay-name">Bank Transfer</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:9px; color:var(--tan)">›</span>
+          </div>
+          <div class="pay-item">
+            <div class="pay-left">
+              <div class="pay-icon">💵</div>
+              <span class="pay-name">Cash</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:9px; color:var(--tan)">›</span>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">04 — Catalogue</div>
+  <div class="screens-row">
+    <div class="phone">
+      <div class="phone-header">
+        <div class="ph-row">
+          <div class="cat-title">e-Catalogue</div>
+          <div class="filter-btn">
+            <svg width="14" height="12" fill="none"><path d="M1 2h12M3 6h8M5 10h4" stroke="rgba(250,246,240,0.8)" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div style="height:6px"></div>
+        <div class="search-bar" style="background:rgba(255,255,255,0.15); border-color:rgba(250,246,240,0.2); color:rgba(250,246,240,0.65);">
+          <div class="search-icon" style="border-color:rgba(250,246,240,0.4)"></div>
+          Search for a style
+        </div>
+      </div>
+      <div class="phone-body" style="gap:6px">
+        <div class="cat-list-item cat-list-wide">
+          <div class="cat-list-img cat-list-wide" style="height:70px; background:linear-gradient(135deg,#c9b99e,#7a4a30); position:relative;">
+            <div style="position:absolute; bottom:8px; left:8px; font-family:'Playfair Display',serif; font-weight:700; font-size:13px; color:white; text-shadow:0 1px 4px rgba(0,0,0,0.5);">Classy Matt</div>
+          </div>
+          <div class="cat-list-info">
+            <div class="cat-list-sub">Maraba · Fashion Designer</div>
+          </div>
+        </div>
+        <div class="cat-list-item cat-list-wide">
+          <div class="cat-list-img cat-list-wide" style="height:70px; background:linear-gradient(135deg,#8a6040,#3d2b1f); position:relative;">
+            <div style="position:absolute; bottom:8px; left:8px; font-family:'Playfair Display',serif; font-weight:700; font-size:13px; color:white; text-shadow:0 1px 4px rgba(0,0,0,0.5);">Maraba</div>
+          </div>
+          <div class="cat-list-info">
+            <div class="cat-list-sub">Maraba · Fabrics Seller</div>
+          </div>
+        </div>
+        <div class="featured-grid">
+          <div class="feat-card">
+            <div class="feat-img feat-img-tall" style="background:linear-gradient(135deg,#e8ddd0,#9a7060)">
+              <div class="feat-heart" style="color:var(--tan)">♡</div>
+            </div>
+            <div class="feat-info">
+              <div class="feat-name">Maraba</div>
+              <div class="feat-loc">◉ Maraba</div>
+            </div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-img feat-img-tall" style="background:linear-gradient(135deg,#5c3d2e,#2a1f17)">
+              <div class="feat-heart" style="color:var(--tan)">♡</div>
+            </div>
+            <div class="feat-info">
+              <div class="feat-name">Aso Oke</div>
+              <div class="feat-loc">◉ Wuse 2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c4724a" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c9b99e" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c9b99e" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">05 — Settings & Help</div>
+  <div class="screens-row">
+
+    <div class="phone">
+      <div class="settings-banner">
+        <div class="ph-row" style="width:100%; align-items:flex-end">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Settings</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; overflow:hidden">
+        <div class="settings-list">
+          <div class="settings-item">
+            <div class="settings-left">
+              <div class="settings-icon-wrap">
+                <svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </div>
+              <span class="settings-item-label">Profile details</span>
+            </div>
+            <span class="acct-chevron">›</span>
+          </div>
+          <div class="settings-item">
+            <div class="settings-left">
+              <div class="settings-icon-wrap">
+                <svg width="14" height="14" fill="none"><circle cx="7" cy="7" r="5" stroke="#c4724a" stroke-width="1.2"/><path d="M7 4v6M4 7h6" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </div>
+              <span class="settings-item-label">Address book</span>
+            </div>
+            <span class="acct-chevron">›</span>
+          </div>
+          <div class="settings-item">
+            <div class="settings-left">
+              <div class="settings-icon-wrap">
+                <svg width="14" height="14" fill="none"><path d="M7 1C4.8 1 3 2.8 3 5c0 3.5-1.5 5-1.5 5h11S11 8.5 11 5c0-2.2-1.8-4-4-4zm0 12c1.1 0 2-.9 2-2H5c0 1.1.9 2 2 2z" stroke="#c4724a" stroke-width="1.2"/></svg>
+              </div>
+              <span class="settings-item-label">Notification</span>
+            </div>
+            <span class="acct-chevron">›</span>
+          </div>
+          <div class="settings-item">
+            <div class="settings-left">
+              <div class="settings-icon-wrap">
+                <svg width="14" height="14" fill="none"><rect x="3" y="6" width="8" height="6" rx="1" stroke="#c4724a" stroke-width="1.2"/><path d="M5 6V4a2 2 0 014 0v2" stroke="#c4724a" stroke-width="1.2"/></svg>
+              </div>
+              <span class="settings-item-label">Change password</span>
+            </div>
+            <span class="acct-chevron">›</span>
+          </div>
+          <div class="settings-item">
+            <div class="settings-left">
+              <div class="settings-icon-wrap" style="background:rgba(168,85,53,0.1)">
+                <svg width="14" height="14" fill="none"><circle cx="7" cy="7" r="5" stroke="#a85535" stroke-width="1.2"/><path d="M5 5l4 4M9 5l-4 4" stroke="#a85535" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </div>
+              <span class="settings-item-label" style="color:var(--rust)">Deactivate account</span>
+            </div>
+            <span class="acct-chevron" style="color:var(--rust)">›</span>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Help</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="help-input">Describe your issue...</div>
+        <div class="section-title" style="margin-top:4px">All Topics</div>
+        <div style="display:flex; flex-direction:column; gap:0;">
+          <div class="help-item">
+            <div class="help-num">01</div>
+            <span class="help-item-text">How to place an order for customized clothing?</span>
+            <span class="help-chevron">›</span>
+          </div>
+          <div class="help-item">
+            <div class="help-num">02</div>
+            <span class="help-item-text">How to contact customer support?</span>
+            <span class="help-chevron">›</span>
+          </div>
+          <div class="help-item">
+            <div class="help-num">03</div>
+            <span class="help-item-text">How to leave a review for a service provider?</span>
+            <span class="help-chevron">›</span>
+          </div>
+          <div class="help-item">
+            <div class="help-num">04</div>
+            <span class="help-item-text">How to request a refund or alteration?</span>
+            <span class="help-chevron">›</span>
+          </div>
+          <div class="help-item">
+            <div class="help-num">05</div>
+            <span class="help-item-text">How to use the Styclick virtual measurement tool?</span>
+            <span class="help-chevron">›</span>
+          </div>
+        </div>
+        <div class="cta-btn" style="margin-top:8px">
+          <div class="cta-btn-text">Find Help</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">06 — Vendor & Rider Registration</div>
+  <div class="screens-row">
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Become a vendor</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="vendor-intro" style="margin-bottom:4px">Register your fashion shop or dispatch service on Styclick and reach thousands of customers.</div>
+        <div class="vendor-option">
+          <div class="vendor-opt-icon">
+            <svg width="16" height="16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="#c4724a" stroke-width="1.3"/><path d="M6 4V3a2 2 0 014 0v1M6 9h4" stroke="#c4724a" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="vendor-opt-info">
+            <div class="vendor-opt-title">Fashion designer</div>
+            <div class="vendor-opt-sub">Register as a fashion designer</div>
+          </div>
+          <div class="vendor-arrow">→</div>
+        </div>
+        <div class="vendor-option">
+          <div class="vendor-opt-icon">
+            <svg width="16" height="16" fill="none"><path d="M2 8l3-3 2 2 3-4 4 4" stroke="#c4724a" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="vendor-opt-info">
+            <div class="vendor-opt-title">Fabrics seller</div>
+            <div class="vendor-opt-sub">Register as a fabrics seller</div>
+          </div>
+          <div class="vendor-arrow">→</div>
+        </div>
+        <div class="vendor-option">
+          <div class="vendor-opt-icon">
+            <svg width="16" height="16" fill="none"><circle cx="11" cy="6" r="3" stroke="#c4724a" stroke-width="1.3"/><path d="M4 11c0-2 1.5-3.5 3.5-3.5" stroke="#c4724a" stroke-width="1.3" stroke-linecap="round"/><circle cx="4" cy="11" r="1.5" stroke="#c4724a" stroke-width="1.3"/></svg>
+          </div>
+          <div class="vendor-opt-info">
+            <div class="vendor-opt-title">Dispatch rider</div>
+            <div class="vendor-opt-sub">Register as a dispatch rider</div>
+          </div>
+          <div class="vendor-arrow">→</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Become a vendor</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div style="font-family:'Lora',serif; font-style:italic; font-size:9px; color:var(--text-light); margin-bottom:2px;">Register your fashion shop on Styclick</div>
+        <div class="stepper">
+          <div class="step-node active"><span class="step-icon-inner">✓</span></div>
+          <div class="step-line"></div>
+          <div class="step-node inactive"><span class="step-icon-inner" style="color:var(--tan)">2</span></div>
+          <div class="step-line"></div>
+          <div class="step-node inactive"><span class="step-icon-inner" style="color:var(--tan)">3</span></div>
+        </div>
+        <div class="step-label-row">
+          <div class="step-label active">Shop Info</div>
+          <div class="step-label">Specialized Fashion</div>
+          <div class="step-label">Upload Docs</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Shop Name</div>
+          <div class="form-input">Enter your shop name</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Address</div>
+          <div class="form-input">Enter your shop address</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Business email</div>
+          <div class="form-input">Enter your business email</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Phone number</div>
+          <div class="form-input">Enter your phone number</div>
+        </div>
+        <div class="cta-btn" style="margin-top:6px; border-radius:12px; padding:10px">
+          <div class="cta-btn-text">Proceed →</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-header short">
+        <div class="ph-row">
+          <div class="back-btn">←</div>
+          <div class="ph-title">Become a Dispatch rider</div>
+          <div style="width:20px"></div>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div style="font-family:'Lora',serif; font-style:italic; font-size:9px; color:var(--text-light); margin-bottom:2px;">Register as a dispatch rider on Styclick</div>
+        <div class="stepper">
+          <div class="step-node active"><span class="step-icon-inner">✓</span></div>
+          <div class="step-line"></div>
+          <div class="step-node inactive"><span class="step-icon-inner" style="color:var(--tan)">2</span></div>
+          <div class="step-line"></div>
+          <div class="step-node inactive"><span class="step-icon-inner" style="color:var(--tan)">3</span></div>
+          <div class="step-line"></div>
+          <div class="step-node inactive"><span class="step-icon-inner" style="color:var(--tan)">4</span></div>
+        </div>
+        <div class="step-label-row" style="gap:0">
+          <div class="step-label active" style="font-size:6px">Rider Info</div>
+          <div class="step-label" style="font-size:6px">Motorcycle Info</div>
+          <div class="step-label" style="font-size:6px">Licensing</div>
+          <div class="step-label" style="font-size:6px">Upload Docs</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Shop name</div>
+          <div class="form-input">Shop name (Optional)</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Shop address</div>
+          <div class="form-input">Shop address (Required)</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Email</div>
+          <div class="form-input">Enter your business email</div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">Phone number</div>
+          <div class="form-input">Enter your phone number</div>
+        </div>
+        <div class="cta-btn" style="margin-top:6px; border-radius:12px; padding:10px">
+          <div class="cta-btn-text">Proceed →</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><svg width="14" height="14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#c9b99e" stroke-width="1.2"/></svg>Catalogue</div>
+        <div class="nav-center" style="background:var(--brown)"><svg width="14" height="14" fill="none"><path d="M7 2L2 7h2v5h6V7h2L7 2z" fill="white"/></svg></div>
+        <div class="nav-item active"><svg width="14" height="14" fill="none"><circle cx="7" cy="5" r="3" stroke="#c4724a" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#c4724a" stroke-width="1.2" stroke-linecap="round"/></svg>Account</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

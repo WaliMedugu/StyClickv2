@@ -79,7 +79,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                   'My Order',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20.sp,   fontFamily: cinta,
+                    fontSize: 20.sp,   fontFamily: comfortaa,
                     fontWeight: FontWeight.w900,
                   ),
                 ),

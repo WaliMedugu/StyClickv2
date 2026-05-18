@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:stylclick/shared/constants/strings.dart';
@@ -17,85 +19,192 @@ class VerifyUser extends StatefulWidget {
 
 class _VerifyUserState extends State<VerifyUser> {
   TextEditingController otpController = TextEditingController();
-
   final GlobalKey<FormState> _verifyOtpFormKey = GlobalKey<FormState>();
   FocusNode focusNode = FocusNode();
+  Timer? _timer;
+  int _start = 10;
+
+  void startTimer() {
+    _start = 10;
+    const oneSec = Duration(seconds: 1);
+    _timer?.cancel();
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
 
   @override
   void dispose() {
-    // otpController.dispose();
-    // focusNode.dispose();
+    otpController.dispose();
+    focusNode.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Form(
-        key: _verifyOtpFormKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              32.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Text(
-                    'Enter the 4-digit code sent to your\n${widget.phone} or ${widget.email}',
-                    style: TextStyle(
-                        fontFamily: cinta,
-                        fontSize: 16.sp,
-                        color: black,
-                        fontWeight: FontWeight.bold)),
-              ),
-              PinCodeFields(
-                length: 4,
-                fieldBorderStyle: FieldBorderStyle.square,
-                responsive: false,
-                fieldHeight: 48.0,
-                fieldWidth: 48.0,
-                borderWidth: 0.5,
-                activeBorderColor: biometricButtonColor,
-                activeBackgroundColor: biometricButtonColor,
-                borderRadius: BorderRadius.circular(5.0),
-                keyboardType: TextInputType.number,
-                autoHideKeyboard: false,
-                fieldBackgroundColor: biometricButtonColor,
-                borderColor: biometricButtonColor,
-                textStyle: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w500,
+      backgroundColor: cream,
+      body: SafeArea(
+        child: Form(
+          key: _verifyOtpFormKey,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                64.height,
+                Text(
+                  'Verification',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 32.sp,
+                    color: ink,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-                controller: otpController,
-                onComplete: (output) {
-                  // Your logic with pin code
-                  log(output);
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
+                16.height,
+                Text(
+                  'Enter the 4-digit code sent to\n${widget.phone ?? widget.email ?? "your device"}',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lora(
+                    fontSize: 16.sp,
+                    color: textLight,
+                    height: 1.5,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                48.height,
+                Center(
+                  child: PinCodeFields(
+                    length: 4,
+                    fieldBorderStyle: FieldBorderStyle.square,
+                    responsive: false,
+                    fieldHeight: 64.h,
+                    fieldWidth: 64.w,
+                    borderWidth: 1.0,
+                    activeBorderColor: primary,
+                    activeBackgroundColor: white,
+                    borderRadius: BorderRadius.circular(12.r),
+                    keyboardType: TextInputType.number,
+                    autoHideKeyboard: false,
+                    fieldBackgroundColor: white,
+                    borderColor: sand,
+                    textStyle: GoogleFonts.dmMono(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      color: ink,
+                    ),
+                    controller: otpController,
+                    onComplete: (output) {
+                      log(output);
+                    },
+                  ),
+                ),
+                40.height,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('I haven’t received code (0:05), ',
-                        style: TextStyle(
-                            // fontFamily: poppins,
-                            fontSize: 14.sp,
-                            color: black,
-                            fontWeight: FontWeight.w400)),
-                    Text('Resend',
-                        style: TextStyle(
-                            // fontFamily: poppins,
-                            fontSize: 16.sp,
-                            color: signupTextColor,
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      'I haven’t received code (0:${_start.toString().padLeft(2, '0')}) ',
+                      style: GoogleFonts.lora(
+                        fontSize: 14.sp,
+                        color: textLight,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _start == 0
+                          ? () {
+                              startTimer();
+                              // Add your resend API call here
+                            }
+                          : null,
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      child: Text(
+                        'Resend',
+                        style: GoogleFonts.lora(
+                          fontSize: 14.sp,
+                          color: _start == 0 ? primary : textLight.withOpacity(0.5),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                64.height,
+                ElevatedButton(
+                  onPressed: () {
+                    // Verification logic
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    elevation: 0,
+                  ).copyWith(
+                    backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                  ),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [primary, primaryGradient],
+                      ),
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    child: Container(
+                      height: 56.h,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'VERIFY CODE',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 14.sp,
+                          color: white,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                24.height,
+                TextButton(
+                  onPressed: () {
+                    finish(context);
+                  },
+                  child: Text(
+                    'Wrong Email?',
+                    style: GoogleFonts.lora(
+                      fontSize: 14.sp,
+                      color: primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 }

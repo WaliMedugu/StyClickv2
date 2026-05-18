@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/modules/account.dart';
 import 'package:stylclick/modules/catalogue/catalogue.dart';
 import 'package:stylclick/modules/home.dart';
@@ -14,8 +16,8 @@ class Nav extends StatefulWidget {
   _NavState createState() => _NavState();
 }
 
-int _currentIndex = 0;
-List<Widget> _children = [];
+int currentIndex = 0;
+List<Widget> children = [];
 
 final tabs = [const HomePage(), const CataloguePage(), const AccountPage()];
 
@@ -38,137 +40,106 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 48.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              _currentIndex = 0;
-            });
-          },
-          backgroundColor: const Color(0xff7d8083),
-          child: const Icon(
-            Icons.home,
-            color: white,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      backgroundColor: cream,
       body: Stack(
         children: [
-          tabs[_currentIndex],
+          tabs[currentIndex],
           Positioned(
+            bottom: 0,
             left: 0,
             right: 0,
-            bottom: 4,
             child: Container(
-              color: const Color(0xff4f5052),
-              height: 64.h,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 24.0,right: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          setState(() {
-                            _currentIndex = 1;
-                          });
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              catalogue,
-                              height: 24.h,
-                              width: 24.w,
-                              color: _currentIndex == 1
-                                  ? const Color(0xffff7755)
-                                  : const Color(0xffffffff),
-                            ),
-                            4.height,
-                            Center(
-                              child: Text(
-                                'Catalogue',
-                                style: TextStyle(
-                                    color: _currentIndex == 1
-                                        ? const Color(0xffff7755)
-                                        : Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: Text(
-                        'Home',
-                        style: TextStyle(
-                            color: _currentIndex == 0
-                                ? const Color(0xffff7755)
-                                : Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          setState(() {
-                            _currentIndex = 2;
-                          });
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              account,
-                              height: 24.h,
-                              width: 24.w,
-                              color: _currentIndex == 2
-                                  ? const Color(0xffff7755)
-                                  : Colors.white,
-                            ),
-                            4.height,
-                            Center(
-                              child: Text(
-                                'Account',
-                                style: TextStyle(
-                                  color: _currentIndex == 2
-                                      ? const Color(0xffff7755)
-                                      : Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        )),
+              height: 120.h,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    ink.withOpacity(0),
+                    ink.withOpacity(0.05),
+                    ink.withOpacity(0.15),
                   ],
                 ),
               ),
-            )
-                .cornerRadiusWithClipRRect(30)
-                .paddingOnly(left: 17, right: 17, bottom: 8),
-          )
+            ),
+          ),
+          Positioned(
+            left: 20.w,
+            right: 20.w,
+            bottom: 24.h,
+            child: Container(
+              height: 72.h,
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(24.r),
+                border: Border.all(color: sand, width: 1.2),
+                boxShadow: [
+                  BoxShadow(
+                    color: ink.withOpacity(0.08),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(0, Icons.home_rounded, 'Home'),
+                  _buildNavItem(1, Icons.dashboard_rounded, 'Catalogue'),
+                  _buildNavItem(2, Icons.person_rounded, 'Account'),
+                ],
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    bool isActive = currentIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentIndex = index;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: isActive ? primary.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 24.sp,
+              color: isActive ? primary : textLight.withOpacity(0.4),
+            ),
+            if (isActive) ...[
+              8.width,
+              Text(
+                label,
+                style: GoogleFonts.dmMono(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w800,
+                  color: primary,
+                ),
+              ),
+            ]
+          ],
+        ),
       ),
     );
   }
 
   void tabItem(int index) {
     setState(() {
-      _currentIndex = index;
+      currentIndex = index;
     });
   }
 }

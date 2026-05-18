@@ -2,25 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:provider/provider.dart';
 import 'package:stylclick/modules/auth/login.dart';
-import 'package:stylclick/modules/order/order_summary.dart';
-import 'package:stylclick/redirect.dart';
-import 'package:stylclick/shared/app_providers.dart';
+import 'package:stylclick/modules/splash.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
+import 'package:stylclick/shared/widgets/nav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialize();
   runApp(
-    //   MultiProvider(
-    // providers: appProviders,
-    // child:
-
     const MyApp(),
-  // )
-
   );
 }
 
@@ -63,16 +55,10 @@ class _MyAppState extends State<MyApp> {
         navigatorKey: navigatorKey,
         scrollBehavior: SBehavior(),
         title: appName,
-        home: LoginScreen(),
+        home: const SplashScreen(),
         theme: ThemeData(
           fontFamily: 'Cinta',
         ),
-        // home: moveToHome
-        //     ? Redirect()
-        //     : moveToOnboarding
-        //         ? BeepWalkThrough()
-        //         : Login(),
-        // onGenerateRoute: Routes.generateRoute,
       ),
     );
   }

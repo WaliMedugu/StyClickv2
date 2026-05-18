@@ -33,3 +33,13 @@ const categoryColor = Color(0xff006efc);
 const uploadBtnColor = Color(0xffd9d9d9);
 const selectTailorColor = Color(0xffdd6140);
 const menWearColor = Color(0xffffe2db);
+
+// Arguuu inspired editorial colors
+const cream = Color(0xfffaf6f0);
+const warmWhite = Color(0xfffdf9f4);
+const ink = Color(0xff1a110a);
+const sand = Color(0xffe8ddd0);
+const textLight = Color(0xff7a5c4a);
+const rust = Color(0xffa85535);
+const terracotta = Color(0xffc4724a);
+const dark = Color(0xff2a1f17);

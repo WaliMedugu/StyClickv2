@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/strings.dart';
@@ -73,73 +74,66 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label!,
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: labelColor,
-              fontFamily: cinta,
-              fontWeight: fontWeight ?? FontWeight.w500),
-        ),
-        8.height,
+        if (label.validate().isNotEmpty)
+          Text(
+            label!.toUpperCase(),
+            style: GoogleFonts.dmMono(
+              fontSize: 10.sp,
+              color: labelColor ?? textLight,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1.2,
+            ),
+          ),
+        if (label.validate().isNotEmpty) 6.height,
         TextFormField(
           initialValue: initialVlaue,
           onTap: onTap,
-          // cursorColor: AppColors.color18.withOpacity(0.4),
           maxLines: maxLines ?? 1,
           enabled: enabled,
           textInputAction: textInputAction,
           inputFormatters: inputFormmater,
-          style: const TextStyle(
-            // color: AppColors.color5,
+          style: GoogleFonts.lora(
             fontWeight: FontWeight.w500,
-            fontSize: 15,
-            letterSpacing: 0.4,
+            fontSize: 15.sp,
+            color: ink,
           ),
-          // readOnly: readOnly!,
           autovalidateMode: autovalidateMode,
           decoration: InputDecoration(
             counterText: '',
             contentPadding: EdgeInsets.symmetric(
-              vertical: 15.h,
-              horizontal: 15.w,
+              vertical: 16.h,
+              horizontal: 16.w,
             ),
             hintText: hintText,
-            hintStyle: TextStyle(
-              fontFamily: cinta,
-              color: hintTextColor,
-              fontWeight: FontWeight.w500,
+            hintStyle: GoogleFonts.lora(
+              color: hintTextColor ?? textLight.withOpacity(0.5),
+              fontWeight: FontWeight.w400,
               fontSize: 14.sp,
             ),
-
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
             filled: true,
-            fillColor: filledColor ?? textfieldFilledColor,
+            fillColor: filledColor ?? white,
             border: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: borderColor ?? textfieldFilledColor),
-              borderRadius: borderRadius ?? BorderRadius.circular(5.r),
+              borderSide: BorderSide(color: borderColor ?? sand),
+              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: focusedBorderColor ?? textfieldFilledColor),
-              borderRadius: borderRadius ?? BorderRadius.circular(5.r),
+              borderSide: BorderSide(color: focusedBorderColor ?? primary, width: 1.5),
+              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
             ),
-            // errorBorder: OutlineInputBorder(
-            //   borderSide:
-            //       const BorderSide(color: AppColors.color6, width: 0.5),
-            //   borderRadius: BorderRadius.circular(4.h),
-            // ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: enabledBorderColor ?? textfieldFilledColor,
+                color: enabledBorderColor ?? sand,
               ),
-              borderRadius: borderRadius ?? BorderRadius.circular(5.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.redAccent, width: 1),
+              borderRadius: borderRadius ?? BorderRadius.circular(12.r),
             ),
           ),
           obscureText: obscureText,
-          // obscuringCharacter: '*',
           controller: controller,
           textAlign: textAlign ?? TextAlign.start,
           keyboardType: textInputType,

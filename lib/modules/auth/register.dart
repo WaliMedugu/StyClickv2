@@ -1,12 +1,14 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/modules/auth/login.dart';
 import 'package:stylclick/modules/auth/verify_user.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
+import 'package:stylclick/shared/widgets/nav.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 
@@ -18,515 +20,352 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  int _currentStep = 0;
-  final List<String> titles = ['bye', 'hello', 'hi'];
+  final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController referralController = TextEditingController();
+
+  bool obscurePassword = true;
+  bool obscureConfirmPassword = true;
   String? selectedState;
-  List<String> states = ['State 1', 'State 2', 'State 3'];
-  int _curStep = 1;
-  String countryCode = "";
+  List<String> states = ['Lagos', 'Abuja', 'Oyo', 'Kano', 'Rivers'];
+  String countryCode = "+234";
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    referralController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
-      resizeToAvoidBottomInset: false,
+      backgroundColor: cream,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Form(
+            key: _registerFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              16.height,
+              32.height,
               Center(
-                child: Image.asset(
-                  loginLogo,
-                  height: 57.h,
-                  width: 184.42.w,
-                ),
-              ),
-              16.height,
-              Center(
-                child: Text('Registration',
-                    style: TextStyle(
-                        fontFamily: cinta,
-                        fontSize: 35.sp,
-                        color: black,
-                        fontWeight: FontWeight.bold)),
-              ),
-              // SizedBox(
-              //   height: 300,
-              //   child: Stepper(
-              //     type: StepperType.horizontal,
-              //     physics: ScrollPhysics(),
-              //     currentStep: _currentStep,
-              //     onStepTapped: (step) => tapped(step),
-              //     onStepContinue: continued,
-              //     onStepCancel: cancel,
-              //     steps: <Step>[
-              //       Step(
-              //         title: new Text('Ab'),
-              //         content: Column(
-              //           children: <Widget>[
-              //             TextFormField(
-              //               decoration:
-              //                   InputDecoration(labelText: 'Email Address'),
-              //             ),
-              //             TextFormField(
-              //               decoration: InputDecoration(labelText: 'Password'),
-              //             ),
-              //           ],
-              //         ),
-              //         isActive: _currentStep >= 0,
-              //         state: _currentStep >= 0
-              //             ? StepState.complete
-              //             : StepState.disabled,
-              //       ),
-              //       Step(
-              //         title: new Text('cd'),
-              //         content: Column(
-              //           children: <Widget>[
-              //             TextFormField(
-              //               decoration:
-              //                   InputDecoration(labelText: 'Home Address'),
-              //             ),
-              //             TextFormField(
-              //               decoration: InputDecoration(labelText: 'Postcode'),
-              //             ),
-              //           ],
-              //         ),
-              //         isActive: _currentStep >= 0,
-              //         state: _currentStep >= 1
-              //             ? StepState.complete
-              //             : StepState.disabled,
-              //       ),
-              //       Step(
-              //         title: new Text('ef'),
-              //         content: Column(
-              //           children: <Widget>[
-              //             TextFormField(
-              //               decoration:
-              //                   InputDecoration(labelText: 'Mobile Number'),
-              //             ),
-              //           ],
-              //         ),
-              //         isActive: _currentStep >= 0,
-              //         state: _currentStep >= 2
-              //             ? StepState.complete
-              //             : StepState.disabled,
-              //       ),
-              //       Step(
-              //         title: new Text('gh'),
-              //         content: Column(
-              //           children: <Widget>[
-              //             TextFormField(
-              //               decoration:
-              //                   InputDecoration(labelText: 'Mobile Number'),
-              //             ),
-              //           ],
-              //         ),
-              //         isActive: _currentStep >= 0,
-              //         state: _currentStep >= 3
-              //             ? StepState.complete
-              //             : StepState.disabled,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // ),
-              // StepProgressView(
-              //     width: MediaQuery.of(context).size.width,
-              //     curStep: _curStep,
-              //     color: Color(0xff50AC02),
-              //     titles: titles),
-              16.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: CustomTextField(
-                  label: 'Full name',
-                  labelColor: black,
-                  hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                  hintText: 'Enter full name',
-                ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: CustomTextField(
-                  label: 'Email',
-                  labelColor: black,
-                  hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                  hintText: 'Enter email',
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 22.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r),
-                            color: textfieldFilledColor,
-                          ),
-                          child: CountryCodePicker(
-                            // backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
-                            onInit: (_countryCode) {
-                              countryCode = _countryCode.toString();
-                            },
-                            flagWidth: logicalWidth() / 18,
-                            initialSelection: 'NG',
-                            favorite: const ['+234', 'NG'],
-                            onChanged: (_countryCode) {
-                              countryCode = _countryCode.toString();
-                              log("New Country selected: " +
-                                  countryCode.toString());
-                            },
-                            // optional. Shows only country name and flag
-                            showCountryOnly: false,
-                            // optional. Shows only country name and flag when popup is closed.
-                            showOnlyCountryWhenClosed: false,
-                            // optional. aligns the flag and the Text left
-                            alignLeft: false,
-                          ),
-                        ),
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ink.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
-                    8.width,
-                    Flexible(
-                      flex: 2,
-                      child: CustomTextField(
-                        label: '',
-                        labelColor: black,
-                        hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                        hintText: 'Mobile number',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'State',
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                color: black,
-                                fontFamily: cinta,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          8.height,
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xffdedede),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: selectedState,
-                                  items: states.map((state) {
-                                    return DropdownMenuItem<String>(
-                                      value: state,
-                                      child: Text(state),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedState = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    8.width,
-                    Flexible(
-                      flex: 2,
-                      child: CustomTextField(
-                        label: 'Address',
-                        labelColor: black,
-                        hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                        hintText: 'Enter address',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: CustomTextField(
-                  label: 'Password',
-                  labelColor: black,
-                  hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                  hintText: 'Enter password',
-                  suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.visibility_off,
-                          color: Color.fromRGBO(0, 0, 0, 1))),
-                ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: CustomTextField(
-                  label: 'Confirm password',
-                  labelColor: black,
-                  hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                  hintText: 'Enter password',
-                  suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.visibility_off,
-                          color: Color.fromRGBO(0, 0, 0, 1))),
-                ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: CustomTextField(
-                  label: 'Referral Code',
-                  labelColor: black,
-                  hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                  hintText: 'Enter Referral Code',
-                ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Text('If someone referred you enter their code here',
-                    style: TextStyle(
-                        fontFamily: cinta,
-                        fontSize: 14.sp,
-                        fontStyle: FontStyle.italic,
-                        color: const Color.fromRGBO(0, 0, 0, 0.5),
-                        fontWeight: FontWeight.w300)),
-              ),
-              16.height,
-              InkWell(
-                onTap: () {
-                  VerifyUser().launch(context);
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Container(
-                    height: 48.h,
-                    decoration: BoxDecoration(
-                        // color: white,
-                        borderRadius: BorderRadius.circular(9),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [primary, primaryGradient],
-                        )),
-                    child: Center(
-                        child: Text('Sign up',
-                            style: TextStyle(
-                                fontFamily: cinta,
-                                fontSize: 16.sp,
-                                color: white,
-                                fontWeight: FontWeight.bold))),
+                    ],
+                  ),
+                  child: Image.asset(
+                    loginLogo,
+                    height: 60.h,
+                    width: 60.h,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-              16.height,
-              InkWell(
-                onTap: () {
-                  const LoginScreen().launch(context);
-                },
-                child: Center(
-                  child: Text('Already have an account ? Sign In',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: signupTextColor,
-                          fontWeight: FontWeight.w500)),
+              24.height,
+              Text(
+                'Registration',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 32.sp,
+                  color: ink,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
-              16.height
+              8.height,
+              Text(
+                'Join the StyClick community today',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lora(
+                  fontSize: 14.sp,
+                  color: textLight,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              32.height,
+              CustomTextField(
+                controller: nameController,
+                label: 'Full name',
+                hintText: 'Enter your full name',
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Full name is required';
+                  return null;
+                },
+              ),
+              20.height,
+              CustomTextField(
+                controller: emailController,
+                label: 'Email',
+                hintText: 'Enter your email address',
+                textInputType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Email is required';
+                  if (!isValidEmail(value.validate())) return 'Enter a valid email';
+                  return null;
+                },
+              ),
+              20.height,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'PHONE NUMBER',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 10.sp,
+                      color: textLight,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  6.height,
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          color: white,
+                          border: Border.all(color: sand),
+                        ),
+                        child: CountryCodePicker(
+                          onInit: (_countryCode) {
+                            countryCode = _countryCode.toString();
+                          },
+                          initialSelection: 'NG',
+                          favorite: const ['+234', 'NG'],
+                          onChanged: (_countryCode) {
+                            countryCode = _countryCode.toString();
+                          },
+                          showCountryOnly: false,
+                          showOnlyCountryWhenClosed: false,
+                          alignLeft: false,
+                          textStyle: GoogleFonts.lora(color: ink, fontSize: 14.sp),
+                          dialogBackgroundColor: cream,
+                          searchStyle: GoogleFonts.lora(color: ink),
+                          dialogTextStyle: GoogleFonts.lora(color: ink),
+                          barrierColor: ink.withOpacity(0.5),
+                        ),
+                      ),
+                      12.width,
+                      Expanded(
+                        child: CustomTextField(
+                          controller: phoneController,
+                          label: '',
+                          hintText: 'Mobile number',
+                          textInputType: TextInputType.phone,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) return 'Required';
+                            if (value.length < 10 || value.length > 11) return '10-11 digits';
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              20.height,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'STATE',
+                          style: GoogleFonts.dmMono(
+                            fontSize: 10.sp,
+                            color: textLight,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        6.height,
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: sand),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: selectedState,
+                              dropdownColor: cream,
+                              icon: Icon(Icons.keyboard_arrow_down_rounded, color: textLight, size: 20.sp),
+                              hint: Text('Select State', style: GoogleFonts.lora(color: textLight.withOpacity(0.5), fontSize: 14.sp)),
+                              items: states.map((state) {
+                                return DropdownMenuItem<String>(
+                                  value: state,
+                                  child: Text(state, style: GoogleFonts.lora(color: ink, fontSize: 14.sp)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedState = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  16.width,
+                  Expanded(
+                    child: CustomTextField(
+                      controller: addressController,
+                      label: 'Address',
+                      hintText: 'Enter address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Required';
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              20.height,
+              CustomTextField(
+                controller: passwordController,
+                label: 'Password',
+                hintText: 'Create a password',
+                obscureText: obscurePassword,
+                suffixIcon: IconButton(
+                  onPressed: () => setState(() => obscurePassword = !obscurePassword),
+                  icon: Icon(
+                    obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    color: textLight,
+                    size: 20.sp,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Password is required';
+                  if (value.length < 6) return 'At least 6 characters';
+                  return null;
+                },
+              ),
+              20.height,
+              CustomTextField(
+                controller: confirmPasswordController,
+                label: 'Confirm password',
+                hintText: 'Repeat your password',
+                obscureText: obscureConfirmPassword,
+                suffixIcon: IconButton(
+                  onPressed: () => setState(() => obscureConfirmPassword = !obscureConfirmPassword),
+                  icon: Icon(
+                    obscureConfirmPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    color: textLight,
+                    size: 20.sp,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Please confirm password';
+                  if (value != passwordController.text) return 'Passwords do not match';
+                  return null;
+                },
+              ),
+              20.height,
+              CustomTextField(
+                controller: referralController,
+                label: 'Referral Code (Optional)',
+                hintText: 'Enter Referral Code',
+              ),
+              32.height,
+              ElevatedButton(
+                onPressed: () {
+                    setValue('home', true);
+                    const Nav().launch(context, isNewTask: true);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  elevation: 0,
+                ).copyWith(
+                  backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [primary, primaryGradient],
+                    ),
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Container(
+                    height: 56.h,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'CREATE ACCOUNT',
+                      style: GoogleFonts.dmMono(
+                        fontSize: 14.sp,
+                        color: white,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              24.height,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already have an account? ',
+                    style: GoogleFonts.lora(
+                      fontSize: 14.sp,
+                      color: textLight,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      const LoginScreen().launch(context);
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Text(
+                      'Sign In',
+                      style: GoogleFonts.lora(
+                        fontSize: 14.sp,
+                        color: primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              32.height,
             ],
           ),
         ),
       ),
+    ),
     );
-  }
-
-  tapped(int step) {
-    setState(() => _currentStep = step);
-  }
-
-  continued() {
-    _currentStep < 3 ? setState(() => _currentStep += 1) : null;
-  }
-
-  cancel() {
-    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
-  }
-}
-
-class CircularStepper extends StatefulWidget {
-  final int currentStep;
-  final List<Step> steps;
-
-  const CircularStepper({
-    required this.currentStep,
-    required this.steps,
-  });
-
-  @override
-  _CircularStepperState createState() => _CircularStepperState();
-}
-
-class _CircularStepperState extends State<CircularStepper> {
-  @override
-  Widget build(BuildContext context) {
-    return Stepper(
-      currentStep: widget.currentStep,
-      steps: widget.steps,
-      // controlsBuilder: (BuildContext context,
-      //     {VoidCallback? onStepContinue, VoidCallback? onStepCancel}) {
-      //   return const SizedBox.shrink();
-      // },
-      physics: const NeverScrollableScrollPhysics(),
-      type: StepperType.horizontal,
-    );
-  }
-}
-
-class StepItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-
-  const StepItem({
-    required this.icon,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(
-            icon,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 12),
-        ),
-      ],
-    );
-  }
-}
-
-class StepProgressView extends StatelessWidget {
-  final double _width;
-
-  final List<String> _titles;
-  final int _curStep;
-  final Color _activeColor;
-  final Color _inactiveColor = black;
-  final double lineWidth = 3.0;
-
-  StepProgressView(
-      {Key? key,
-      required int curStep,
-      List<String>? titles,
-      required double width,
-      required Color color})
-      : _titles = titles ?? [],
-        _curStep = curStep,
-        _width = width,
-        _activeColor = color,
-        assert(width > 0),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: this._width,
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: _iconViews(),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: _titleViews(),
-            ),
-          ],
-        ));
-  }
-
-  List<Widget> _iconViews() {
-    var list = <Widget>[];
-    _titles.asMap().forEach((i, icon) {
-      var circleColor =
-          (i == 0 || _curStep > i + 1) ? _activeColor : _inactiveColor;
-      var lineColor = _curStep > i + 1 ? _activeColor : _inactiveColor;
-      var iconColor =
-          (i == 0 || _curStep > i + 1) ? _activeColor : _inactiveColor;
-
-      list.add(
-        Container(
-          width: 20.0,
-          height: 20.0,
-          padding: const EdgeInsets.all(0),
-          decoration: new BoxDecoration(
-            /* color: circleColor,*/
-            borderRadius: new BorderRadius.all(new Radius.circular(22.0)),
-            border: new Border.all(
-              color: circleColor,
-              width: 2.0,
-            ),
-          ),
-          child: Icon(
-            Icons.circle,
-            color: iconColor,
-            size: 12.0,
-          ),
-        ),
-      );
-
-      //line between icons
-      if (i != _titles.length - 1) {
-        list.add(Expanded(
-            child: Container(
-          height: lineWidth,
-          color: lineColor,
-        )));
-      }
-    });
-
-    return list;
-  }
-
-  List<Widget> _titleViews() {
-    var list = <Widget>[];
-    _titles.asMap().forEach((i, text) {
-      list.add(Text(text, style: const TextStyle(color: black)));
-    });
-    return list;
   }
 }

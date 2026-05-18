@@ -1,13 +1,12 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
-import 'package:stylclick/shared/constants/strings.dart';
-import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class BecomeVendor extends StatefulWidget {
   const BecomeVendor({Key? key}) : super(key: key);
@@ -17,466 +16,282 @@ class BecomeVendor extends StatefulWidget {
 }
 
 class _BecomeVendorState extends State<BecomeVendor> {
-  int currentStep = 0;
-  TextEditingController textField1Controller = TextEditingController();
-  TextEditingController textField2Controller = TextEditingController();
-  TextEditingController textField3Controller = TextEditingController();
-  List<String> selectedChips = [];
+  int _currentStep = 0;
+  
+  // Controllers
+  final TextEditingController _shopName = TextEditingController();
+  final TextEditingController _address = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _experience = TextEditingController();
 
-  // THE FOLLOWING TWO VARIABLES ARE REQUIRED TO CONTROL THE STEPPER.
-  int activeStep = 3; // Initial step set to 5.
-
-  int upperBound = 4; // upperBound MUST BE total number of icons minus 1.
-
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEA4262),
-      Color(0xFFDD6140),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
-  @override
-  void dispose() {
-    textField1Controller.dispose();
-    textField2Controller.dispose();
-    textField3Controller.dispose();
-    super.dispose();
-  }
+  List<String> _specializations = [];
+  final List<String> _options = ['Traditional', 'Corporate', 'Casual', 'Bridal', 'Asoebi', 'Streetwear'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffefefef),
+      backgroundColor: cream,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 17.0.w,
-                ),
-                child: Row(
+        child: Column(
+          children: [
+            20.height,
+            // Header
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => pop(context),
+                    child: Icon(FeatherIcons.arrowLeft, color: ink, size: 24.sp),
+                  ),
+                  20.width,
+                  Text(
+                    'Designer Registration',
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 22.sp,
+                      color: primary,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -1.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            32.height,
+            // Progress Indicator
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Row(
+                children: [0, 1, 2].map((i) {
+                  bool isActive = _currentStep >= i;
+                  return Expanded(
+                    child: Container(
+                      height: 4.h,
+                      margin: EdgeInsets.only(right: i == 2 ? 0 : 8.w),
+                      decoration: BoxDecoration(
+                        color: isActive ? primary : sand,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            24.height,
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        backIcon,
-                        color: Colors.black,
-                        width: 24.w,
-                      ),
-                    ),
-                    8.width,
-                    Text(
-                      'Become a vendor',
-                      style: TextStyle(
-                        color: black,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
+                    if (_currentStep == 0) _buildBusinessInfo(),
+                    if (_currentStep == 1) _buildSpecialization(),
+                    if (_currentStep == 2) _buildVerification(),
+                    60.height,
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 17.0.w, top: 16.h, bottom: 16.h),
-                child: Text(
-                  'Register your fashion shop on Styclick',
-                  style: TextStyle(
-                    color: black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              ImageStepper(
-                enableNextPreviousButtons: false,
-                activeStepColor: Color(0xFFEA4262),
-                activeStepBorderColor: Color(0xFFEA4262),
-                lineColor: activeStep == true ? Color(0xFFEA4262) : Colors.grey,
-
-                images: [
-                  AssetImage(profileIcon),
-                  AssetImage(profileIcon),
-                  AssetImage(profileIcon)
-                ], // activeStep property set to activeStep variable defined above.
-                activeStep: activeStep,
-                // This ensures step-tapping updates the activeStep.
-                onStepReached: (index) {
-                  setState(() {
-                    activeStep = index;
-                  });
-                },
-              ),
-              header(),
-            ],
-          ),
+            ),
+            // Navigation Buttons
+            _buildNavButtons(),
+          ],
         ),
       ),
     );
   }
 
-  /// Returns the header wrapping the header text.
-  Widget header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _buildBusinessInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test2',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test3',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
+        _buildSectionHeader('BUSINESS DETAILS', 'Tell us about your brand.'),
+        24.height,
+        _buildTextField('Brand/Shop Name', _shopName, FeatherIcons.briefcase),
+        16.height,
+        _buildTextField('Business Email', _email, FeatherIcons.mail, type: TextInputType.emailAddress),
+        16.height,
+        _buildTextField('Phone Number', _phone, FeatherIcons.phone, type: TextInputType.phone),
+        16.height,
+        _buildTextField('Physical Address', _address, FeatherIcons.mapPin),
       ],
     );
   }
 
-  Widget form1() {
+  Widget _buildSpecialization() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Shop Name',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your shop name',
-          ),
+        _buildSectionHeader('SPECIALIZATION', 'What styles do you master?'),
+        24.height,
+        Wrap(
+          spacing: 12.w,
+          runSpacing: 12.h,
+          children: _options.map((opt) {
+            bool isSelected = _specializations.contains(opt);
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  if (isSelected) _specializations.remove(opt);
+                  else _specializations.add(opt);
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: isSelected ? primary : white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: isSelected ? primary : sand),
+                ),
+                child: Text(
+                  opt,
+                  style: GoogleFonts.lora(
+                    fontSize: 14.sp,
+                    color: isSelected ? white : ink,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Address',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your shop address',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Business email',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your business email',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Phone number',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your phone number',
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Proceed',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
-            ),
-          ),
-        ),
+        32.height,
+        _buildTextField('Years of Experience', _experience, FeatherIcons.clock, type: TextInputType.number),
       ],
     );
   }
 
-  Widget form2() {
+  Widget _buildVerification() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Specialized in',
-            style: TextStyle(
-                fontFamily: cinta,
-                fontSize: 14.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.w500)),
-        8.height,
-        Container(
-          height: 42.h,
-          decoration: BoxDecoration(
-              color: categoryColor,
-              borderRadius: BorderRadius.circular(18.r),
-              border: Border.all(width: 1.5.w, color: categoryColor)),
-          child: Center(
-              child: Text('Men wear',
-                  style: TextStyle(
-                      fontFamily: cinta,
-                      fontSize: 12.sp,
-                      color: categoryColor,
-                      fontWeight: FontWeight.w500))),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Proceed',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
-            ),
-          ),
-        ),
-        Center(
-          child: Text('Previous',
-              style: TextStyle(
-                  fontFamily: cinta,
-                  fontSize: 14.sp,
-                  color: black,
-                  fontWeight: FontWeight.bold)),
-        )
-      ],
-    );
-  }
-
-  Widget form3() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Upload Certificate',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        DottedBorder(
-          borderType: BorderType.RRect,
-          radius: Radius.circular(12),
-          padding: EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(color: uploadBtnColor),
-              height: 178.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(uploadIcon),
-                  4.width,
-                  Text(
-                    'Upload image',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: uploadTextColor,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        Text(
-          'Upload Banner Image',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        DottedBorder(
-          borderType: BorderType.RRect,
-          radius: Radius.circular(12),
-          padding: EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(color: uploadBtnColor),
-              height: 56.h,
-              child: Row(
-                children: [
-                  24.width,
-                  Image.asset(uploadIcon),
-                  4.width,
-                  Text(
-                    'Upload banner image',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: uploadTextColor,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        Text(
-          'Upload Logo Image',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        DottedBorder(
-          borderType: BorderType.RRect,
-          radius: Radius.circular(12),
-          padding: EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(color: uploadBtnColor),
-              height: 56.h,
-              child: Row(
-                children: [
-                  24.width,
-                  Image.asset(uploadIcon),
-                  4.width,
-                  Text(
-                    'Upload logo image',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: uploadTextColor,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+        _buildSectionHeader('VERIFICATION', 'Upload proof of your craft.'),
+        24.height,
+        _buildUploadField('Business Registration (CAC)', 'PDF or Image'),
+        16.height,
+        _buildUploadField('Portfolio/Recent Work', 'Min. 3 high-quality images'),
+        32.height,
         Row(
           children: [
-            Checkbox(value: null, onChanged: (value) {}),
-            Text(
-              'I agree to the ',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Color.fromRGBO(41, 40, 40, 0.8),
-                  fontFamily: cinta,
-                  fontWeight: FontWeight.w500),
+            Icon(FeatherIcons.info, color: primary, size: 16.sp),
+            8.width,
+            Expanded(
+              child: Text(
+                'Approval typically takes 24-48 hours after manual review.',
+                style: GoogleFonts.lora(fontSize: 12.sp, color: textLight),
+              ),
             ),
-            Text('Terms and Conditions ',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: categoryColor,
-                    fontFamily: cinta,
-                    fontWeight: FontWeight.w500)),
-            Text(
-              'and ',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Color.fromRGBO(41, 40, 40, 0.8),
-                  fontFamily: cinta,
-                  fontWeight: FontWeight.w500),
-            ),
-            Text(
-              'Privacy\nPolicy',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  color: categoryColor,
-                  fontFamily: cinta,
-                  fontWeight: FontWeight.w500),
-            )
           ],
         ),
-        InkWell(
-          onTap: () {
-            SuccessPage(
-              medium: 'Via email',
-              message:
-                  'Your application has been successfully\nsubmitted, check out your Approval',
-            ).launch(context);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Save',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title, String sub) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.dmMono(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+        ),
+        8.height,
+        Text(
+          sub,
+          style: GoogleFonts.lora(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField(String hint, TextEditingController controller, IconData icon, {TextInputType type = TextInputType.text}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r), border: Border.all(color: sand)),
+      child: Row(
+        children: [
+          Icon(icon, color: sand, size: 18.sp),
+          16.width,
+          Expanded(
+            child: TextField(
+              controller: controller,
+              keyboardType: type,
+              style: GoogleFonts.lora(fontSize: 15.sp, color: ink),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: GoogleFonts.lora(color: sand),
+                border: InputBorder.none,
+              ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUploadField(String label, String sub) {
+    return DottedBorder(
+      color: sand,
+      strokeWidth: 1,
+      dashPattern: const [8, 4],
+      borderType: BorderType.RRect,
+      radius: Radius.circular(16.r),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
+        child: Column(
+          children: [
+            Icon(FeatherIcons.uploadCloud, color: primary, size: 32.sp),
+            12.height,
+            Text(label, style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+            4.height,
+            Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+          ],
         ),
-        InkWell(
-          onTap: () {},
-          child: Center(
-            child: Text('Previous',
-                style: TextStyle(
-                    fontFamily: cinta,
-                    fontSize: 14.sp,
-                    color: black,
-                    fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+
+  Widget _buildNavButtons() {
+    return Padding(
+      padding: EdgeInsets.all(17.w),
+      child: Row(
+        children: [
+          if (_currentStep > 0)
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: AppButton(
+                  text: 'Back',
+                  textStyle: GoogleFonts.dmMono(color: ink, fontWeight: FontWeight.w700),
+                  color: white,
+                  onTap: () => setState(() => _currentStep--),
+                  shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r), side: BorderSide(color: sand)),
+                ),
+              ),
+            ),
+          Expanded(
+            flex: 2,
+            child: AppButton(
+              text: _currentStep == 2 ? 'Submit Application' : 'Next Step',
+              textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+              color: primary,
+              onTap: () {
+                if (_currentStep < 2) {
+                  setState(() => _currentStep++);
+                } else {
+                  const SuccessPage(
+                    medium: 'Application Sent',
+                    message: 'Your designer profile is being reviewed. We will contact you shortly.',
+                  ).launch(context);
+                }
+              },
+              shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }

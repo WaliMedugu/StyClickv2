@@ -1,14 +1,12 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
-import 'package:stylclick/shared/constants/strings.dart';
-
-import '../../shared/widgets/custom_textfield.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class BecomeRider extends StatefulWidget {
   const BecomeRider({Key? key}) : super(key: key);
@@ -18,490 +16,288 @@ class BecomeRider extends StatefulWidget {
 }
 
 class _BecomeRiderState extends State<BecomeRider> {
-  int currentStep = 0;
-  TextEditingController textField1Controller = TextEditingController();
-  TextEditingController textField2Controller = TextEditingController();
-  TextEditingController textField3Controller = TextEditingController();
-  List<String> selectedChips = [];
+  int _currentStep = 0;
+  
+  // Controllers
+  final TextEditingController _fullName = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _address = TextEditingController();
+  final TextEditingController _vehicleMake = TextEditingController();
+  final TextEditingController _plateNumber = TextEditingController();
 
-  // THE FOLLOWING TWO VARIABLES ARE REQUIRED TO CONTROL THE STEPPER.
-  int activeStep = 3; // Initial step set to 5.
-
-  int upperBound = 4; // upperBound MUST BE total number of icons minus 1.
-
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEA4262),
-      Color(0xFFDD6140),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
-  @override
-  void dispose() {
-    textField1Controller.dispose();
-    textField2Controller.dispose();
-    textField3Controller.dispose();
-    super.dispose();
-  }
+  String _vehicleType = 'Motorcycle';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: homeBgColor,
+      backgroundColor: cream,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 17.0.w,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          children: [
+            20.height,
+            // Header
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => pop(context),
+                    child: Icon(FeatherIcons.arrowLeft, color: ink, size: 24.sp),
+                  ),
+                  20.width,
+                  Text(
+                    'Rider Registration',
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 22.sp,
+                      color: primary,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -1.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            32.height,
+            // Progress Indicator
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Row(
+                children: [0, 1, 2].map((i) {
+                  bool isActive = _currentStep >= i;
+                  return Expanded(
+                    child: Container(
+                      height: 4.h,
+                      margin: EdgeInsets.only(right: i == 2 ? 0 : 8.w),
+                      decoration: BoxDecoration(
+                        color: isActive ? primary : sand,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            24.height,
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          backIcon,
-                          color: Colors.black,
-                          width: 24.w,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Become a Dispatch rider',
-                      style: TextStyle(
-                        color: black,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
+                    if (_currentStep == 0) _buildPersonalInfo(),
+                    if (_currentStep == 1) _buildVehicleInfo(),
+                    if (_currentStep == 2) _buildVerification(),
+                    60.height,
                   ],
                 ),
               ),
-              Text(
-                'Register as a dispatch rider on Styclick',
-                style: TextStyle(
-                  color: black,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              ImageStepper(
-                enableNextPreviousButtons: false,
-                activeStepColor: Color(0xFFEA4262),
-                activeStepBorderColor: Color(0xFFEA4262),
-                lineColor: activeStep == true ? Color(0xFFEA4262) : Colors.grey,
-
-                images: [
-                  AssetImage(profileIcon),
-                  AssetImage(profileIcon),
-                  AssetImage(profileIcon),
-                  AssetImage(profileIcon)
-                ], // activeStep property set to activeStep variable defined above.
-                activeStep: activeStep,
-                // This ensures step-tapping updates the activeStep.
-                onStepReached: (index) {
-                  setState(() {
-                    activeStep = index;
-                  });
-                },
-              ),
-              header(),
-            ],
-          ),
+            ),
+            // Navigation Buttons
+            _buildNavButtons(),
+          ],
         ),
       ),
     );
   }
 
-  /// Returns the header wrapping the header text.
-  Widget header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _buildPersonalInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test2',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'test3',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
+        _buildSectionHeader('PERSONAL DETAILS', 'Who is on the road?'),
+        24.height,
+        _buildTextField('Full Name', _fullName, FeatherIcons.user),
+        16.height,
+        _buildTextField('Email Address', _email, FeatherIcons.mail, type: TextInputType.emailAddress),
+        16.height,
+        _buildTextField('Phone Number', _phone, FeatherIcons.phone, type: TextInputType.phone),
+        16.height,
+        _buildTextField('Residential Address', _address, FeatherIcons.mapPin),
       ],
     );
   }
 
-  Widget form1() {
+  Widget _buildVehicleInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Fullname',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your shop name',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Email',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your business email',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Phone number',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your phone number',
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Proceed',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget form2() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
+        _buildSectionHeader('VEHICLE DETAILS', 'What are you driving?'),
+        24.height,
         Row(
-          children: [
-            Checkbox(value: null, onChanged: (value) {}),
-            Text(
-              'I have a motorcycle that i will drive',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Color.fromRGBO(41, 40, 40, 0.8),
-                  fontFamily: cinta,
-                  fontWeight: FontWeight.w500),
-            ),
-          ],
+          children: ['Motorcycle', 'Van', 'Car'].map((type) {
+            bool isSelected = _vehicleType == type;
+            return Expanded(
+              child: InkWell(
+                onTap: () => setState(() => _vehicleType = type),
+                child: Container(
+                  margin: EdgeInsets.only(right: type == 'Car' ? 0 : 8.w),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  decoration: BoxDecoration(
+                    color: isSelected ? primary : white,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: isSelected ? primary : sand),
+                  ),
+                  child: Center(
+                    child: Text(
+                      type,
+                      style: GoogleFonts.dmMono(
+                        fontSize: 12.sp,
+                        color: isSelected ? white : ink,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        24.height,
+        _buildTextField('Vehicle Manufacturer (e.g. Honda)', _vehicleMake, FeatherIcons.truck),
+        16.height,
+        _buildTextField('License Plate Number', _plateNumber, FeatherIcons.hash),
+      ],
+    );
+  }
+
+  Widget _buildVerification() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader('DOCUMENTATION', 'Verify your credentials.'),
+        24.height,
+        _buildUploadField('Driver\'s License', 'Front & Back View'),
+        16.height,
+        _buildUploadField('Vehicle Insurance/Reg', 'Valid Documents'),
+        16.height,
+        _buildUploadField('NIN/ID Card', 'National Identification'),
+        32.height,
+        Container(
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(color: primary.withOpacity(0.05), borderRadius: BorderRadius.circular(16.r)),
+          child: Row(
+            children: [
+              Icon(FeatherIcons.shield, color: primary, size: 20.sp),
+              16.width,
+              Expanded(
+                child: Text(
+                  'Your data is encrypted and only used for verification purposes.',
+                  style: GoogleFonts.lora(fontSize: 12.sp, color: ink.withOpacity(0.7)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title, String sub) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.dmMono(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
         ),
         8.height,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Motorcycle Manufacturer',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter motorcycle manufacturer',
-          ),
+        Text(
+          sub,
+          style: GoogleFonts.lora(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'Motorcycle Model',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your motorcycle model',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'License plate',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your license plate number',
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Proceed',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
-            ),
-          ),
-        ),
-        Center(
-          child: Text('Previous',
-              style: TextStyle(
-                  fontFamily: cinta,
-                  fontSize: 14.sp,
-                  color: black,
-                  fontWeight: FontWeight.bold)),
-        )
       ],
     );
   }
 
-  Widget form3() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Your driver licensing details will be kept private',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            label: 'License plate',
-            labelColor: black,
-            hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-            hintText: 'Enter your license plate number',
-          ),
-        ),
-        Text(
-          "License number on your driver's documents",
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        32.height,
-        InkWell(
-          onTap: () {
-            SuccessPage(
-              medium: 'Via email',
-              message:
-                  'Your application has been successfully\nsubmitted, check out your Approval',
-            ).launch(context);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Proceed',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
+  Widget _buildTextField(String hint, TextEditingController controller, IconData icon, {TextInputType type = TextInputType.text}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r), border: Border.all(color: sand)),
+      child: Row(
+        children: [
+          Icon(icon, color: sand, size: 18.sp),
+          16.width,
+          Expanded(
+            child: TextField(
+              controller: controller,
+              keyboardType: type,
+              style: GoogleFonts.lora(fontSize: 15.sp, color: ink),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: GoogleFonts.lora(color: sand),
+                border: InputBorder.none,
+              ),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Center(
-            child: Text('Previous',
-                style: TextStyle(
-                    fontFamily: cinta,
-                    fontSize: 14.sp,
-                    color: black,
-                    fontWeight: FontWeight.bold)),
-          ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
-  Widget form4() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Rider License',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
+  Widget _buildUploadField(String label, String sub) {
+    return DottedBorder(
+      color: sand,
+      strokeWidth: 1,
+      dashPattern: const [8, 4],
+      borderType: BorderType.RRect,
+      radius: Radius.circular(16.r),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r)),
+        child: Column(
+          children: [
+            Icon(FeatherIcons.camera, color: primary, size: 28.sp),
+            12.height,
+            Text(label, style: GoogleFonts.lora(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+            4.height,
+            Text(sub, style: GoogleFonts.lora(fontSize: 12.sp, color: textLight)),
+          ],
         ),
-        Text(
-          'Please provide a clear license showing the license\nnumber, your name and date of birth',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w500),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              color: uploadBtnColor, borderRadius: BorderRadius.circular(32.r)),
-          height: 48.h,
-          width: 172.w,
-          child: Row(
-            children: [
-              8.width,
-              Image.asset(uploadIcon),
-              4.width,
-              Text(
-                'Upload files',
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: uploadTextColor,
-                    fontFamily: cinta,
-                    fontWeight: FontWeight.w600),
-              )
-            ],
-          ),
-        ),
-        Text(
-          'Motorcycle License',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontWeight: FontWeight.w500),
-        ),
-        Text(
-          'Please provide the license document of your\nmotorcycle',
-          style: TextStyle(
-              fontSize: 14.sp,
-              color: black,
-              fontFamily: cinta,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w500),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              color: uploadBtnColor, borderRadius: BorderRadius.circular(32.r)),
-          height: 48.h,
-          width: 172.w,
-          child: Row(
-            children: [
-              8.width,
-              Image.asset(uploadIcon),
-              4.width,
-              Text(
-                'Upload files',
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: uploadTextColor,
-                    fontFamily: cinta,
-                    fontWeight: FontWeight.w600),
-              )
-            ],
-          ),
-        ),
-        32.height,
-        InkWell(
-          onTap: () {
-            SuccessPage(
-              medium: 'Via email',
-              message:
-                  'Your application has been successfully\nsubmitted, check out your Approval',
-            ).launch(context);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Container(
-              height: 61.h,
-              decoration: BoxDecoration(
-                  // color: white,
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [primary, primaryGradient],
-                  )),
-              child: Center(
-                  child: Text('Save',
-                      style: TextStyle(
-                          fontFamily: cinta,
-                          fontSize: 16.sp,
-                          color: white,
-                          fontWeight: FontWeight.bold))),
+      ),
+    );
+  }
+
+  Widget _buildNavButtons() {
+    return Padding(
+      padding: EdgeInsets.all(17.w),
+      child: Row(
+        children: [
+          if (_currentStep > 0)
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: AppButton(
+                  text: 'Back',
+                  textStyle: GoogleFonts.dmMono(color: ink, fontWeight: FontWeight.w700),
+                  color: white,
+                  onTap: () => setState(() => _currentStep--),
+                  shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r), side: BorderSide(color: sand)),
+                ),
+              ),
+            ),
+          Expanded(
+            flex: 2,
+            child: AppButton(
+              text: _currentStep == 2 ? 'Submit Application' : 'Next Step',
+              textStyle: GoogleFonts.dmMono(color: white, fontWeight: FontWeight.w700),
+              color: primary,
+              onTap: () {
+                if (_currentStep < 2) {
+                  setState(() => _currentStep++);
+                } else {
+                  const SuccessPage(
+                    medium: 'Application Sent',
+                    message: 'Our logistics team will verify your documents shortly.',
+                  ).launch(context);
+                }
+              },
+              shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Center(
-            child: Text('Previous',
-                style: TextStyle(
-                    fontFamily: cinta,
-                    fontSize: 14.sp,
-                    color: black,
-                    fontWeight: FontWeight.bold)),
-          ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }
