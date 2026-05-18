@@ -101,7 +101,6 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            20.height,
             // Header
             Container(
               width: double.infinity,

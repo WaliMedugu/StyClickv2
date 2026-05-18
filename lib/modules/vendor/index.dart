@@ -48,7 +48,6 @@ class _VendorPageState extends State<VendorPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              20.height,
               // Header
               Container(
                 width: double.infinity,

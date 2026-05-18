@@ -45,57 +45,59 @@ class _AccountPageState extends State<AccountPage> {
       backgroundColor: cream, // Pure white
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                16.height,
-                // Top Header (Original Navigation Trigger & Brand Title)
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: -17.w),
-                  padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 16.h),
-                  decoration: const BoxDecoration(gradient: brandGradient),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: _openDrawer,
-                        child: Image.asset(
-                          menuIcon,
-                          height: 24.h,
-                          width: 24.w,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'StyClick',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 22.sp,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -1.0,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: _openEndDrawer,
-                        child: Image.asset(
-                          notificationIcon,
-                          height: 24.h,
-                          width: 24.w,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                8.height,
-                // Welcome Profile Row (From Original Screen)
-                Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Top Header (Original Navigation Trigger & Brand Title)
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 16.h),
+                decoration: const BoxDecoration(gradient: brandGradient),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    InkWell(
+                      onTap: _openDrawer,
+                      child: Image.asset(
+                        menuIcon,
+                        height: 24.h,
+                        width: 24.w,
+                        color: Colors.white,
+                      ),
+                    ),
                     Text(
-                      'Olayimmika\nSamuel',
+                      'StyClick',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 22.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: -1.0,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: _openEndDrawer,
+                      child: Image.asset(
+                        notificationIcon,
+                        height: 24.h,
+                        width: 24.w,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              8.height,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Welcome Profile Row (From Original Screen)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Olayimmika\nSamuel',
                       style: GoogleFonts.montserrat(
                         color: ink,
                         fontSize: 24.sp,
@@ -197,6 +199,8 @@ class _AccountPageState extends State<AccountPage> {
                 40.height,
               ],
             ),
+          ),
+            ],
           ),
         ),
       ),

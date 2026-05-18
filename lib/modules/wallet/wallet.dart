@@ -47,7 +47,6 @@ class _WalletPageState extends State<WalletPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              20.height,
               // Header
               Container(
                 width: double.infinity,

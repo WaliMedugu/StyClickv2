@@ -70,7 +70,6 @@ class _CataloguePageState extends State<CataloguePage> {
       body: SafeArea(
         child: Column(
           children: [
-            16.height,
             // Header
             Container(
               width: double.infinity,

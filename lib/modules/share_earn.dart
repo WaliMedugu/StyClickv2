@@ -28,22 +28,23 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              20.height,
               // Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(gradient: brandGradient),
+                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 20.h, bottom: 24.h),
                 child: Row(
                   children: [
                     InkWell(
                       onTap: () => pop(context),
-                      child: Icon(FeatherIcons.arrowLeft, color: ink, size: 24.sp),
+                      child: Icon(FeatherIcons.arrowLeft, color: Colors.white, size: 24.sp),
                     ),
                     20.width,
                     Text(
                       'Share & Earn',
                       style: GoogleFonts.montserrat(
                         fontSize: 26.sp,
-                        color: primary,
+                        color: Colors.white,
                         fontWeight: FontWeight.w900,
                         letterSpacing: -1.0,
                       ),

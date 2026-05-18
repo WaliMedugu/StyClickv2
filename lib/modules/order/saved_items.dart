@@ -58,7 +58,6 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            20.height,
             // Header
             Container(
               width: double.infinity,

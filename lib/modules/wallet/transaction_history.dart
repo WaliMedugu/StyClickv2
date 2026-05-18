@@ -116,7 +116,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            20.height,
             // Header
             Container(
               width: double.infinity,
