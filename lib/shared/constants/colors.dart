@@ -43,3 +43,12 @@ const textLight = Color(0xff71717a); // Clean neutral zinc-500 light text
 const rust = Color(0xffEF3F53); // Map to brand primary
 const terracotta = Color(0xffF1562E); // Map to brand secondary/gradient
 const dark = Color(0xff18181b); // Premium clean zinc-900 neutral dark
+
+const brandGradient = LinearGradient(
+  colors: [
+    Color(0xFFEA4262),
+    Color(0xFFDD6140),
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);

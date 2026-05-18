@@ -60,8 +60,10 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
           children: [
             20.height,
             // Header
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17.w),
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(gradient: brandGradient),
+              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
               child: Row(
                 children: [
                   InkWell(
@@ -70,7 +72,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                       menuIcon,
                       height: 24.h,
                       width: 24.w,
-                      color: ink,
+                      color: Colors.white,
                     ),
                   ),
                   const Spacer(),
@@ -78,7 +80,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                     'Saved Items',
                     style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
-                      color: primary,
+                      color: Colors.white,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -1.0,
                     ),
@@ -90,7 +92,7 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                       notificationIcon,
                       height: 24.h,
                       width: 24.w,
-                      color: ink,
+                      color: Colors.white,
                     ),
                   ),
                 ],

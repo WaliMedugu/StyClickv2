@@ -72,8 +72,10 @@ class _CataloguePageState extends State<CataloguePage> {
           children: [
             16.height,
             // Header
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17.w),
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(gradient: brandGradient),
+              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
               child: Row(
                 children: [
                   InkWell(
@@ -82,7 +84,7 @@ class _CataloguePageState extends State<CataloguePage> {
                       menuIcon,
                       height: 24.h,
                       width: 24.w,
-                      color: ink,
+                      color: Colors.white,
                     ),
                   ),
                   const Spacer(),
@@ -90,7 +92,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     'Catalogue',
                     style: GoogleFonts.montserrat(
                       fontSize: 26.sp,
-                      color: primary,
+                      color: Colors.white,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -1.0,
                     ),
@@ -102,7 +104,7 @@ class _CataloguePageState extends State<CataloguePage> {
                       notificationIcon,
                       height: 24.h,
                       width: 24.w,
-                      color: ink,
+                      color: Colors.white,
                     ),
                   ),
                 ],

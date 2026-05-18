@@ -105,8 +105,11 @@ class _HomePageState extends State<HomePage> {
             children: [
               16.height,
               // Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
+              // Header
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(gradient: brandGradient),
+                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
                 child: Row(
                   children: [
                     InkWell(
@@ -115,20 +118,15 @@ class _HomePageState extends State<HomePage> {
                         menuIcon,
                         height: 24.h,
                         width: 24.w,
-                        color: ink,
+                        color: Colors.white,
                       ),
                     ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'StyClick',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 26.sp,
-                          color: primary,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -1.0,
-                        ),
+                      child: Image.asset(
+                        homeLogo,
+                        height: 35.h,
                       ),
                     ),
                     const Spacer(),
@@ -138,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                         notificationIcon,
                         height: 24.h,
                         width: 24.w,
-                        color: ink,
+                        color: Colors.white,
                       ),
                     ),
                   ],
