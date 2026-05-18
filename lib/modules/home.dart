@@ -196,7 +196,11 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.symmetric(horizontal: 17.w),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: dark,
+                              gradient: const LinearGradient(
+                                colors: [primary, primaryGradient],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                               borderRadius: BorderRadius.circular(16.r),
                             ),
                             width: double.infinity,

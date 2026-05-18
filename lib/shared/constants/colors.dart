@@ -34,12 +34,12 @@ const uploadBtnColor = Color(0xffd9d9d9);
 const selectTailorColor = Color(0xffdd6140);
 const menWearColor = Color(0xffffe2db);
 
-// Arguuu inspired editorial colors
-const cream = Color(0xfffaf6f0);
-const warmWhite = Color(0xfffdf9f4);
-const ink = Color(0xff1a110a);
-const sand = Color(0xffe8ddd0);
-const textLight = Color(0xff7a5c4a);
-const rust = Color(0xffa85535);
-const terracotta = Color(0xffc4724a);
-const dark = Color(0xff2a1f17);
+// Premium clean neutral editorial colors
+const cream = Color(0xffffffff); // Pure white background
+const warmWhite = Color(0xffffffff); // Pure white background
+const ink = Color(0xff09090b); // Crisp deep charcoal/black
+const sand = Color(0xffe4e4e7); // Clean neutral zinc-200 border/divider
+const textLight = Color(0xff71717a); // Clean neutral zinc-500 light text
+const rust = Color(0xffEF3F53); // Map to brand primary
+const terracotta = Color(0xffF1562E); // Map to brand secondary/gradient
+const dark = Color(0xff18181b); // Premium clean zinc-900 neutral dark
