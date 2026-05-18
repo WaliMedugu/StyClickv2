@@ -26,7 +26,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
@@ -42,17 +42,18 @@ class _AccountPageState extends State<AccountPage> {
       key: _scaffoldKey,
       drawer: buildDrawer(context),
       endDrawer: buildNotificationDrawer(context),
-      backgroundColor: cream,
+      backgroundColor: cream, // Pure white
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              20.height,
-              // Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Row(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 17.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                16.height,
+                // Top Header (Original Navigation Trigger & Brand Title)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: _openDrawer,
@@ -63,17 +64,15 @@ class _AccountPageState extends State<AccountPage> {
                         color: ink,
                       ),
                     ),
-                    const Spacer(),
                     Text(
-                      'Account',
+                      'StyClick',
                       style: GoogleFonts.montserrat(
-                        fontSize: 26.sp,
+                        fontSize: 22.sp,
                         color: primary,
                         fontWeight: FontWeight.w900,
                         letterSpacing: -1.0,
                       ),
                     ),
-                    const Spacer(),
                     InkWell(
                       onTap: _openEndDrawer,
                       child: Image.asset(
@@ -85,155 +84,150 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ],
                 ),
-              ),
-              32.height,
-              // Profile Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Row(
+                24.height,
+                // Welcome Profile Row (From Original Screen)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Text(
+                      'Olayimmika\nSamuel',
+                      style: GoogleFonts.montserrat(
+                        color: ink,
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                     Container(
-                      padding: EdgeInsets.all(4.w),
+                      height: 56.h,
+                      width: 56.w,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: primary.withOpacity(0.5), width: 2),
+                        border: Border.all(color: sand, width: 1),
                       ),
-                      child: CircleAvatar(
-                        radius: 40.r,
-                        backgroundColor: white,
-                        backgroundImage: const AssetImage(defaultUserImage),
-                      ),
-                    ),
-                    24.width,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You',
-                            style: TextStyle(fontFamily: 'Cinta', 
-                              color: ink,
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          8.height,
-                          InkWell(
-                            onTap: () => const EditProfile().launch(context),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                border: Border.all(color: primary),
-                              ),
-                              child: Text(
-                                'UPDATE PROFILE',
-                                style: GoogleFonts.montserrat(
-                                  color: primary,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 1.2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30.r),
+                        child: Image.asset(
+                          defaultUserImage,
+                          height: 56.h,
+                          width: 56.w,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              24.height,
-              // Quick Actions Row (Home Style)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Row(
+                8.height,
+                // Star Rating Container (From Original Screen)
+                Container(
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(22.r),
+                    border: Border.all(color: sand),
+                  ),
+                  height: 24.h,
+                  width: 56.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                        size: 12.sp,
+                      ),
+                      4.width,
+                      Text(
+                        '4.8',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: cinta,
+                          color: ink,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                24.height,
+                // 3 Quick Action Cards Row (From Original Screen - Clean white cards with NO background images!)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: _buildQuickAction(context, 'Wallet', wallet, moneyTheme, () => const WalletPage().launch(context)),
+                    _buildQuickActionCard(
+                      'Help',
+                      helpIcon,
+                      () {},
                     ),
-                    8.width,
-                    Expanded(
-                      child: _buildQuickAction(context, 'Activity', activity, economyTheme, () => const TransactionHistory().launch(context)),
+                    _buildQuickActionCard(
+                      'Wallet',
+                      wallet,
+                      () => const WalletPage().launch(context),
+                    ),
+                    _buildQuickActionCard(
+                      'Activity',
+                      activity,
+                      () => const TransactionHistory().launch(context),
                     ),
                   ],
                 ),
-              ),
-              8.height,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Divider(color: sand, thickness: 1),
-              ),
-              4.height,
-              // Menu Items
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Column(
-                  children: [
-                    _buildMenuItem(context, 'My Orders', () => const SavedOrderPage().launch(context)),
-                    _buildMenuItem(context, 'Saved Items', () => const SavedItemsPage().launch(context)),
-                    _buildMenuItem(context, 'Chats', () {}),
-                    _buildMenuItem(context, 'Become a vendor', () => VendorPage().launch(context)),
-                    _buildMenuItem(context, 'Share and Earn', () => const ShareEarnPage().launch(context)),
-                    _buildMenuItem(context, 'Settings', () => const SettingsPage().launch(context)),
-                    _buildMenuItem(context, 'Help & Support', () {}),
-                    _buildMenuItem(context, 'Logout', () {
-                      setValue('home', false);
-                      LoginScreen().launch(context, isNewTask: true);
-                    }),
-                    40.height,
-                  ],
+                24.height,
+                // Divider Line
+                Container(
+                  height: 1.h,
+                  width: double.infinity,
+                  color: sand,
                 ),
-              ),
-            ],
+                16.height,
+                // Menu List Items with original icons (From Original Screen)
+                _buildMenuItem(context, 'My Orders', orders, () => const SavedOrderPage().launch(context)),
+                _buildMenuItem(context, 'Saved Items', savedIcon, () => const SavedItemsPage().launch(context)),
+                _buildMenuItem(context, 'Chats', chats, () {}),
+                _buildMenuItem(context, 'Become a vendor', becomeVendor, () => VendorPage().launch(context)),
+                _buildMenuItem(context, 'Share and Earn', shareEarn, () => const ShareEarnPage().launch(context)),
+                _buildMenuItem(context, 'Settings', settings, () => const SettingsPage().launch(context)),
+                _buildMenuItem(context, 'Supports', support, () {}),
+                _buildMenuItem(context, 'Logout', logoutIcon, () {
+                  setValue('home', false);
+                  LoginScreen().launch(context, isNewTask: true);
+                }),
+                40.height,
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildQuickAction(BuildContext context, String title, String iconAsset, String bgAsset, VoidCallback onTap) {
+  Widget _buildQuickActionCard(String title, String iconAsset, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 80.h,
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        height: 100.h,
+        width: 100.w,
         decoration: BoxDecoration(
-          color: ink,
+          color: white,
           borderRadius: BorderRadius.circular(16.r),
-          image: DecorationImage(
-            image: AssetImage(bgAsset),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              ink.withOpacity(0.7),
-              BlendMode.dstATop,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: ink.withOpacity(0.01),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          border: Border.all(color: sand),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: TextStyle(fontFamily: 'Cinta', 
-                fontSize: 18.sp,
-                color: white,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
             Image.asset(
               iconAsset,
               height: 32.h,
-              width: 32.h,
-              fit: BoxFit.contain,
-              color: white,
+              width: 32.w,
+              color: primary,
+            ),
+            12.height,
+            Text(
+              title,
+              style: GoogleFonts.montserrat(
+                fontFamily: cinta,
+                fontSize: 14.sp,
+                color: ink,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -241,28 +235,27 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, String title, VoidCallback onTap) {
+  Widget _buildMenuItem(BuildContext context, String title, String iconAsset, VoidCallback onTap) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.h),
+      padding: EdgeInsets.symmetric(vertical: 14.h),
       child: InkWell(
         onTap: onTap,
         child: Row(
           children: [
-            Container(
-              width: 10.w,
-              height: 10.h,
-              decoration: BoxDecoration(
-                color: sand.withOpacity(0.8),
-                shape: BoxShape.circle,
-              ),
+            Image.asset(
+              iconAsset,
+              height: 24.h,
+              width: 24.w,
+              color: ink,
             ),
-            20.width,
+            16.width,
             Text(
               title,
-              style: TextStyle(fontFamily: 'Cinta', 
+              style: TextStyle(
+                fontFamily: cinta,
                 fontSize: 16.sp,
                 color: ink,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const Spacer(),
@@ -301,10 +294,10 @@ class _AccountPageState extends State<AccountPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'You',
-                        style: TextStyle(fontFamily: 'Cinta', 
+                        'Olayimmika Samuel',
+                        style: GoogleFonts.montserrat(
                           color: ink,
-                          fontSize: 24.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -407,7 +400,8 @@ class _AccountPageState extends State<AccountPage> {
             20.width,
             Text(
               title,
-              style: TextStyle(fontFamily: 'Cinta', 
+              style: TextStyle(
+                fontFamily: cinta,
                 fontSize: 16.sp,
                 color: ink,
                 fontWeight: FontWeight.w500,
@@ -507,7 +501,8 @@ class _AccountPageState extends State<AccountPage> {
                     Expanded(
                       child: Text(
                         title,
-                        style: TextStyle(fontFamily: 'Cinta', 
+                        style: TextStyle(
+                          fontFamily: cinta,
                           fontSize: 14.sp,
                           color: ink,
                           fontWeight: FontWeight.w700,
@@ -529,7 +524,8 @@ class _AccountPageState extends State<AccountPage> {
                 4.height,
                 Text(
                   sub,
-                  style: TextStyle(fontFamily: 'Cinta', 
+                  style: TextStyle(
+                    fontFamily: cinta,
                     fontSize: 12.sp,
                     color: textLight,
                   ),
