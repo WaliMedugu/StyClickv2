@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 8.height,
                 Text(
-                  'Your Style in one Click',
+                  'Your global fashion hub',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 14.sp,
