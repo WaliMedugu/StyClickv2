@@ -21,15 +21,15 @@ class AuthService {
     String password, {
     T Function(dynamic)? transform,
   }) async {
-    transform ??= (dynamic r) => r.body as T;
+    transform ??= (dynamic r) => r as T;
 
     final ApiResponse<T> apiResponse = ApiResponse<T>();
 
     try {
+      final url = baseUrl + signIn;
+      log('[API REQ] POST $url');
       Response res = await post(
-          Uri.parse(
-            baseUrl + signIn,
-          ),
+          Uri.parse(url),
           headers: {
             "Accept": "application/json",
           },
@@ -38,25 +38,33 @@ class AuthService {
             "password": password
           });
 
-      final dynamic data = json.decode(res.body);
+      log('[API RESP] Status: ${res.statusCode}');
+      log('[API RESP] Body: ${res.body}');
+
+      dynamic data;
+      try {
+        data = json.decode(res.body);
+      } catch (e) {
+        log('[API ERR] Failed to parse response JSON: $e');
+      }
 
       if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
+        apiResponse.data = transform(data ?? res.body);
         apiResponse.status = true;
       } else {
         apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
+        apiResponse.message = data != null && data is Map && data.containsKey('message')
+            ? data['message'].toString()
+            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
       }
     } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
+      log('[API ERR] SocketException: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = (e).toString();
+      apiResponse.message = e.toString();
     } catch (e) {
-      log(e.toString());
-
+      log('[API ERR] Exception: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
+      apiResponse.message = e.toString();
     }
 
     return apiResponse;
@@ -72,15 +80,15 @@ class AuthService {
     required String address,
     T Function(dynamic)? transform,
   }) async {
-    transform ??= (dynamic r) => r.body as T;
+    transform ??= (dynamic r) => r as T;
 
     final ApiResponse<T> apiResponse = ApiResponse<T>();
 
     try {
+      final url = baseUrl + register;
+      log('[API REQ] POST $url');
       Response res = await post(
-          Uri.parse(
-            baseUrl + register,
-          ),
+          Uri.parse(url),
           headers: {
             "Accept": "application/json",
           },
@@ -95,25 +103,33 @@ class AuthService {
             "origin": "mobile"
           });
 
-      final dynamic data = json.decode(res.body);
+      log('[API RESP] Status: ${res.statusCode}');
+      log('[API RESP] Body: ${res.body}');
+
+      dynamic data;
+      try {
+        data = json.decode(res.body);
+      } catch (e) {
+        log('[API ERR] Failed to parse response JSON: $e');
+      }
 
       if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
+        apiResponse.data = transform(data ?? res.body);
         apiResponse.status = true;
       } else {
         apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
+        apiResponse.message = data != null && data is Map && data.containsKey('message')
+            ? data['message'].toString()
+            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
       }
     } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
+      log('[API ERR] SocketException: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = (e).toString();
+      apiResponse.message = e.toString();
     } catch (e) {
-      log(e.toString());
-
+      log('[API ERR] Exception: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
+      apiResponse.message = e.toString();
     }
 
     return apiResponse;
@@ -124,15 +140,15 @@ class AuthService {
     required String token,
     T Function(dynamic)? transform,
   }) async {
-    transform ??= (dynamic r) => r.body as T;
+    transform ??= (dynamic r) => r as T;
 
     final ApiResponse<T> apiResponse = ApiResponse<T>();
 
     try {
+      final url = baseUrl + verifyUser;
+      log('[API REQ] POST $url');
       Response res = await post(
-          Uri.parse(
-            baseUrl + verifyUser,
-          ),
+          Uri.parse(url),
           headers: {
             "Accept": "application/json",
           },
@@ -141,25 +157,33 @@ class AuthService {
             "token": token
           });
 
-      final dynamic data = json.decode(res.body);
+      log('[API RESP] Status: ${res.statusCode}');
+      log('[API RESP] Body: ${res.body}');
+
+      dynamic data;
+      try {
+        data = json.decode(res.body);
+      } catch (e) {
+        log('[API ERR] Failed to parse response JSON: $e');
+      }
 
       if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
+        apiResponse.data = transform(data ?? res.body);
         apiResponse.status = true;
       } else {
         apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
+        apiResponse.message = data != null && data is Map && data.containsKey('message')
+            ? data['message'].toString()
+            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
       }
     } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
+      log('[API ERR] SocketException: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = (e).toString();
+      apiResponse.message = e.toString();
     } catch (e) {
-      log(e.toString());
-
+      log('[API ERR] Exception: ${e.toString()}');
       apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
+      apiResponse.message = e.toString();
     }
 
     return apiResponse;

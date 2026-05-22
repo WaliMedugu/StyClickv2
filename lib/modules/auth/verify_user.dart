@@ -6,6 +6,9 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/constants/colors.dart';
+import 'package:stylclick/core/services/auth_service.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
+import 'package:stylclick/shared/widgets/nav.dart';
 
 class VerifyUser extends StatefulWidget {
   final String? phone;
@@ -18,6 +21,7 @@ class VerifyUser extends StatefulWidget {
 }
 
 class _VerifyUserState extends State<VerifyUser> {
+  bool isLoading = false;
   TextEditingController otpController = TextEditingController();
   final GlobalKey<FormState> _verifyOtpFormKey = GlobalKey<FormState>();
   FocusNode focusNode = FocusNode();
@@ -47,6 +51,7 @@ class _VerifyUserState extends State<VerifyUser> {
   @override
   void initState() {
     super.initState();
+    log('[VERIFY] VerifyUser screen initialized for email: ${widget.email}, phone: ${widget.phone}');
     startTimer();
   }
 
@@ -74,10 +79,11 @@ class _VerifyUserState extends State<VerifyUser> {
                 Text(
                   'Verification',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
+                    fontFamily: 'Cinta',
                     fontSize: 32.sp,
                     color: ink,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 16.height,
@@ -132,6 +138,7 @@ class _VerifyUserState extends State<VerifyUser> {
                     TextButton(
                       onPressed: _start == 0
                           ? () {
+                              log('[VERIFY] Resend button clicked. Restarting timer.');
                               startTimer();
                               // Add your resend API call here
                             }
@@ -150,8 +157,69 @@ class _VerifyUserState extends State<VerifyUser> {
                 ),
                 64.height,
                 ElevatedButton(
-                  onPressed: () {
-                    // Verification logic
+                  onPressed: () async {
+                    log('[VERIFY] VERIFY CODE button pressed');
+                    String otp = otpController.text.trim();
+                    if (otp.length < 4) {
+                      log('[VERIFY] OTP code is incomplete (length: ${otp.length}). Aborting verify request.');
+                      showMessage(context, 'Please enter the 4-digit code.');
+                      return;
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+                    try {
+                      log('[VERIFY] Initiating API verification request for email: ${widget.email}, code: $otp');
+                      final res = await AuthService.instance!.verify<Map<String, dynamic>>(
+                        email: widget.email ?? '',
+                        token: otp,
+                      );
+                      log('[VERIFY] API Response status: ${res.status}, message: ${res.message}');
+                      if (res.status == true && res.data != null) {
+                        final data = res.data!;
+                        final String? token = data['token'] as String?;
+                        final dynamic user = data['user'];
+
+                        log('[VERIFY] Verification succeeded. Saving session information locally.');
+                        if (token != null) {
+                          setValue("access_token", token);
+                          log('[VERIFY] Saved access_token');
+                        }
+
+                        String firstName = '';
+                        String lastName = '';
+                        String userEmail = widget.email ?? '';
+
+                        if (user != null && user is Map) {
+                          firstName = user['first_name'] ?? user['firstname'] ?? '';
+                          lastName = user['last_name'] ?? user['lastname'] ?? '';
+                          userEmail = user['email'] ?? widget.email ?? '';
+                        } else {
+                          firstName = data['first_name'] ?? data['firstname'] ?? data['firstName'] ?? '';
+                          lastName = data['last_name'] ?? data['lastname'] ?? data['lastName'] ?? '';
+                          userEmail = data['email'] ?? widget.email ?? '';
+                        }
+
+                        setValue('fName', firstName);
+                        setValue('lName', lastName);
+                        setValue('email', userEmail);
+                        setValue('home', true);
+
+                        log('[VERIFY] Session saved: fName = $firstName, lName = $lastName, email = $userEmail, home = true');
+                        log('[VERIFY] Navigating to Home Dashboard (Nav)');
+                        const Nav().launch(context, isNewTask: true);
+                      } else {
+                        log('[VERIFY] Verification failed: ${res.message}');
+                        showMessage(context, res.message ?? 'Verification failed. Please check the code.');
+                      }
+                    } catch (e) {
+                      log('[VERIFY] Unexpected error during verification: ${e.toString()}');
+                      showMessage(context, 'An unexpected error occurred. Please try again.');
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -174,15 +242,17 @@ class _VerifyUserState extends State<VerifyUser> {
                     child: Container(
                       height: 56.h,
                       alignment: Alignment.center,
-                      child: Text(
-                        'VERIFY CODE',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14.sp,
-                          color: white,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
+                      child: isLoading
+                          ? const CircularProgressIndicator(color: white)
+                          : Text(
+                              'Verify Code',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14.sp,
+                                color: white,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
                     ),
                   ),
                 ),

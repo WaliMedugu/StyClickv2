@@ -67,10 +67,11 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                     Text(
                       'StyClick',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 22.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -97,11 +98,12 @@ class _AccountPageState extends State<AccountPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Olayimmika\nSamuel',
-                      style: GoogleFonts.montserrat(
+                          '${getStringAsync('fName', defaultValue: 'Mayokun')}\n${getStringAsync('lName', defaultValue: 'Adeoti')}',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         color: ink,
                         fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     Container(
@@ -188,7 +190,7 @@ class _AccountPageState extends State<AccountPage> {
                 _buildMenuItem(context, 'My Orders', orders, () => const SavedOrderPage().launch(context)),
                 _buildMenuItem(context, 'Saved Items', savedIcon, () => const SavedItemsPage().launch(context)),
                 _buildMenuItem(context, 'Chats', chats, () {}),
-                _buildMenuItem(context, 'Become a vendor', becomeVendor, () => VendorPage().launch(context)),
+                _buildMenuItem(context, 'Become a Vendor', becomeVendor, () => VendorPage().launch(context)),
                 _buildMenuItem(context, 'Share and Earn', shareEarn, () => const ShareEarnPage().launch(context)),
                 _buildMenuItem(context, 'Settings', settings, () => const SettingsPage().launch(context)),
                 _buildMenuItem(context, 'Supports', support, () {}),
@@ -302,18 +304,19 @@ class _AccountPageState extends State<AccountPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Olayimmika Samuel',
-                        style: GoogleFonts.montserrat(
+                        '${getStringAsync('fName', defaultValue: 'Mayokun')} ${getStringAsync('lName', defaultValue: 'Adeoti')}',
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
                           color: ink,
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                       4.height,
                       InkWell(
                         onTap: () => const EditProfile().launch(context),
                         child: Text(
-                          'UPDATE PROFILE',
+                          'Update Profile',
                           style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
@@ -361,7 +364,7 @@ class _AccountPageState extends State<AccountPage> {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Divider(color: sand, thickness: 1),
                   ),
-                  _buildDrawerItem(context, 'Become a vendor', () => VendorPage().launch(context)),
+                  _buildDrawerItem(context, 'Become a Vendor', () => VendorPage().launch(context)),
                   _buildDrawerItem(context, 'Share & Earn', () => const ShareEarnPage().launch(context)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -433,10 +436,11 @@ class _AccountPageState extends State<AccountPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

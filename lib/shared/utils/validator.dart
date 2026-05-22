@@ -93,6 +93,22 @@ class FieldValidator {
   }
 }
 
+class PhoneValidator {
+  static String? validatePhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Phone number is required';
+    }
+    final clean = value.replaceAll(RegExp(r'[\s\-()+]'), '');
+    if (!RegExp(r'^\d+$').hasMatch(clean)) {
+      return 'Phone number must contain only digits';
+    }
+    if (clean.length < 10 || clean.length > 15) {
+      return 'Enter a valid phone number (10-15 digits)';
+    }
+    return null;
+  }
+}
+
 abstract class Validate {
   static void offKeyboard(BuildContext context) {
     final FocusScopeNode currentFocus = FocusScope.of(context);

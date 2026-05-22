@@ -395,7 +395,7 @@ class AccountPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Olayimmika\nSamuel',
+                      'Mayokun\nAdeoti',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 24.sp,

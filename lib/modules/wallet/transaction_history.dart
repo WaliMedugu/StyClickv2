@@ -69,7 +69,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Filter by Type', style: GoogleFonts.montserrat(fontSize: 20.sp, fontWeight: FontWeight.w900, color: primary)),
+                  Text('Filter by Type', style: TextStyle(fontFamily: 'Cinta', fontSize: 20.sp, fontWeight: FontWeight.w700, color: primary)),
                   20.height,
                   _buildFilterOption(setModalState, 'All'),
                   _buildFilterOption(setModalState, 'Credits'),
@@ -135,10 +135,11 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   const Spacer(),
                   Text(
                     'My Invoices',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 26.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -198,8 +199,9 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               child: Row(
                 children: [
                   Text(
-                    'RECENT TRANSACTIONS',
-                    style: GoogleFonts.montserrat(
+                    'Recent Transactions',
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 12.sp,
                       color: textLight,
                       fontWeight: FontWeight.w700,
@@ -376,7 +378,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                       ),
                       4.height,
                       Text(
-                        'DASHBOARD',
+                          'Dashboard',
                         style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
@@ -423,7 +425,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Divider(color: sand, thickness: 1),
                   ),
-                  _buildDrawerItem(context, 'Become a vendor', () {}),
+                  _buildDrawerItem(context, 'Become a Vendor', () {}),
                   _buildDrawerItem(context, 'Share & Earn', () => const ShareEarnPage().launch(context)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -493,10 +495,11 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

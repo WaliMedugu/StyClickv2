@@ -42,10 +42,11 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                     20.width,
                     Text(
                       'Share & Earn',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 26.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -143,7 +144,8 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                   children: [
                     Text(
                       'HOW IT WORKS',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -166,7 +168,8 @@ class _ShareEarnPageState extends State<ShareEarnPage> {
                   children: [
                     Text(
                       'QUICK SHARE',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,

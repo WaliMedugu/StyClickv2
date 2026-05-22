@@ -54,10 +54,11 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                     20.width,
                     Text(
                       'Withdraw Funds',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 24.sp,
                         color: primary,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -98,8 +99,9 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'WITHDRAWAL AMOUNT',
-                      style: GoogleFonts.montserrat(
+                      'Withdrawal Amount',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -124,8 +126,9 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'BANK DETAILS',
-                      style: GoogleFonts.montserrat(
+                      'Bank Details',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -250,7 +253,12 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
             children: [
               Text(
                 'Select Bank',
-                style: GoogleFonts.montserrat(fontSize: 20.sp, color: primary, fontWeight: FontWeight.w900),
+                style: TextStyle(
+                  fontFamily: 'Cinta',
+                  fontSize: 20.sp,
+                  color: primary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               20.height,
               Expanded(

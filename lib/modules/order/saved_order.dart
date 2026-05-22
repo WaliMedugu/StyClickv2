@@ -120,10 +120,11 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
                   const Spacer(),
                   Text(
                     'Order History',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 26.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -178,7 +179,8 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
               padding: EdgeInsets.symmetric(horizontal: 17.w),
               child: Text(
                 'YOUR TRANSACTIONS',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 12.sp,
                   color: textLight,
                   fontWeight: FontWeight.w700,
@@ -506,10 +508,11 @@ class _SavedOrderPageState extends State<SavedOrderPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

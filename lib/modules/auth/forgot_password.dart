@@ -53,12 +53,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               40.height,
               Text(
-                'Forgot password',
+                'Forgot Password',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 32.sp,
                   color: ink,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               12.height,
@@ -93,7 +94,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       children: [
                         TextSpan(
-                          text: 'Sign in',
+                          text: 'Sign In',
                           style: TextStyle(fontFamily: 'Cinta', 
                             fontSize: 14.sp,
                             color: primary,
@@ -132,7 +133,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     height: 56.h,
                     alignment: Alignment.center,
                     child: Text(
-                      'SEND RESET LINK',
+                      'Send Reset Link',
                       style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,

@@ -29,6 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    log('[LOGIN] LoginScreen initialized');
+  }
+
+  @override
   void dispose() {
     super.dispose();
     emailController.dispose();
@@ -78,17 +84,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 40.height,
                 Text(
-                  'Welcome back',
+                  'Welcome Back',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
+                    fontFamily: 'Cinta',
                     fontSize: 32.sp,
                     color: ink,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 8.height,
                 Text(
-                  'Your global fashion hub',
+                  'Your Global Fashion Hub',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 14.sp,
@@ -164,10 +171,71 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 40.height,
                 ElevatedButton(
-                  onPressed: () {
-                    // Temporary bypass for server error
-                    setValue('home', true);
-                    const Nav().launch(context, isNewTask: true);
+                  onPressed: () async {
+                    log('[LOGIN] Sign In button pressed');
+                    if (_loginFormKey.currentState!.validate()) {
+                      log('[LOGIN] Form validation succeeded. Preparing payload.');
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      String email = emailController.text.trim();
+                      log('[LOGIN] Initiating API call to login for email: $email');
+                      try {
+                        final res = await AuthService.instance!.login<Map<String, dynamic>>(
+                          email,
+                          passwordController.text.trim(),
+                        );
+
+                        log('[LOGIN] API Response status: ${res.status}, message: ${res.message}');
+                        if (res.status == true && res.data != null) {
+                          final data = res.data!;
+                          final String? token = data['token'] as String?;
+                          final dynamic user = data['user'];
+
+                          log('[LOGIN] Login successful. Parsing and saving session data.');
+                          if (token != null) {
+                            setValue("access_token", token);
+                            log('[LOGIN] Saved access_token');
+                          }
+
+                          String firstName = '';
+                          String lastName = '';
+                          String userEmail = email;
+
+                          if (user != null && user is Map) {
+                            firstName = user['first_name'] ?? user['firstname'] ?? '';
+                            lastName = user['last_name'] ?? user['lastname'] ?? '';
+                            userEmail = user['email'] ?? email;
+                          } else {
+                            firstName = data['first_name'] ?? data['firstname'] ?? data['firstName'] ?? '';
+                            lastName = data['last_name'] ?? data['lastname'] ?? data['lastName'] ?? '';
+                            userEmail = data['email'] ?? email;
+                          }
+
+                          setValue('fName', firstName);
+                          setValue('lName', lastName);
+                          setValue('email', userEmail);
+                          setValue('home', true);
+
+                          log('[LOGIN] Session saved: fName = $firstName, lName = $lastName, email = $userEmail, home = true');
+                          log('[LOGIN] Navigating to Home Dashboard (Nav)');
+                          const Nav().launch(context, isNewTask: true);
+                        } else {
+                          log('[LOGIN] Login failed: ${res.message}');
+                          showMessage(context, res.message ?? 'Login failed. Please check your credentials.');
+                        }
+                      } catch (e) {
+                        log('[LOGIN] Unexpected error during login: ${e.toString()}');
+                        showMessage(context, 'An unexpected error occurred. Please try again.');
+                      } finally {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    } else {
+                      log('[LOGIN] Form validation failed.');
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -190,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: isLoading
                           ? const CircularProgressIndicator(color: white)
                           : Text(
-                              'SIGN IN',
+                              'Sign In',
                               style: GoogleFonts.montserrat(
                                 fontSize: 14.sp,
                                 color: white,
@@ -225,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   icon: Image.asset(fingerprint, height: 24.h),
                   label: Text(
-                    'SIGN IN WITH BIOMETRICS',
+                    'Sign In with Biometrics',
                     style: GoogleFonts.montserrat(
                       fontSize: 12.sp,
                       color: ink,

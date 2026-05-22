@@ -33,10 +33,11 @@ class SuccessPage extends StatelessWidget {
               Text(
                 'Successful',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 32.sp,
                   color: ink,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               16.height,
@@ -94,7 +95,7 @@ class SuccessPage extends StatelessWidget {
                     height: 56.h,
                     alignment: Alignment.center,
                     child: Text(
-                      'CONTINUE',
+                      'Continue',
                       style: GoogleFonts.montserrat(
                         fontSize: 14.sp,
                         color: white,

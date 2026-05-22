@@ -46,25 +46,56 @@ class _SelectTailorState extends State<SelectTailor> {
                   20.width,
                   Text(
                     'Select Tailor',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 26.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
                 ],
               ),
             ),
+            24.height,
             Padding(
-              padding: EdgeInsets.only(left: 17.w, right: 17.w),
-              child: CustomTextField(
-                  hintTextColor: homeSearchHintColor,
-                  hintText: 'Search for a tailor around you',
-                  filledColor: const Color(0xfffffcfc),
-                  borderColor: const Color(0xffbcb6b6),
-                  borderRadius: BorderRadius.circular(25.r),
-                  prefixIcon: const Icon(Icons.search)),
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Container(
+                height: 52.h,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: sand),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ink.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.search, color: ink.withOpacity(0.5), size: 20.sp),
+                    12.width,
+                    Expanded(
+                      child: TextField(
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                        decoration: InputDecoration(
+                          hintText: 'Search for a tailor around you',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Cinta', 
+                            color: ink.withOpacity(0.4),
+                            fontSize: 14.sp,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             16.height,
             Expanded(
@@ -78,7 +109,7 @@ class _SelectTailorState extends State<SelectTailor> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 16,
-                            childAspectRatio: 9 / 14
+                            childAspectRatio: 9 / 16,
                     ),
                     itemCount: images.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -103,13 +134,14 @@ class _SelectTailorState extends State<SelectTailor> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.r),
-                                child: Image.asset(
-                                  images[index],
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 160.h,
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: Image.asset(
+                                    images[index],
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
                                 ),
                               ),
                               12.height,

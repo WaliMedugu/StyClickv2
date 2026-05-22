@@ -9,6 +9,8 @@ import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
 import 'package:stylclick/shared/widgets/nav.dart';
+import 'package:stylclick/core/services/auth_service.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 
@@ -34,6 +36,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? selectedState;
   List<String> states = ['Lagos', 'Abuja', 'Oyo', 'Kano', 'Rivers'];
   String countryCode = "+234";
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    log('[REGISTER] RegisterScreen initialized');
+  }
 
   @override
   void dispose() {
@@ -86,15 +95,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 'Registration',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 32.sp,
                   color: ink,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               8.height,
               Text(
-                'Join the StyClick community today',
+                'Join the StyClick Community Today',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: 'Cinta', 
                   fontSize: 14.sp,
@@ -105,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               32.height,
               CustomTextField(
                 controller: nameController,
-                label: 'Full name',
+                label: 'Full Name',
                 hintText: 'Enter your full name',
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Full name is required';
@@ -129,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'PHONE NUMBER',
+                    'Phone Number',
                     style: GoogleFonts.montserrat(
                       fontSize: 10.sp,
                       color: textLight,
@@ -192,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'STATE',
+                          'State',
                           style: GoogleFonts.montserrat(
                             fontSize: 10.sp,
                             color: textLight,
@@ -269,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               20.height,
               CustomTextField(
                 controller: confirmPasswordController,
-                label: 'Confirm password',
+                label: 'Confirm Password',
                 hintText: 'Repeat your password',
                 obscureText: obscureConfirmPassword,
                 suffixIcon: IconButton(
@@ -294,9 +304,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               32.height,
               ElevatedButton(
-                onPressed: () {
-                    setValue('home', true);
-                    const Nav().launch(context, isNewTask: true);
+                onPressed: () async {
+                  log('[REGISTER] Sign Up button pressed');
+                  if (_registerFormKey.currentState!.validate()) {
+                    if (selectedState == null) {
+                      log('[REGISTER] State not selected. Aborting signup request.');
+                      showMessage(context, 'Please select your state.');
+                      return;
+                    }
+                    log('[REGISTER] Form validation succeeded. Preparing payload.');
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    try {
+                      List<String> nameParts = nameController.text.trim().split(' ');
+                      String firstName = nameParts.isNotEmpty ? nameParts.first : '';
+                      String lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
+                      String email = emailController.text.trim();
+                      String phone = '$countryCode${phoneController.text.trim()}';
+                      String address = addressController.text.trim();
+                      String password = passwordController.text.trim();
+
+                      log('[REGISTER] Initiating API call to signup for email: $email, name: $firstName $lastName, phone: $phone, state: $selectedState, address: $address');
+                      final res = await AuthService.instance!.signup<Map<String, dynamic>>(
+                        email: email,
+                        password: password,
+                        firstName: firstName,
+                        lastName: lastName,
+                        phone: phone,
+                        state: selectedState!,
+                        address: address,
+                      );
+
+                      log('[REGISTER] API Response status: ${res.status}, message: ${res.message}');
+                      if (res.status == true) {
+                        log('[REGISTER] Signup successful. Redirecting to OTP Verification screen.');
+                        showMessage(context, res.message ?? 'Registration successful! Verification code sent.');
+                        VerifyUser(
+                          email: email,
+                          phone: phone,
+                        ).launch(context);
+                      } else {
+                        log('[REGISTER] Signup failed: ${res.message}');
+                        showMessage(context, res.message ?? 'Registration failed. Please try again.');
+                      }
+                    } catch (e) {
+                      log('[REGISTER] Unexpected error during signup: ${e.toString()}');
+                      showMessage(context, 'An unexpected error occurred. Please try again.');
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  } else {
+                    log('[REGISTER] Form validation failed.');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.zero,
@@ -319,15 +382,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Container(
                     height: 56.h,
                     alignment: Alignment.center,
-                    child: Text(
-                      'CREATE ACCOUNT',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14.sp,
-                        color: white,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: white)
+                        : Text(
+                            'Create Account',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14.sp,
+                              color: white,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
                   ),
                 ),
               ),

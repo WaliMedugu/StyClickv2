@@ -37,6 +37,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    log('[WALKTHROUGH] WalkthroughScreen initialized');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
@@ -47,10 +53,11 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
+                  log('[WALKTHROUGH] SKIP tapped. Navigating to LoginScreen.');
                   const LoginScreen().launch(context, isNewTask: true);
                 },
                 child: Text(
-                  'SKIP',
+                  'Skip',
                   style: GoogleFonts.montserrat(
                     fontSize: 12.sp,
                     color: textLight,
@@ -65,6 +72,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                 controller: _pageController,
                 itemCount: _items.length,
                 onPageChanged: (index) {
+                  log('[WALKTHROUGH] Page transitioned to index: $index');
                   setState(() {
                     _currentPage = index;
                   });
@@ -103,10 +111,11 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                         Text(
                           item.title,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
+                            fontFamily: 'Cinta',
                             fontSize: 28.sp,
                             color: ink,
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                         24.height,
@@ -143,8 +152,10 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                   GestureDetector(
                     onTap: () {
                       if (_currentPage == _items.length - 1) {
+                        log('[WALKTHROUGH] Finished last page. Navigating to LoginScreen.');
                         const LoginScreen().launch(context, isNewTask: true);
                       } else {
+                        log('[WALKTHROUGH] NEXT tapped. Animating to page: ${_currentPage + 1}');
                         _pageController.nextPage(
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut,

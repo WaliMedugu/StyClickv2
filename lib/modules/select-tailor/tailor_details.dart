@@ -37,10 +37,11 @@ class TailorDetails extends StatelessWidget {
                     20.width,
                     Text(
                       businessName,
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 22.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -98,7 +99,12 @@ class TailorDetails extends StatelessWidget {
                   children: [
                     Text(
                       businessName,
-                      style: GoogleFonts.montserrat(fontSize: 18.sp, color: ink, fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
+                        fontSize: 18.sp,
+                        color: ink,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     8.height,
                     Row(
@@ -134,8 +140,13 @@ class TailorDetails extends StatelessWidget {
                     Divider(color: sand),
                     16.height,
                     Text('SPECIALISES IN',
-                        style: GoogleFonts.montserrat(
-                            fontSize: 11.sp, color: textLight, fontWeight: FontWeight.w700, letterSpacing: 1.5)),
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 11.sp,
+                          color: textLight,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                        )),
                     12.height,
                     Wrap(
                       spacing: 8,
@@ -151,8 +162,13 @@ class TailorDetails extends StatelessWidget {
                     ),
                     24.height,
                     Text('QUICK ACTIONS',
-                        style: GoogleFonts.montserrat(
-                            fontSize: 11.sp, color: textLight, fontWeight: FontWeight.w700, letterSpacing: 1.5)),
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 11.sp,
+                          color: textLight,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                        )),
                     16.height,
                     _actionTile(sewingMachine, 'Sew a New Style', 'Commission a custom outfit'),
                     12.height,
@@ -231,8 +247,12 @@ class TailorDetails extends StatelessWidget {
             children: [
               Text(
                 'Chat Stylist',
-                style: GoogleFonts.montserrat(
-                    fontSize: 20.sp, color: primary, fontWeight: FontWeight.w900),
+                style: TextStyle(
+                  fontFamily: 'Cinta',
+                  fontSize: 20.sp,
+                  color: primary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               16.height,
               Text('Upload Image',

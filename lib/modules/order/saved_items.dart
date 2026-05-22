@@ -77,10 +77,11 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
                   const Spacer(),
                   Text(
                     'Saved Items',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 26.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -390,10 +391,11 @@ class _SavedItemsPageState extends State<SavedItemsPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

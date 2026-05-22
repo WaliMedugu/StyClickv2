@@ -94,10 +94,11 @@ class _CataloguePageState extends State<CataloguePage> {
                   const Spacer(),
                   Text(
                     'Catalogue',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 26.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -344,10 +345,11 @@ class _CataloguePageState extends State<CataloguePage> {
                     children: [
                       Text(
                         'Filter Selection',
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
                           fontSize: 24.sp,
                           color: primary,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       TextButton(
@@ -380,7 +382,8 @@ class _CataloguePageState extends State<CataloguePage> {
                   32.height,
                   Text(
                     'CATEGORIES',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 12.sp,
                       color: ink,
                       fontWeight: FontWeight.w700,
@@ -637,10 +640,11 @@ class _CataloguePageState extends State<CataloguePage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

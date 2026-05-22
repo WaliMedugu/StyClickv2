@@ -25,3 +25,42 @@ small size version of the uploaded image should be shown in the upload image sec
 
 use pure white for the background
 
+all bold text should be in montserrat bold. no bold and reduce size for 6titles. big n bold
+like the premium tailooring cards in the home screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the buy fabrics screen
+
+title case for all main title items
+the title of all screens must be the same as the entrance to the screen. eg the patnership screen is actually the become a vendor screen.
+no bold on names in the account screen 
+
+details screen
+
+
+
+
+
+
+
+
+im coming on saturday... virtual meeting on thursday
+
+reach out to henry and mandela
+
+im one of the mentors for antigravity and google cloud technologies
+
+ask about email otp
+

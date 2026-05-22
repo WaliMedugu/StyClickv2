@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/shared/widgets/nav.dart';
+import 'package:stylclick/modules/auth/login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,17 +14,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    log('[SPLASH] SplashScreen initialized');
     _init();
   }
 
   void _init() async {
     await 2.seconds.delay;
-    if (getBoolAsync('home', defaultValue: false)) {
+    bool isLoggedIn = getBoolAsync('home', defaultValue: false);
+    log('[SPLASH] Checking login status: isLoggedIn = $isLoggedIn');
+    if (isLoggedIn) {
+      log('[SPLASH] Navigating to Home Dashboard (Nav)');
       const Nav().launch(context, isNewTask: true);
     } else {
-      // Assuming Walkthrough or Login is the next step
-      // For now, following the Nav bypass logic from main.dart
-      const Nav().launch(context, isNewTask: true);
+      log('[SPLASH] Navigating to LoginScreen');
+      const LoginScreen().launch(context, isNewTask: true);
     }
   }
 

@@ -48,10 +48,11 @@ class _AddFundsPageState extends State<AddFundsPage> {
                     20.width,
                     Text(
                       'Add Funds',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 24.sp,
                         color: primary,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -66,8 +67,9 @@ class _AddFundsPageState extends State<AddFundsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ENTER AMOUNT',
-                      style: GoogleFonts.montserrat(
+                      'Enter Amount',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -152,8 +154,9 @@ class _AddFundsPageState extends State<AddFundsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'SELECT PAYMENT METHOD',
-                      style: GoogleFonts.montserrat(
+                      'Select Payment Method',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,

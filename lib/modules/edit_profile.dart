@@ -74,10 +74,11 @@ class _EditProfileState extends State<EditProfile> {
                     const Spacer(),
                     Text(
                       'Edit Profile',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 26.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -205,7 +206,8 @@ class _EditProfileState extends State<EditProfile> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title.toUpperCase(),
-      style: GoogleFonts.montserrat(
+      style: TextStyle(
+        fontFamily: 'Cinta',
         fontSize: 12.sp,
         color: textLight,
         fontWeight: FontWeight.w700,
@@ -369,7 +371,7 @@ class _EditProfileState extends State<EditProfile> {
                       InkWell(
                         onTap: () => Navigator.pop(context),
                         child: Text(
-                          'BACK TO PROFILE',
+                          'Back to Profile',
                           style: GoogleFonts.montserrat(
                             color: primary,
                             fontSize: 10.sp,
@@ -401,7 +403,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Divider(color: sand, thickness: 1),
                   ),
-                  _buildDrawerItem(context, 'Become a vendor', () => VendorPage().launch(context)),
+                  _buildDrawerItem(context, 'Become a Vendor', () => VendorPage().launch(context)),
                   _buildDrawerItem(context, 'Share & Earn', () {}),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -475,10 +477,11 @@ class _EditProfileState extends State<EditProfile> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

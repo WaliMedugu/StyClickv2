@@ -42,10 +42,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     20.width,
                     Text(
                       'Settings',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 26.sp,
                         color: primary,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -139,7 +140,8 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 16.h),
       child: Text(
         title,
-        style: GoogleFonts.montserrat(
+        style: TextStyle(
+          fontFamily: 'Cinta',
           fontSize: 12.sp,
           color: textLight,
           fontWeight: FontWeight.w700,

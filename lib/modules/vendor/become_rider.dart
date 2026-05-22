@@ -8,6 +8,8 @@ import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:stylclick/shared/constants/strings.dart';
+import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:stylclick/shared/utils/validator.dart';
 
 class BecomeRider extends StatefulWidget {
   const BecomeRider({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class BecomeRider extends StatefulWidget {
 
 class _BecomeRiderState extends State<BecomeRider> {
   int _currentStep = 0;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   // Controllers
   final TextEditingController _fullName = TextEditingController();
@@ -54,10 +57,11 @@ class _BecomeRiderState extends State<BecomeRider> {
                   20.width,
                   Text(
                     'Rider Registration',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 22.sp,
                       color: primary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -88,14 +92,17 @@ class _BecomeRiderState extends State<BecomeRider> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (_currentStep == 0) _buildPersonalInfo(),
-                    if (_currentStep == 1) _buildVehicleInfo(),
-                    if (_currentStep == 2) _buildVerification(),
-                    60.height,
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (_currentStep == 0) _buildPersonalInfo(),
+                      if (_currentStep == 1) _buildVehicleInfo(),
+                      if (_currentStep == 2) _buildVerification(),
+                      60.height,
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -113,13 +120,35 @@ class _BecomeRiderState extends State<BecomeRider> {
       children: [
         _buildSectionHeader('PERSONAL DETAILS', 'Create your dispatch profile.'),
         24.height,
-        _buildTextField('Full Name', _fullName, FeatherIcons.user),
+        _buildTextField(
+          'Full Name',
+          _fullName,
+          FeatherIcons.user,
+          validator: (v) => v.validate().isEmpty ? 'Full Name is required' : null,
+        ),
         16.height,
-        _buildTextField('Email Address', _email, FeatherIcons.mail, type: TextInputType.emailAddress),
+        _buildTextField(
+          'Email Address',
+          _email,
+          FeatherIcons.mail,
+          type: TextInputType.emailAddress,
+          validator: EmailValidator.validateEmail,
+        ),
         16.height,
-        _buildTextField('Phone Number', _phone, FeatherIcons.phone, type: TextInputType.phone),
+        _buildTextField(
+          'Phone Number',
+          _phone,
+          FeatherIcons.phone,
+          type: TextInputType.phone,
+          validator: PhoneValidator.validatePhone,
+        ),
         16.height,
-        _buildTextField('Residential Address', _address, FeatherIcons.mapPin),
+        _buildTextField(
+          'Residential Address',
+          _address,
+          FeatherIcons.mapPin,
+          validator: (v) => v.validate().isEmpty ? 'Residential Address is required' : null,
+        ),
       ],
     );
   }
@@ -166,9 +195,19 @@ class _BecomeRiderState extends State<BecomeRider> {
           }).toList(),
         ),
         24.height,
-        _buildTextField('Vehicle Manufacturer (e.g. Honda)', _vehicleMake, FeatherIcons.truck),
+        _buildTextField(
+          'Vehicle Manufacturer (e.g. Honda)',
+          _vehicleMake,
+          FeatherIcons.truck,
+          validator: (v) => v.validate().isEmpty ? 'Vehicle Manufacturer is required' : null,
+        ),
         16.height,
-        _buildTextField('License Plate Number', _plateNumber, FeatherIcons.hash),
+        _buildTextField(
+          'License Plate Number',
+          _plateNumber,
+          FeatherIcons.hash,
+          validator: (v) => v.validate().isEmpty ? 'License Plate Number is required' : null,
+        ),
       ],
     );
   }
@@ -238,39 +277,44 @@ class _BecomeRiderState extends State<BecomeRider> {
       children: [
         Text(
           title,
-          style: GoogleFonts.montserrat(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+          style: TextStyle(
+            fontFamily: 'Cinta',
+            fontSize: 12.sp,
+            color: primary,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.5,
+          ),
         ),
         8.height,
         Text(
           sub,
-          style: GoogleFonts.montserrat(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontFamily: 'Cinta',
+            fontSize: 22.sp,
+            color: ink,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildTextField(String hint, TextEditingController controller, IconData icon, {TextInputType type = TextInputType.text}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r), border: Border.all(color: sand)),
-      child: Row(
-        children: [
-          Icon(icon, color: sand, size: 18.sp),
-          16.width,
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: type,
-              style: TextStyle(fontFamily: cinta, fontSize: 15.sp, color: ink),
-              decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: TextStyle(fontFamily: cinta, color: sand),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
+  Widget _buildTextField(
+    String hint,
+    TextEditingController controller,
+    IconData icon, {
+    TextInputType type = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
+    return CustomTextField(
+      controller: controller,
+      hintText: hint,
+      textInputType: type,
+      prefixIcon: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        child: Icon(icon, color: sand, size: 18.sp),
       ),
+      validator: validator,
     );
   }
 
@@ -352,13 +396,30 @@ class _BecomeRiderState extends State<BecomeRider> {
               textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
               onTap: () {
-                if (_currentStep < 2) {
-                  setState(() => _currentStep++);
-                } else {
-                  const SuccessPage(
-                    medium: 'Application Sent',
-                    message: 'Your rider profile is being reviewed. We will contact you shortly.',
-                  ).launch(context);
+                if (_formKey.currentState!.validate()) {
+                  if (_currentStep == 2) {
+                    if (_licenseImagePath == null) {
+                      toast("Please upload Driver's License");
+                      return;
+                    }
+                    if (_insuranceImagePath == null) {
+                      toast('Please upload Vehicle Insurance/Reg');
+                      return;
+                    }
+                    if (_ninImagePath == null) {
+                      toast('Please upload NIN/ID Card');
+                      return;
+                    }
+                  }
+
+                  if (_currentStep < 2) {
+                    setState(() => _currentStep++);
+                  } else {
+                    const SuccessPage(
+                      medium: 'Application Sent',
+                      message: 'Your rider profile is being reviewed. We will contact you shortly.',
+                    ).launch(context);
+                  }
                 }
               },
               shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),

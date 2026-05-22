@@ -21,9 +21,10 @@ class FabricSellerDetails extends StatefulWidget {
   State<FabricSellerDetails> createState() => _FabricSellerDetailsState();
 }
 
-class _FabricSellerDetailsState extends State<FabricSellerDetails>
-    with SingleTickerProviderStateMixin {
-  TabController? tabcontroller;
+class _FabricSellerDetailsState extends State<FabricSellerDetails> {
+  String _searchQuery = "";
+  List<String> _selectedTags = [];
+  final List<String> _availableTags = ['Ankara', 'Lace', 'Aso-oke'];
 
   final List<Map<String, String>> _products = [
     {'name': 'Swiss Lace', 'price': 'NGN 3,500/yd', 'tag': 'Lace'},
@@ -34,22 +35,12 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
     {'name': 'Aso-oke Gold', 'price': 'NGN 12,000/yd', 'tag': 'Aso-oke'},
   ];
 
-  List<Map<String, String>> _filtered(String tab) {
-    if (tab == 'All') return _products;
-    return _products.where((p) => p['tag'] == tab).toList();
-  }
-
-  @override
-  void initState() {
-    tabcontroller = TabController(length: 4, vsync: this);
-    tabcontroller!.animateTo(widget.selectedIndex!);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    tabcontroller?.dispose();
-    super.dispose();
+  List<Map<String, String>> get _filteredProducts {
+    return _products.where((product) {
+      final nameMatches = product['name']!.toLowerCase().contains(_searchQuery.toLowerCase());
+      final tagMatches = _selectedTags.isEmpty || _selectedTags.contains(product['tag']);
+      return nameMatches && tagMatches;
+    }).toList();
   }
 
   @override
@@ -76,10 +67,11 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
                   20.width,
                   Text(
                     widget.businessName,
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 22.sp,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -159,10 +151,11 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
                         children: [
                           Text(
                             widget.businessName,
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
+                                fontFamily: 'Cinta',
                                 fontSize: 18.sp,
                                 color: ink,
-                                fontWeight: FontWeight.w900),
+                                fontWeight: FontWeight.w700),
                           ),
                           8.height,
                           Row(
@@ -213,62 +206,90 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
 
                           // Products tab label
                           Text('PRODUCTS',
-                              style: GoogleFonts.montserrat(
+                              style: TextStyle(
+                                  fontFamily: 'Cinta',
                                   fontSize: 11.sp,
                                   color: textLight,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 1.5)),
                           12.height,
 
-                          // Tab bar
-                          Container(
-                            height: 44.h,
-                            decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(12.r),
-                              border: Border.all(color: sand),
-                            ),
-                            child: TabBar(
-                              controller: tabcontroller,
-                              labelStyle: TextStyle(
-                                  fontFamily: cinta,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w700),
-                              unselectedLabelStyle: TextStyle(
-                                  fontFamily: cinta,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500),
-                              labelColor: white,
-                              unselectedLabelColor: textLight,
-                              indicator: BoxDecoration(
-                                gradient: const LinearGradient(
-                                    colors: [primary, primaryGradient]),
-                                borderRadius: BorderRadius.circular(10.r),
+                          // Search & Filter Row
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 52.h,
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: Border.all(color: sand),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ink.withOpacity(0.05),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.search, color: ink.withOpacity(0.5), size: 20.sp),
+                                      12.width,
+                                      Expanded(
+                                        child: TextField(
+                                          onChanged: (val) {
+                                            setState(() {
+                                              _searchQuery = val;
+                                            });
+                                          },
+                                          style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                                          decoration: InputDecoration(
+                                            hintText: 'Search products...',
+                                            hintStyle: TextStyle(
+                                              fontFamily: 'Cinta', 
+                                              color: ink.withOpacity(0.4),
+                                              fontSize: 14.sp,
+                                            ),
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              dividerColor: Colors.transparent,
-                              tabs: const [
-                                Tab(text: 'All'),
-                                Tab(text: 'Ankara'),
-                                Tab(text: 'Lace'),
-                                Tab(text: 'Aso-oke'),
-                              ],
-                            ),
+                              12.width,
+                              InkWell(
+                                onTap: () => _filterCategories(context),
+                                child: Container(
+                                  height: 52.h,
+                                  width: 52.h,
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: Border.all(color: sand),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ink.withOpacity(0.05),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(Icons.tune, color: primary, size: 24.sp),
+                                ),
+                              ),
+                            ],
                           ),
                           16.height,
                         ],
                       ),
                     ),
 
-                    // Tab content — product grid
-                    SizedBox(
-                      height: 480.h,
-                      child: TabBarView(
-                        controller: tabcontroller,
-                        children: ['All', 'Ankara', 'Lace', 'Aso-oke']
-                            .map((tab) => _buildProductGrid(tab))
-                            .toList(),
-                      ),
-                    ),
+                    // Product Grid Content
+                    _buildProductGrid(),
                     32.height,
                   ],
                 ),
@@ -280,11 +301,13 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
     );
   }
 
-  Widget _buildProductGrid(String tab) {
-    final items = _filtered(tab);
+  Widget _buildProductGrid() {
+    final items = _filteredProducts;
     if (items.isEmpty) {
-      return Center(
-        child: Text('No $tab products yet',
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 40.h),
+        alignment: Alignment.center,
+        child: Text('No products found',
             style: TextStyle(
                 fontFamily: cinta, fontSize: 14.sp, color: textLight)),
       );
@@ -366,6 +389,183 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
     );
   }
 
+  _filterCategories(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              height: logicalHeight() * 0.55,
+              decoration: BoxDecoration(
+                color: cream,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40.w,
+                      height: 4.h,
+                      decoration: BoxDecoration(
+                        color: sand,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                  ),
+                  24.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Filter Selection',
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 24.sp,
+                          color: primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setModalState(() {
+                            _selectedTags.clear();
+                          });
+                        },
+                        child: Text(
+                          'CLEAR',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 12.sp,
+                            color: textLight,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  12.height,
+                  Text(
+                    'Select categories to filter fabrics',
+                    style: TextStyle(fontFamily: 'Cinta', 
+                      fontSize: 14.sp,
+                      color: textLight,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  32.height,
+                  Text(
+                    'CATEGORIES',
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
+                      fontSize: 12.sp,
+                      color: ink,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  16.height,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 12.w,
+                        runSpacing: 12.h,
+                        children: _availableTags.map((tag) {
+                          bool isSelected = _selectedTags.contains(tag);
+                          return InkWell(
+                            onTap: () {
+                              setModalState(() {
+                                if (isSelected) {
+                                  _selectedTags.remove(tag);
+                                } else {
+                                  _selectedTags.add(tag);
+                                }
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              decoration: BoxDecoration(
+                                color: isSelected ? primary : white,
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(
+                                  color: isSelected ? primary : sand,
+                                ),
+                                boxShadow: isSelected
+                                    ? [
+                                        BoxShadow(
+                                          color: primary.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        )
+                                      ]
+                                    : [],
+                              ),
+                              child: Text(
+                                tag,
+                                style: TextStyle(fontFamily: 'Cinta', 
+                                  fontSize: 13.sp,
+                                  color: isSelected ? white : ink,
+                                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  24.height,
+                  InkWell(
+                    onTap: () {
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 56.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        gradient: const LinearGradient(
+                          colors: [primary, primaryGradient],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: primary.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Apply Filter',
+                          style: GoogleFonts.montserrat(
+                            color: white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  10.height,
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void _chatStylist(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -390,10 +590,11 @@ class _FabricSellerDetailsState extends State<FabricSellerDetails>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Chat Seller',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 20.sp,
                       color: primary,
-                      fontWeight: FontWeight.w900)),
+                      fontWeight: FontWeight.w700)),
               16.height,
               Text('Upload Image',
                   style: TextStyle(

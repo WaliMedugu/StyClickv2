@@ -66,10 +66,11 @@ class _WalletPageState extends State<WalletPage> {
                     const Spacer(),
                     Text(
                       'Wallet',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 26.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -116,8 +117,9 @@ class _WalletPageState extends State<WalletPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'CURRENT BALANCE',
-                            style: GoogleFonts.montserrat(
+                            'Current Balance',
+                            style: TextStyle(
+                              fontFamily: 'Cinta',
                               color: white.withOpacity(0.5),
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w700,
@@ -140,10 +142,11 @@ class _WalletPageState extends State<WalletPage> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 _isBalanceVisible ? 'NGN 9,500.00' : '••••••••',
-                                style: GoogleFonts.montserrat(
+                                style: TextStyle(
+                                  fontFamily: 'Cinta',
                                   color: white,
                                   fontSize: 32.sp,
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -188,8 +191,9 @@ class _WalletPageState extends State<WalletPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'PAYMENT METHODS',
-                      style: GoogleFonts.montserrat(
+                      'Payment Methods',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 12.sp,
                         color: textLight,
                         fontWeight: FontWeight.w700,
@@ -362,7 +366,7 @@ class _WalletPageState extends State<WalletPage> {
                       ),
                       4.height,
                       Text(
-                        'DASHBOARD',
+                        'Dashboard',
                         style: GoogleFonts.montserrat(
                           color: primary,
                           fontSize: 10.sp,
@@ -409,7 +413,7 @@ class _WalletPageState extends State<WalletPage> {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Divider(color: sand, thickness: 1),
                   ),
-                  _buildDrawerItem(context, 'Become a vendor', () => VendorPage().launch(context)),
+                  _buildDrawerItem(context, 'Become a Vendor', () => VendorPage().launch(context)),
                   _buildDrawerItem(context, 'Share & Earn', () => const ShareEarnPage().launch(context)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -479,10 +483,11 @@ class _WalletPageState extends State<WalletPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),

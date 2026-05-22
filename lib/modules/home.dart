@@ -309,10 +309,11 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: Text(
                   'Categories',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
+                    fontFamily: 'Cinta',
                     fontSize: 20.sp,
                     color: ink,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -397,17 +398,19 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Featured',
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 20.sp,
                         color: ink,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const Spacer(),
                     InkWell(
                       child: Text(
                         'View All',
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
                           fontSize: 12.sp,
                           color: primary,
                           fontWeight: FontWeight.w700,

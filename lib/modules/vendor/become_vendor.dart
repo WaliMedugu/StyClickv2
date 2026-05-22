@@ -8,6 +8,8 @@ import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:stylclick/shared/constants/strings.dart';
+import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:stylclick/shared/utils/validator.dart';
 
 class BecomeVendor extends StatefulWidget {
   const BecomeVendor({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class BecomeVendor extends StatefulWidget {
 
 class _BecomeVendorState extends State<BecomeVendor> {
   int _currentStep = 0;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   // Controllers
   final TextEditingController _shopName = TextEditingController();
@@ -53,10 +56,11 @@ class _BecomeVendorState extends State<BecomeVendor> {
                   20.width,
                   Text(
                     'Designer Registration',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 22.sp,
                       color: primary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -87,14 +91,17 @@ class _BecomeVendorState extends State<BecomeVendor> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (_currentStep == 0) _buildBusinessInfo(),
-                    if (_currentStep == 1) _buildSpecialization(),
-                    if (_currentStep == 2) _buildVerification(),
-                    60.height,
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (_currentStep == 0) _buildBusinessInfo(),
+                      if (_currentStep == 1) _buildSpecialization(),
+                      if (_currentStep == 2) _buildVerification(),
+                      60.height,
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -112,13 +119,35 @@ class _BecomeVendorState extends State<BecomeVendor> {
       children: [
         _buildSectionHeader('BUSINESS DETAILS', 'Tell us about your brand.'),
         24.height,
-        _buildTextField('Brand/Shop Name', _shopName, FeatherIcons.briefcase),
+        _buildTextField(
+          'Brand/Shop Name',
+          _shopName,
+          FeatherIcons.briefcase,
+          validator: (v) => v.validate().isEmpty ? 'Brand/Shop Name is required' : null,
+        ),
         16.height,
-        _buildTextField('Business Email', _email, FeatherIcons.mail, type: TextInputType.emailAddress),
+        _buildTextField(
+          'Business Email',
+          _email,
+          FeatherIcons.mail,
+          type: TextInputType.emailAddress,
+          validator: EmailValidator.validateEmail,
+        ),
         16.height,
-        _buildTextField('Phone Number', _phone, FeatherIcons.phone, type: TextInputType.phone),
+        _buildTextField(
+          'Phone Number',
+          _phone,
+          FeatherIcons.phone,
+          type: TextInputType.phone,
+          validator: PhoneValidator.validatePhone,
+        ),
         16.height,
-        _buildTextField('Physical Address', _address, FeatherIcons.mapPin),
+        _buildTextField(
+          'Physical Address',
+          _address,
+          FeatherIcons.mapPin,
+          validator: (v) => v.validate().isEmpty ? 'Physical Address is required' : null,
+        ),
       ],
     );
   }
@@ -162,7 +191,18 @@ class _BecomeVendorState extends State<BecomeVendor> {
           }).toList(),
         ),
         32.height,
-        _buildTextField('Years of Experience', _experience, FeatherIcons.clock, type: TextInputType.number),
+        _buildTextField(
+          'Years of Experience',
+          _experience,
+          FeatherIcons.clock,
+          type: TextInputType.number,
+          validator: (v) {
+            if (v.validate().isEmpty) return 'Years of Experience is required';
+            final n = num.tryParse(v.validate());
+            if (n == null || n < 0) return 'Enter a valid number';
+            return null;
+          },
+        ),
       ],
     );
   }
@@ -217,39 +257,44 @@ class _BecomeVendorState extends State<BecomeVendor> {
       children: [
         Text(
           title,
-          style: GoogleFonts.montserrat(fontSize: 12.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+          style: TextStyle(
+            fontFamily: 'Cinta',
+            fontSize: 12.sp,
+            color: primary,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.5,
+          ),
         ),
         8.height,
         Text(
           sub,
-          style: GoogleFonts.montserrat(fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontFamily: 'Cinta',
+            fontSize: 22.sp,
+            color: ink,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildTextField(String hint, TextEditingController controller, IconData icon, {TextInputType type = TextInputType.text}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r), border: Border.all(color: sand)),
-      child: Row(
-        children: [
-          Icon(icon, color: sand, size: 18.sp),
-          16.width,
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: type,
-              style: TextStyle(fontFamily: cinta, fontSize: 15.sp, color: ink),
-              decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: TextStyle(fontFamily: cinta, color: sand),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
+  Widget _buildTextField(
+    String hint,
+    TextEditingController controller,
+    IconData icon, {
+    TextInputType type = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
+    return CustomTextField(
+      controller: controller,
+      hintText: hint,
+      textInputType: type,
+      prefixIcon: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        child: Icon(icon, color: sand, size: 18.sp),
       ),
+      validator: validator,
     );
   }
 
@@ -331,13 +376,30 @@ class _BecomeVendorState extends State<BecomeVendor> {
               textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
               onTap: () {
-                if (_currentStep < 2) {
-                  setState(() => _currentStep++);
-                } else {
-                  const SuccessPage(
-                    medium: 'Application Sent',
-                    message: 'Your designer profile is being reviewed. We will contact you shortly.',
-                  ).launch(context);
+                if (_formKey.currentState!.validate()) {
+                  if (_currentStep == 1 && _specializations.isEmpty) {
+                    toast('Please select at least one specialization');
+                    return;
+                  }
+                  if (_currentStep == 2) {
+                    if (_cacImagePath == null) {
+                      toast('Please upload Business Registration (CAC)');
+                      return;
+                    }
+                    if (_portfolioImagePath == null) {
+                      toast('Please upload Portfolio/Recent Work');
+                      return;
+                    }
+                  }
+
+                  if (_currentStep < 2) {
+                    setState(() => _currentStep++);
+                  } else {
+                    const SuccessPage(
+                      medium: 'Application Sent',
+                      message: 'Your designer profile is being reviewed. We will contact you shortly.',
+                    ).launch(context);
+                  }
                 }
               },
               shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),

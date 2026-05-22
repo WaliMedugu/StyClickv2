@@ -66,11 +66,12 @@ class _VendorPageState extends State<VendorPage> {
                     ),
                     const Spacer(),
                     Text(
-                      'Partnership',
-                      style: GoogleFonts.montserrat(
+                      'Become a Vendor',
+                      style: TextStyle(
+                        fontFamily: 'Cinta',
                         fontSize: 26.sp,
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -1.0,
                       ),
                     ),
@@ -195,10 +196,11 @@ class _VendorPageState extends State<VendorPage> {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
                       fontSize: 18.sp,
                       color: ink,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   4.height,
@@ -385,10 +387,11 @@ class _VendorPageState extends State<VendorPage> {
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'Notifications',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
+                  fontFamily: 'Cinta',
                   fontSize: 24.sp,
                   color: primary,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.0,
                 ),
               ),
