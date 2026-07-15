@@ -1,6 +1,7 @@
 const appName = 'Stylclick';
 const selectDate = "Choose a date";
 const cinta = 'Cinta';
+const comfortaa = 'Comfortaa';
 const String emptyEmailField = "Email field cannot be empty!";
 const String emptyTextField = "Field cannot be empty!";
 const String emptyPasswordField = "Password field cannot be empty";

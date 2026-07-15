@@ -11,15 +11,6 @@ import 'package:stylclick/shared/widgets/custom_bottom_sheet.dart';
 class CategoryDetails extends StatelessWidget {
   CategoryDetails({Key? key}) : super(key: key);
 
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEA4262),
-      Color(0xFFDD6140),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +20,7 @@ class CategoryDetails extends StatelessWidget {
         automaticallyImplyLeading: false,
         flexibleSpace: Container(
           height: 100.h,
-          decoration: BoxDecoration(gradient: gradient),
+          decoration: const BoxDecoration(gradient: brandGradient),
           child: Padding(
             padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
             child: Row(

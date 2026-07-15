@@ -3,30 +3,41 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:stylclick/modules/vendor/become_rider.dart';
-import 'package:stylclick/modules/vendor/become_vendor.dart';
-import 'package:stylclick/modules/vendor/become_seller.dart';
-import 'package:stylclick/modules/order/saved_order.dart';
-import 'package:stylclick/modules/order/saved_items.dart';
-import 'package:stylclick/modules/wallet/transaction_history.dart';
-import 'package:stylclick/modules/wallet/wallet.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/modules/settings.dart';
 import 'package:stylclick/modules/share_earn.dart';
 import 'package:stylclick/shared/widgets/nav.dart';
+import 'package:stylclick/modules/order/saved_order.dart';
+import 'package:stylclick/modules/wallet/transaction_history.dart';
+import 'package:stylclick/modules/wallet/wallet.dart';
+import 'package:stylclick/modules/vendor/index.dart';
 import 'package:stylclick/modules/auth/login.dart';
-import 'package:stylclick/shared/constants/strings.dart';
 
-class VendorPage extends StatefulWidget {
-  const VendorPage({Key? key}) : super(key: key);
+class SavedItemsPage extends StatefulWidget {
+  const SavedItemsPage({Key? key}) : super(key: key);
 
   @override
-  State<VendorPage> createState() => _VendorPageState();
+  State<SavedItemsPage> createState() => _SavedItemsPageState();
 }
 
-class _VendorPageState extends State<VendorPage> {
+class _SavedItemsPageState extends State<SavedItemsPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
+  final List<String> images = [
+    catFemaleAsoEbi,
+    catMaleAsoEbi,
+    catAnkara,
+    catReadyToWear,
+    catMaterials,
+    catSenator,
+    catLace,
+    catFemaleAsoEbi,
+    catMaleAsoEbi,
+  ];
 
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
@@ -44,188 +55,181 @@ class _VendorPageState extends State<VendorPage> {
       endDrawer: buildNotificationDrawer(context),
       backgroundColor: cream,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(gradient: brandGradient),
-                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: _openDrawer,
-                      child: Image.asset(
-                        menuIcon,
-                        height: 24.h,
-                        width: 24.w,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      'Become a Vendor',
-                      style: TextStyle(
-                        fontFamily: 'Cinta',
-                        fontSize: 26.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -1.0,
-                      ),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: _openEndDrawer,
-                      child: Image.asset(
-                        notificationIcon,
-                        height: 24.h,
-                        width: 24.w,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              16.height,
-              // Welcome Text
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Grow with Styclick',
-                      style: TextStyle(fontFamily: 'Cinta', 
-                        fontSize: 32.sp,
-                        color: ink,
-                        fontWeight: FontWeight.w700,
-                        height: 1.1,
-                      ),
-                    ),
-                    12.height,
-                    Text(
-                      'Join our curated ecosystem of creators, suppliers, and logistics experts. Select your path below.',
-                      style: TextStyle(fontFamily: 'Cinta', 
-                        fontSize: 15.sp,
-                        color: textLight,
-                        height: 1.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              40.height,
-              // Options
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: Column(
-                  children: [
-                    _buildPartnerCard(
-                      title: 'Fashion Designer',
-                      desc: 'Showcase your craftsmanship to a global audience.',
-                      iconAsset: sewingMachine,
-                      onTap: () => const BecomeVendor().launch(context),
-                    ),
-                    20.height,
-                    _buildPartnerCard(
-                      title: 'Fabrics Seller',
-                      desc: 'Supply premium materials to top designers.',
-                      iconAsset: fabric,
-                      onTap: () => const BecomeSeller().launch(context),
-                    ),
-                    20.height,
-                    _buildPartnerCard(
-                      title: 'Dispatch Rider',
-                      desc: 'Be the bridge between fashion and the customer.',
-                      iconAsset: dispatchRider,
-                      onTap: () => const BecomeRider().launch(context),
-                    ),
-                    40.height,
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPartnerCard({required String title, required String desc, required String iconAsset, required VoidCallback onTap}) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 100.h,
-        decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: sand),
-          boxShadow: [
-            BoxShadow(
-              color: ink.withOpacity(0.02),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            16.width,
-            // Small role icon from original assets, styled beautifully!
+            // Header
             Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: primary.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Image.asset(
-                iconAsset,
-                height: 40.h,
-                width: 40.w,
-                color: primary,
-              ),
-            ),
-            16.width,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              width: double.infinity,
+              decoration: const BoxDecoration(gradient: brandGradient),
+              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
+              child: Row(
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontFamily: 'Cinta',
-                      fontSize: 18.sp,
-                      color: ink,
-                      fontWeight: FontWeight.w700,
+                  InkWell(
+                    onTap: _openDrawer,
+                    child: Image.asset(
+                      menuIcon,
+                      height: 24.h,
+                      width: 24.w,
+                      color: Colors.white,
                     ),
                   ),
-                  4.height,
+                  const Spacer(),
                   Text(
-                    desc,
+                    'Saved Items',
                     style: TextStyle(
-                      fontFamily: cinta,
-                      fontSize: 12.sp,
-                      color: textLight,
+                      fontFamily: 'Cinta',
+                      fontSize: 26.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -1.0,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: _openEndDrawer,
+                    child: Image.asset(
+                      notificationIcon,
+                      height: 24.h,
+                      width: 24.w,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
             ),
-            16.width,
-            Container(
-              margin: EdgeInsets.only(right: 16.w),
-              padding: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: primary.withOpacity(0.08),
-                shape: BoxShape.circle,
+            32.height,
+            // Search Bar
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Container(
+                height: 52.h,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: sand),
+                ),
+                child: Row(
+                  children: [
+                    Icon(FeatherIcons.search, color: sand, size: 20.sp),
+                    12.width,
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (value) => setState(() => _searchQuery = value),
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                        decoration: InputDecoration(
+                          hintText: 'Search your favorites...',
+                          hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Icon(FeatherIcons.arrowRight, color: primary, size: 16.sp),
+            ),
+            24.height,
+            // Grid
+            Expanded(
+              child: MasonryGridView.count(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                crossAxisCount: 2,
+                mainAxisSpacing: 8.w,
+                crossAxisSpacing: 8.w,
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  double imageHeight = index.isEven ? 200.h : 260.h;
+                  
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.r),
+                      color: white,
+                      border: Border.all(color: sand),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ink.withOpacity(0.03),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(8.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12.r),
+                          child: Image.asset(
+                            images[index],
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: imageHeight,
+                          ),
+                        ),
+                        12.height,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                index % 2 == 0 ? 'Lace Asoebi' : 'Ankara Style',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontFamily: 'Cinta', 
+                                  fontSize: 14.sp,
+                                  color: ink,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Image.asset(
+                              favoriteIcon,
+                              height: 18.h,
+                              width: 18.w,
+                              color: primary,
+                            ),
+                          ],
+                        ),
+                        6.height,
+                        Row(
+                          children: [
+                            Icon(Icons.star_rounded, color: Colors.amber, size: 14.sp),
+                            2.width,
+                            Text(
+                              '4.8',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w700,
+                                color: ink,
+                              ),
+                            ),
+                            4.width,
+                            Text(
+                              '(13)',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w500,
+                                color: textLight,
+                              ),
+                            ),
+                          ],
+                        ),
+                        8.height,
+                        Text(
+                          'NGN 45,000',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 13.sp,
+                            color: primary,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -317,7 +321,7 @@ class _VendorPageState extends State<VendorPage> {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Divider(color: sand, thickness: 1),
                   ),
-                  _buildDrawerItem(context, 'Become a vendor', () => const VendorPage().launch(context)),
+                  _buildDrawerItem(context, 'Become a vendor', () => VendorPage().launch(context)),
                   _buildDrawerItem(context, 'Share & Earn', () => const ShareEarnPage().launch(context)),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.h),

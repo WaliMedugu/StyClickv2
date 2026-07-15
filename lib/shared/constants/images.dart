@@ -1,7 +1,7 @@
 const basePath = "assets/images";
 
 const walkthrough1 = "$basePath/walkthrough1.png";
-const loginLogo = "$basePath/loginlogo.png";
+const loginLogo = "$basePath/logo/appCircularLogo.png";
 const fingerprint = "$basePath/fingerprint.png";
 const account = "$basePath/account.png";
 const ankara = "$basePath/ankara.png";
@@ -17,7 +17,7 @@ const carouselBg = "$basePath/carouselBg.jpg";
 const favoriteIcon = "$basePath/favorite.png";
 const notificationIcon = "$basePath/notificationIcon.png";
 const menuIcon = "$basePath/home-menu.png";
-const homeLogo = "$basePath/home-logo.png";
+const homeLogo = "$basePath/logo/home-logo.png";
 const backIcon = "$basePath/back-icon.png";
 const activity = "$basePath/activity.png";
 const becomeVendor = "$basePath/become-vendor.png";
@@ -50,3 +50,18 @@ const paymentIcon = "$basePath/payment.png";
 const logoutIcon = "$basePath/logout.png";
 const savedIcon = "$basePath/saved.png";
 const styleitIcon = "$basePath/styleit.png";
+
+// Categories
+const catAnkara = "$basePath/categories/ankaraFabric.png";
+const catFemaleAsoEbi = "$basePath/categories/femaleAsoEbi.png";
+const catLace = "$basePath/categories/lace.png";
+const catMaleAsoEbi = "$basePath/categories/maleAsoEbi.png";
+const catMaterials = "$basePath/categories/materials.png";
+const catReadyToWear = "$basePath/categories/readyToWear.png";
+const catSenator = "$basePath/categories/senatorStyles.png";
+
+// User
+const defaultUserImage = "assets/images/user/1.png";
+// Account Section Themes
+const moneyTheme = "$basePath/accountsection/moneytheme.png";
+const economyTheme = "$basePath/accountsection/economytheme.png";

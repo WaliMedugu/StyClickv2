@@ -8,36 +8,33 @@ import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
 import 'package:stylclick/shared/utils/validator.dart';
 import 'package:stylclick/shared/widgets/snack_bar.dart';
 
-class BecomeRider extends StatefulWidget {
-  const BecomeRider({Key? key}) : super(key: key);
+class BecomeSeller extends StatefulWidget {
+  const BecomeSeller({Key? key}) : super(key: key);
 
   @override
-  State<BecomeRider> createState() => _BecomeRiderState();
+  State<BecomeSeller> createState() => _BecomeSellerState();
 }
 
-class _BecomeRiderState extends State<BecomeRider> {
+class _BecomeSellerState extends State<BecomeSeller> {
   int _currentStep = 0;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   // Controllers
-  final TextEditingController _fullName = TextEditingController();
+  final TextEditingController _shopName = TextEditingController();
+  final TextEditingController _address = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _phone = TextEditingController();
-  final TextEditingController _address = TextEditingController();
-  final TextEditingController _vehicleMake = TextEditingController();
-  final TextEditingController _plateNumber = TextEditingController();
 
-  String _vehicleType = 'Motorcycle';
+  List<String> _fabricTypes = [];
+  final List<String> _options = ['Lace', 'Ankara', 'Silk', 'Cotton', 'Adire', 'Chiffon', 'Velvet', 'Crepe'];
 
   // Image Upload Paths
-  String? _licenseImagePath;
-  String? _insuranceImagePath;
-  String? _ninImagePath;
+  String? _idImagePath;
+  String? _storeImagePath;
 
   bool _isLoading = false;
 
@@ -60,7 +57,7 @@ class _BecomeRiderState extends State<BecomeRider> {
                   ),
                   20.width,
                   Text(
-                    'Rider Registration',
+                    'Seller Registration',
                     style: TextStyle(
                       fontFamily: 'Cinta',
                       fontSize: 22.sp,
@@ -101,8 +98,8 @@ class _BecomeRiderState extends State<BecomeRider> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (_currentStep == 0) _buildPersonalInfo(),
-                      if (_currentStep == 1) _buildVehicleInfo(),
+                      if (_currentStep == 0) _buildShopInfo(),
+                      if (_currentStep == 1) _buildProductInfo(),
                       if (_currentStep == 2) _buildVerification(),
                       60.height,
                     ],
@@ -118,21 +115,21 @@ class _BecomeRiderState extends State<BecomeRider> {
     );
   }
 
-  Widget _buildPersonalInfo() {
+  Widget _buildShopInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('PERSONAL DETAILS', 'Create your dispatch profile.'),
+        _buildSectionHeader('SHOP DETAILS', 'Register your fabrics boutique.'),
         24.height,
         _buildTextField(
-          'Full Name',
-          _fullName,
-          FeatherIcons.user,
-          validator: (v) => v.validate().isEmpty ? 'Full Name is required' : null,
+          'Shop Name',
+          _shopName,
+          FeatherIcons.shoppingBag,
+          validator: (v) => v.validate().isEmpty ? 'Shop Name is required' : null,
         ),
         16.height,
         _buildTextField(
-          'Email Address',
+          'Business Email',
           _email,
           FeatherIcons.mail,
           type: TextInputType.emailAddress,
@@ -140,7 +137,7 @@ class _BecomeRiderState extends State<BecomeRider> {
         ),
         16.height,
         _buildTextField(
-          'Phone Number',
+          'Business Phone',
           _phone,
           FeatherIcons.phone,
           type: TextInputType.phone,
@@ -148,69 +145,69 @@ class _BecomeRiderState extends State<BecomeRider> {
         ),
         16.height,
         _buildTextField(
-          'Residential Address',
+          'Store Address',
           _address,
           FeatherIcons.mapPin,
-          validator: (v) => v.validate().isEmpty ? 'Residential Address is required' : null,
+          validator: (v) => v.validate().isEmpty ? 'Store Address is required' : null,
         ),
       ],
     );
   }
 
-  Widget _buildVehicleInfo() {
+  Widget _buildProductInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('VEHICLE DETAILS', 'Register your vehicle.'),
+        _buildSectionHeader('INVENTORY', 'Which fabrics do you supply?'),
         24.height,
-        Text(
-          'Vehicle Type',
-          style: GoogleFonts.montserrat(fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
-        ),
-        12.height,
-        Row(
-          children: ['Motorcycle', 'Bicycle', 'Car'].map((type) {
-            bool isSelected = _vehicleType == type;
-            return Expanded(
-              child: InkWell(
-                onTap: () => setState(() => _vehicleType = type),
-                child: Container(
-                  margin: EdgeInsets.only(right: type == 'Car' ? 0 : 8.w),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                  decoration: BoxDecoration(
-                    color: isSelected ? primary : white,
-                    borderRadius: BorderRadius.circular(16.r),
-                    border: Border.all(color: isSelected ? primary : sand),
-                  ),
-                  child: Center(
-                    child: Text(
-                      type,
-                      style: TextStyle(
-                        fontFamily: cinta,
-                        fontSize: 14.sp,
-                        color: isSelected ? white : ink,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                      ),
-                    ),
+        Wrap(
+          spacing: 12.w,
+          runSpacing: 12.h,
+          children: _options.map((opt) {
+            bool isSelected = _fabricTypes.contains(opt);
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  if (isSelected) _fabricTypes.remove(opt);
+                  else _fabricTypes.add(opt);
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: isSelected ? primary : white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: isSelected ? primary : sand),
+                ),
+                child: Text(
+                  opt,
+                  style: TextStyle(fontFamily: 'Cinta', 
+                    fontSize: 14.sp,
+                    color: isSelected ? white : ink,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   ),
                 ),
               ),
             );
           }).toList(),
         ),
-        24.height,
-        _buildTextField(
-          'Vehicle Manufacturer (e.g. Honda)',
-          _vehicleMake,
-          FeatherIcons.truck,
-          validator: (v) => v.validate().isEmpty ? 'Vehicle Manufacturer is required' : null,
-        ),
-        16.height,
-        _buildTextField(
-          'License Plate Number',
-          _plateNumber,
-          FeatherIcons.hash,
-          validator: (v) => v.validate().isEmpty ? 'License Plate Number is required' : null,
+        32.height,
+        Container(
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(16.r), border: Border.all(color: sand)),
+          child: Row(
+            children: [
+              Icon(FeatherIcons.truck, color: primary, size: 20.sp),
+              20.width,
+              Expanded(
+                child: Text(
+                  'Do you offer nationwide shipping?',
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Switch(value: true, onChanged: (v) {}, activeColor: primary),
+            ],
+          ),
         ),
       ],
     );
@@ -220,56 +217,33 @@ class _BecomeRiderState extends State<BecomeRider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('DOCUMENTATION', 'Verify your credentials.'),
+        _buildSectionHeader('IDENTITY', 'Verify your business.'),
         24.height,
         _buildUploadField(
-          'Driver\'s License',
-          'Front & Back View',
-          _licenseImagePath,
+          'Government Issued ID',
+          'Owner\'s Identification',
+          _idImagePath,
           () {
             setState(() {
-              _licenseImagePath = bizImage; // Mock uploaded file using bizImage
+              _idImagePath = bizImage; // Mock uploaded file using bizImage
             });
           },
         ),
         16.height,
         _buildUploadField(
-          'Vehicle Insurance/Reg',
-          'Valid Documents',
-          _insuranceImagePath,
+          'Store/Warehouse Photos',
+          'Interior & Exterior',
+          _storeImagePath,
           () {
             setState(() {
-              _insuranceImagePath = sewingMachine; // Mock uploaded file using sewingMachine
-            });
-          },
-        ),
-        16.height,
-        _buildUploadField(
-          'NIN/ID Card',
-          'National Identification',
-          _ninImagePath,
-          () {
-            setState(() {
-              _ninImagePath = profileAvatar; // Mock uploaded file using profileAvatar
+              _storeImagePath = sewingMachine; // Mock uploaded file using sewingMachine
             });
           },
         ),
         32.height,
-        Container(
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(color: primary.withOpacity(0.05), borderRadius: BorderRadius.circular(16.r)),
-          child: Row(
-            children: [
-              Icon(FeatherIcons.shield, color: primary, size: 20.sp),
-              16.width,
-              Expanded(
-                child: Text(
-                  'Your data is encrypted and only used for verification purposes.',
-                  style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: ink.withOpacity(0.7)),
-                ),
-              ),
-            ],
-          ),
+        Text(
+          'By submitting, you agree to Styclick\'s Seller Quality Guidelines.',
+          style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight, fontStyle: FontStyle.italic),
         ),
       ],
     );
@@ -292,12 +266,7 @@ class _BecomeRiderState extends State<BecomeRider> {
         8.height,
         Text(
           sub,
-          style: TextStyle(
-            fontFamily: 'Cinta',
-            fontSize: 22.sp,
-            color: ink,
-            fontWeight: FontWeight.w700,
-          ),
+          style: TextStyle(fontFamily: 'Cinta', fontSize: 22.sp, color: ink, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -354,7 +323,7 @@ class _BecomeRiderState extends State<BecomeRider> {
                         children: [
                           Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
                           4.height,
-                          Text('File uploaded successfully', style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: successColor)),
+                          Text('File uploaded successfully', style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: successColor)),
                         ],
                       ),
                     ),
@@ -363,11 +332,11 @@ class _BecomeRiderState extends State<BecomeRider> {
                 )
               : Column(
                   children: [
-                    Icon(FeatherIcons.camera, color: primary, size: 28.sp),
+                    Icon(FeatherIcons.image, color: primary, size: 28.sp),
                     12.height,
-                    Text(label, style: GoogleFonts.montserrat(fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
+                    Text(label, style: TextStyle(fontFamily: 'Cinta', fontSize: 15.sp, color: ink, fontWeight: FontWeight.w700)),
                     4.height,
-                    Text(sub, style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight)),
+                    Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
                   ],
                 ),
         ),
@@ -397,7 +366,7 @@ class _BecomeRiderState extends State<BecomeRider> {
             flex: 2,
             child: AppButton(
           text: _currentStep == 2
-              ? (_isLoading ? 'Submitting...' : 'Submit Application')
+              ? (_isLoading ? 'Submitting...' : 'Submit Registration')
               : 'Next Step',
               textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
@@ -405,17 +374,17 @@ class _BecomeRiderState extends State<BecomeRider> {
               ? null
               : () async {
                   if (_formKey.currentState!.validate()) {
+                    if (_currentStep == 1 && _fabricTypes.isEmpty) {
+                      toast('Please select at least one fabric type');
+                      return;
+                    }
                     if (_currentStep == 2) {
-                      if (_licenseImagePath == null) {
-                        toast("Please upload Driver's License");
+                      if (_idImagePath == null) {
+                        toast('Please upload Government Issued ID');
                         return;
                       }
-                      if (_insuranceImagePath == null) {
-                        toast('Please upload Vehicle Insurance/Reg');
-                        return;
-                      }
-                      if (_ninImagePath == null) {
-                        toast('Please upload NIN/ID Card');
+                      if (_storeImagePath == null) {
+                        toast('Please upload Store/Warehouse Photos');
                         return;
                       }
                     }
@@ -424,22 +393,20 @@ class _BecomeRiderState extends State<BecomeRider> {
                       setState(() => _currentStep++);
                     } else {
                       setState(() => _isLoading = true);
-                      log('[RIDER] Submitting rider application...');
-                      final res = await VendorService.instance.applyAsRider(
-                        fullName: _fullName.text.trim(),
+                      log('[SELLER] Submitting seller application...');
+                      final res = await VendorService.instance.applyAsSeller(
+                        shopName: _shopName.text.trim(),
                         email: _email.text.trim(),
                         phone: _phone.text.trim(),
                         address: _address.text.trim(),
-                        vehicleType: _vehicleType,
-                        vehicleMake: _vehicleMake.text.trim(),
-                        plateNumber: _plateNumber.text.trim(),
+                        fabricTypes: _fabricTypes,
                       );
                       if (mounted) {
                         setState(() => _isLoading = false);
                         if (res.status == true) {
                           const SuccessPage(
-                            medium: 'Application Sent',
-                            message: 'Your rider profile is being reviewed. We will contact you shortly.',
+                            medium: 'Registration Sent',
+                            message: 'Your fabrics store application is being processed.',
                           ).launch(context);
                         } else {
                           showMessage(context, res.message ?? 'Submission failed. Please try again.');

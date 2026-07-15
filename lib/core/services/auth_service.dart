@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:http/http.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:stylclick/core/services/api_service.dart';
 import 'package:stylclick/shared/endpoint.dart';
 import 'package:stylclick/shared/models/api_model.dart';
 
@@ -11,58 +7,29 @@ class AuthService {
 
   AuthService._();
 
-  static AuthService? get instance {
+  static AuthService get instance {
     _authService ??= AuthService._();
-    return _authService;
+    return _authService!;
   }
 
-  Future<ApiResponse<T>> login<T>(
+  final _api = ApiService.instance;
+
+  // ── Login ─────────────────────────────────────────────────────────────
+
+  Future<ApiResponse<Map<String, dynamic>>> login(
     String email,
-    String password, {
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r.body as T;
+    String password,
+  ) =>
+      _api.post<Map<String, dynamic>>(
+        signIn,
+        body: {"email": email, "password": password},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Register ──────────────────────────────────────────────────────────
 
-    try {
-      Response res = await post(
-          Uri.parse(
-            baseUrl + signIn,
-          ),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "password": password
-          });
-
-      final dynamic data = json.decode(res.body);
-
-      if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
-      }
-    } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = (e).toString();
-    } catch (e) {
-      log(e.toString());
-
-      apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
-    }
-
-    return apiResponse;
-  }
-
-  Future<ApiResponse<T>> signup<T>({
+  Future<ApiResponse<Map<String, dynamic>>> signup({
     required String email,
     required String password,
     required String firstName,
@@ -70,98 +37,79 @@ class AuthService {
     required String phone,
     required String state,
     required String address,
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r.body as T;
+    String? referralCode,
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        register,
+        body: {
+          "email": email,
+          "password": password,
+          "firstname": firstName,
+          "lastname": lastName,
+          "phone": phone,
+          "state": state,
+          "address": address,
+          "origin": "mobile",
+          if (referralCode != null && referralCode.isNotEmpty)
+            "referral_code": referralCode,
+        },
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Verify OTP ────────────────────────────────────────────────────────
 
-    try {
-      Response res = await post(
-          Uri.parse(
-            baseUrl + register,
-          ),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "password": password,
-            "firstname": firstName,
-            "lastname": lastName,
-            "phone": phone,
-            "state": state,
-            "address": address,
-            "origin": "mobile"
-          });
-
-      final dynamic data = json.decode(res.body);
-
-      if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
-      }
-    } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = (e).toString();
-    } catch (e) {
-      log(e.toString());
-
-      apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
-    }
-
-    return apiResponse;
-  }
-
-  Future<ApiResponse<T>> verify<T>({
+  Future<ApiResponse<Map<String, dynamic>>> verify({
     required String email,
     required String token,
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r.body as T;
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        verifyUser,
+        body: {"email": email, "token": token},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Resend OTP ────────────────────────────────────────────────────────
 
-    try {
-      Response res = await post(
-          Uri.parse(
-            baseUrl + verifyUser,
-          ),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "token": token
-          });
+  Future<ApiResponse<Map<String, dynamic>>> resendVerificationOtp({
+    required String email,
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        resendOtp,
+        body: {"email": email},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-      final dynamic data = json.decode(res.body);
+  // ── Forgot Password (request reset link) ─────────────────────────────
 
-      if (res.statusCode.isSuccessful()) {
-        log(data);
-        apiResponse.data = transform(data);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = (data['message'] ?? 'Error occurred');
-      }
-    } on SocketException catch (e) {
-      log('here is the exception ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = (e).toString();
-    } catch (e) {
-      log(e.toString());
+  Future<ApiResponse<Map<String, dynamic>>> requestPasswordReset({
+    required String email,
+  }) =>
+      _api.patch<Map<String, dynamic>>(
+        resetRequest,
+        body: {"email": email},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-      apiResponse.status = false;
-      apiResponse.message = 'Unable to process request at the moment';
-    }
+  // ── Reset Password ────────────────────────────────────────────────────
 
-    return apiResponse;
-  }
+  Future<ApiResponse<Map<String, dynamic>>> resetPassword({
+    required String email,
+    required String token,
+    required String newPassword,
+  }) =>
+      _api.patch<Map<String, dynamic>>(
+        changePassword,
+        body: {
+          "email": email,
+          "token": token,
+          "password": newPassword,
+          "password_confirmation": newPassword,
+        },
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 }

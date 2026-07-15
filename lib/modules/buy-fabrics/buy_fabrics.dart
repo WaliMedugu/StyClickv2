@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/modules/buy-fabrics/buy_fabrics_details.dart';
 import 'package:stylclick/modules/select-tailor/tailor_details.dart';
@@ -26,46 +27,76 @@ class _BuyFabricsState extends State<BuyFabrics> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: 17.0.w,
-              ),
+            // Header
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(gradient: brandGradient),
+              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        backIcon,
-                        color:  selectTailorColor,
-                        width: 24.w,
-                      ),
+                    child: Image.asset(
+                      backIcon,
+                      color: Colors.white,
+                      width: 24.w,
                     ),
                   ),
+                  20.width,
                   Text(
                     'Buy Fabrics',
                     style: TextStyle(
-                      color:  selectTailorColor,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Cinta',
+                      fontSize: 26.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -1.0,
                     ),
                   ),
                 ],
               ),
             ),
+            24.height,
             Padding(
-              padding: EdgeInsets.only(left: 17.w, right: 17.w),
-              child: CustomTextField(
-                  hintTextColor: homeSearchHintColor,
-                  hintText: 'Search for a fabrics seller',
-                  filledColor: const Color(0xfffffcfc),
-                  borderColor: const Color(0xffbcb6b6),
-                  borderRadius: BorderRadius.circular(25.r),
-                  prefixIcon: const Icon(Icons.search)),
+              padding: EdgeInsets.symmetric(horizontal: 17.w),
+              child: Container(
+                height: 52.h,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: sand),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ink.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.search, color: ink.withOpacity(0.5), size: 20.sp),
+                    12.width,
+                    Expanded(
+                      child: TextField(
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                        decoration: InputDecoration(
+                          hintText: 'Search for a fabrics seller',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Cinta', 
+                            color: ink.withOpacity(0.4),
+                            fontSize: 14.sp,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             16.height,
             Expanded(
@@ -79,97 +110,93 @@ class _BuyFabricsState extends State<BuyFabrics> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 16,
-                            childAspectRatio: 9 / 14
+                            childAspectRatio: 9 / 16,
                     ),
                     itemCount: images.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: () {
-                          FabricSellerDetails(businessName: 'Moralake Stitches',).launch(context);
+                          FabricSellerDetails(businessName: 'Moralake Fabrics').launch(context);
                         },
                         child: Container(
-                          width: context.width() * 0.4,
-                          height: 250,
-                          decoration: const BoxDecoration(
-                            // borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-
-                          ),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            children: [
-                              Image.asset(
-                                images[index],
-                                fit: BoxFit.cover,
-                                height: 184.h,
-                                width: 184.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: white,
+                            border: Border.all(color: sand),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ink.withOpacity(0.03),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
                               ),
-                              4.height,
+                            ],
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: Image.asset(
+                                    images[index],
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                              ),
+                              12.height,
                               Text(
-                                'Swiss lace',
+                                'Swiss Lace',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: storeNameColor,
-                                  fontFamily: cinta,
+                                  fontFamily: 'Cinta',
+                                  fontSize: 14.sp,
+                                  color: ink,
                                   fontWeight: FontWeight.w700,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                               4.height,
                               Row(
                                 children: [
-                                  const Icon(
-                                    (Icons.location_on),
-                                    color: locationIconColor,
-                                    size: 16,
-                                  ),
-                                  4.width,
+                                  Icon(Icons.location_on, color: locationIconColor, size: 12.sp),
+                                  2.width,
                                   Text(
-                                    'Image $index',
+                                    'Garki, Abuja',
                                     style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontFamily: cinta,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Cinta',
+                                      fontSize: 11.sp,
+                                      color: textLight,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ],
                               ),
-                              4.height,
+                              6.height,
                               Row(
                                 children: [
-                                  RatingBar.builder(
-                                    initialRating: 3,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 12,
-                                    // itemPadding: EdgeInsets.symmetric(
-                                    //     horizontal: 2.0),
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 5,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      log(rating);
-                                    },
+                                  Icon(Icons.star_rounded, color: Colors.amber, size: 12.sp),
+                                  2.width,
+                                  Text(
+                                    '4.8',
+                                    style: GoogleFonts.montserrat(fontSize: 11.sp, fontWeight: FontWeight.w700, color: ink),
                                   ),
                                   4.width,
                                   Text(
-                                    '13 Reviews',
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontFamily: cinta,
-                                        fontWeight: FontWeight.bold,
-                                        color: signinTextColor),
-                                    textAlign: TextAlign.center,
+                                    '(13)',
+                                    style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight),
                                   ),
                                 ],
                               ),
-                              4.height,
+                              8.height,
+                              Text(
+                                'NGN 3,500/yard',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 13.sp,
+                                  color: primary,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
                             ],
                           ),
                         ),

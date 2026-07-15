@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
@@ -12,7 +13,7 @@ import 'package:stylclick/shared/widgets/custom_textfield.dart';
 class FabricSellerDetails extends StatefulWidget {
   final int? selectedIndex;
   final String businessName;
-  FabricSellerDetails(
+  const FabricSellerDetails(
       {Key? key, required this.businessName, this.selectedIndex = 0})
       : super(key: key);
 
@@ -20,491 +21,647 @@ class FabricSellerDetails extends StatefulWidget {
   State<FabricSellerDetails> createState() => _FabricSellerDetailsState();
 }
 
-class _FabricSellerDetailsState extends State<FabricSellerDetails>
-    with SingleTickerProviderStateMixin {
-  TabController? tabcontroller;
+class _FabricSellerDetailsState extends State<FabricSellerDetails> {
+  String _searchQuery = "";
+  List<String> _selectedTags = [];
+  final List<String> _availableTags = ['Ankara', 'Lace', 'Aso-oke'];
 
-  @override
-  void initState() {
-    tabcontroller = TabController(length: 4, vsync: this);
-    tabcontroller!.animateTo(widget.selectedIndex!);
-    super.initState();
+  final List<Map<String, String>> _products = [
+    {'name': 'Swiss Lace', 'price': 'NGN 3,500/yd', 'tag': 'Lace'},
+    {'name': 'Ankara Print', 'price': 'NGN 2,200/yd', 'tag': 'Ankara'},
+    {'name': 'Aso-oke Special', 'price': 'NGN 8,000/yd', 'tag': 'Aso-oke'},
+    {'name': 'Brocade Fabric', 'price': 'NGN 4,100/yd', 'tag': 'Lace'},
+    {'name': 'Chiffon Silk', 'price': 'NGN 5,000/yd', 'tag': 'Ankara'},
+    {'name': 'Aso-oke Gold', 'price': 'NGN 12,000/yd', 'tag': 'Aso-oke'},
+  ];
+
+  List<Map<String, String>> get _filteredProducts {
+    return _products.where((product) {
+      final nameMatches = product['name']!.toLowerCase().contains(_searchQuery.toLowerCase());
+      final tagMatches = _selectedTags.isEmpty || _selectedTags.contains(product['tag']);
+      return nameMatches && tagMatches;
+    }).toList();
   }
-
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEF3F53),
-      Color(0xFFF25E38),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: cream,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              SizedBox(
-                height: logicalHeight(),
-                width: logicalWidth(),
-              ),
-              Container(
-                decoration: const BoxDecoration(color: white),
-                // height: 160.h,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset(
-                          backIcon,
-                          width: 24.w,
-                          color: selectTailorColor,
-                        ),
-                      ),
-                      8.width,
-                      Text(
-                        widget.businessName ?? '',
-                        style: TextStyle(
-                          color: selectTailorColor,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Gradient header ──────────────────────────────────────
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(gradient: brandGradient),
+              padding: EdgeInsets.only(
+                  left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Image.asset(backIcon, width: 24.w,
+                        color: Colors.white),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 60.h),
-                child: Image.asset(bizImage),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26.w, right: 17.w, top: 140.h),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: Stack(
-                    children: const [
-                      Align(
-                        alignment: Alignment.center,
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage(profileIcon),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 250,
-                left: 310,
-                child: InkWell(
-                  onTap: () {
-                    chatStylist(context);
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: signinTextColor),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        chatIcon,
-                        height: 16.h,
-                        width: 16.w,
-                      ),
+                  20.width,
+                  Text(
+                    widget.businessName,
+                    style: TextStyle(
+                      fontFamily: 'Cinta',
+                      fontSize: 22.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
                     ),
                   ),
-                ),
+                ],
               ),
-              Positioned(
-                top: 250,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.businessName ?? '',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: cinta,
-                          color: const Color(0xff313131),
-                          fontWeight: FontWeight.w700,
-                        ),
+            ),
+
+            // ── Scrollable body ──────────────────────────────────────
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Banner image
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 17.w, vertical: 16.h),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16.r),
+                        child: Image.asset(bizImage,
+                            width: double.infinity,
+                            height: 160.h,
+                            fit: BoxFit.cover),
                       ),
-                      4.height,
-                      Row(
+                    ),
+
+                    // Avatar + Chat button
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: 26.w, right: 17.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Icon(
-                            (Icons.location_on),
-                            color: locationIconColor,
-                            size: 14,
-                          ),
-                          4.width,
-                          Text(
-                            'Garki, Abuja',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: cinta,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: white, width: 3),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: ink.withOpacity(0.1),
+                                    blurRadius: 8)
+                              ],
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      4.height,
-                      Row(
-                        children: [
-                          Image.asset(
-                            clock,
-                            height: 16,
-                            width: 16,
-                          ),
-                          4.width,
-                          Text(
-                            '3y 3m on Stylclick',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontFamily: cinta,
-                                fontWeight: FontWeight.w500,
-                                color: signinTextColor),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      4.height,
-                      Row(
-                        children: [
-                          RatingBar.builder(
-                            initialRating: 3,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 12,
-                            // itemPadding: EdgeInsets.symmetric(
-                            //     horizontal: 2.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 5,
+                            child: const CircleAvatar(
+                              radius: 40,
+                              backgroundImage: AssetImage(profileIcon),
                             ),
-                            onRatingUpdate: (rating) {
-                              log(rating);
-                            },
                           ),
-                          4.width,
-                          Text(
-                            '13 Reviews',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontFamily: cinta,
-                                fontWeight: FontWeight.bold,
-                                color: signinTextColor),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      16.height,
-                      ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback: (bounds) {
-                          return gradient.createShader(bounds);
-                        },
-                        child: Text(
-                          'Product',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontFamily: cinta,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      8.height,
-                      Container(
-                        height: 41.h,
-                        width: logicalWidth() / 1.1,
-                        // decoration: BoxDecoration(
-                        //     color: Color(0xffe4e4e4),
-                        //     // border: Border.all(color: black, width: 2.5.w),
-                        //     borderRadius: BorderRadius.circular(12.r)),
-                        child: TabBar(
-                          unselectedLabelStyle: TextStyle(
-                              fontFamily: cinta,
-                              color: black,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500),
-                          labelStyle: TextStyle(
-                              fontFamily: cinta,
-                              color: black,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500),
-                          unselectedLabelColor: black,
-                          labelColor: white,
-                          indicatorColor: const Color(0xffe4e4e4),
-                          indicatorWeight: 2,
-                          indicator: BoxDecoration(
-                              gradient: gradient,
-                              borderRadius: BorderRadius.circular(12)),
-                          controller: tabcontroller,
-                          tabs: const [
-                            Tab(
-                              text: 'All',
-                            ),
-                            Tab(
-                              text: 'Ankara',
-                            ),
-                            Tab(
-                              text: 'Lace',
-                            ),
-                            Tab(
-                              text: 'Aso-oke',
-                            ),
-                          ],
-                        ),
-                      ),
-                      8.height,
-                      SizedBox(
-                        height: logicalHeight(),
-                        width: logicalWidth(),
-                        child: TabBarView(controller: tabcontroller, children: [
-                          SizedBox(
-                            height: logicalHeight(),
-                            child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 20,
-                                      mainAxisSpacing: 16,
-                                      childAspectRatio: 9 / 14
+                          InkWell(
+                            onTap: () => _chatStylist(context),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: primary.withOpacity(0.1),
+                                border: Border.all(
+                                    color: primary.withOpacity(0.3)),
                               ),
-                              itemCount: 3,
-                              itemBuilder: (BuildContext context, int index) {
-                                return SizedBox(
-                                  width: context.width() * 0.25,
-                                  height: 250,
-                                  child: Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.start,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 9 / 11,
-                                        child: Stack(
-                                          children: [
-                                            Image.asset(
-                                              maleAsoebi,
-                                              fit: BoxFit.cover,
-                                                height: 200,
-                                                width: 200
-                                            ),
-                                            Positioned(
-                                              top: 170,
-                                              right: 8,
-                                              child: Container(
-                                                width: 32,
-                                                height: 32,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white,
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Image.asset(
-                                                      favoriteIcon,
-                                                      height: 16.h,
-                                                      width: 16.w),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        'Image $index',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: storeNameColor,
-                                          fontFamily: cinta,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      4.height,
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            (Icons.location_on),
-                                            color: locationIconColor,
-                                            size: 14,
-                                          ),
-                                          4.width,
-                                          Text(
-                                            'Swiss Ankara',
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: cinta,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                      4.height,
-                                      Text(
-                                        'NGN 3500/yard',
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontFamily: cinta,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        textAlign: TextAlign.center,
+                              padding: EdgeInsets.all(10.w),
+                              child: Image.asset(chatIcon,
+                                  height: 18.h,
+                                  width: 18.w,
+                                  color: primary),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    16.height,
+
+                    // Seller info
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 17.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.businessName,
+                            style: TextStyle(
+                                fontFamily: 'Cinta',
+                                fontSize: 18.sp,
+                                color: ink,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          8.height,
+                          Row(
+                            children: [
+                              Icon(Icons.location_on,
+                                  color: locationIconColor, size: 14.sp),
+                              4.width,
+                              Text('Garki, Abuja',
+                                  style: TextStyle(
+                                      fontFamily: cinta,
+                                      fontSize: 13.sp,
+                                      color: textLight)),
+                              16.width,
+                              Image.asset(clock, height: 14, width: 14),
+                              4.width,
+                              Text('3y 3m on Styclick',
+                                  style: TextStyle(
+                                      fontFamily: cinta,
+                                      fontSize: 12.sp,
+                                      color: textLight)),
+                            ],
+                          ),
+                          8.height,
+                          Row(
+                            children: [
+                              RatingBar.builder(
+                                initialRating: 4.5,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 14,
+                                ignoreGestures: true,
+                                itemBuilder: (context, _) => const Icon(
+                                    Icons.star_rounded,
+                                    color: Colors.amber),
+                                onRatingUpdate: (_) {},
+                              ),
+                              8.width,
+                              Text('4.5 (13 Reviews)',
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 11.sp, color: textLight)),
+                            ],
+                          ),
+                          16.height,
+                          Divider(color: sand),
+                          16.height,
+
+                          // Products tab label
+                          Text('PRODUCTS',
+                              style: TextStyle(
+                                  fontFamily: 'Cinta',
+                                  fontSize: 11.sp,
+                                  color: textLight,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.5)),
+                          12.height,
+
+                          // Search & Filter Row
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 52.h,
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: Border.all(color: sand),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ink.withOpacity(0.05),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.search, color: ink.withOpacity(0.5), size: 20.sp),
+                                      12.width,
+                                      Expanded(
+                                        child: TextField(
+                                          onChanged: (val) {
+                                            setState(() {
+                                              _searchQuery = val;
+                                            });
+                                          },
+                                          style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                                          decoration: InputDecoration(
+                                            hintText: 'Search products...',
+                                            hintStyle: TextStyle(
+                                              fontFamily: 'Cinta', 
+                                              color: ink.withOpacity(0.4),
+                                              fontSize: 14.sp,
+                                            ),
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              12.width,
+                              InkWell(
+                                onTap: () => _filterCategories(context),
+                                child: Container(
+                                  height: 52.h,
+                                  width: 52.h,
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: Border.all(color: sand),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ink.withOpacity(0.05),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(Icons.tune, color: primary, size: 24.sp),
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            child: const Text('data'),
-                          ),
-                          Container(
-                            child: const Text('data'),
-                          ),
-                          Container(
-                            child: const Text('data'),
-                          )
-                        ]),
-                      )
-                    ],
-                  ),
+                          16.height,
+                        ],
+                      ),
+                    ),
+
+                    // Product Grid Content
+                    _buildProductGrid(),
+                    32.height,
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  chatStylist(BuildContext context) {
+  Widget _buildProductGrid() {
+    final items = _filteredProducts;
+    if (items.isEmpty) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 40.h),
+        alignment: Alignment.center,
+        child: Text('No products found',
+            style: TextStyle(
+                fontFamily: cinta, fontSize: 14.sp, color: textLight)),
+      );
+    }
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 17.w),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10.w,
+        mainAxisSpacing: 12.h,
+        childAspectRatio: 9 / 13,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final product = items[index];
+        return Container(
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(color: sand),
+            boxShadow: [
+              BoxShadow(
+                  color: ink.withOpacity(0.03),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3))
+            ],
+          ),
+          padding: EdgeInsets.all(8.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.r),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(maleAsoebi, fit: BoxFit.cover),
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: white, shape: BoxShape.circle),
+                          padding: EdgeInsets.all(6.w),
+                          child: Image.asset(favoriteIcon,
+                              height: 14.h, width: 14.w, color: primary),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              10.height,
+              Text(
+                product['name']!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: cinta,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    color: ink),
+              ),
+              4.height,
+              Text(
+                product['price']!,
+                style: GoogleFonts.montserrat(
+                    fontSize: 12.sp,
+                    color: primary,
+                    fontWeight: FontWeight.w900),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _filterCategories(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
-        ),
-        builder: (BuildContext context) {
-          return Container(
-              padding: const EdgeInsets.all(20),
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              height: logicalHeight() * 0.55,
+              decoration: BoxDecoration(
+                color: cream,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Center(
+                    child: Container(
+                      width: 40.w,
+                      height: 4.h,
+                      decoration: BoxDecoration(
+                        color: sand,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                  ),
+                  24.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Filter Selection',
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 24.sp,
+                          color: primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setModalState(() {
+                            _selectedTags.clear();
+                          });
+                        },
+                        child: Text(
+                          'CLEAR',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 12.sp,
+                            color: textLight,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  12.height,
                   Text(
-                    'Chat Stylist',
+                    'Select categories to filter fabrics',
+                    style: TextStyle(fontFamily: 'Cinta', 
+                      fontSize: 14.sp,
+                      color: textLight,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  32.height,
+                  Text(
+                    'CATEGORIES',
                     style: TextStyle(
-                      fontSize: 18.sp,
-                      color: const Color(0xffef4a47),
+                      fontFamily: 'Cinta',
+                      fontSize: 12.sp,
+                      color: ink,
                       fontWeight: FontWeight.w700,
+                      letterSpacing: 1.5,
                     ),
                   ),
                   16.height,
-                  Text(
-                    'Upload Image',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: black,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  8.height,
-                  DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(12),
-                    dashPattern: [8, 4],
-                    // padding: EdgeInsets.all(6),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      child: Container(
-                        decoration: const BoxDecoration(color: uploadBtnColor),
-                        height: 48.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            24.width,
-                            Image.asset(
-                              uploadIcon,
-                              height: 24.h,
-                              width: 46.w,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 12.w,
+                        runSpacing: 12.h,
+                        children: _availableTags.map((tag) {
+                          bool isSelected = _selectedTags.contains(tag);
+                          return InkWell(
+                            onTap: () {
+                              setModalState(() {
+                                if (isSelected) {
+                                  _selectedTags.remove(tag);
+                                } else {
+                                  _selectedTags.add(tag);
+                                }
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              decoration: BoxDecoration(
+                                color: isSelected ? primary : white,
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(
+                                  color: isSelected ? primary : sand,
+                                ),
+                                boxShadow: isSelected
+                                    ? [
+                                        BoxShadow(
+                                          color: primary.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        )
+                                      ]
+                                    : [],
+                              ),
+                              child: Text(
+                                tag,
+                                style: TextStyle(fontFamily: 'Cinta', 
+                                  fontSize: 13.sp,
+                                  color: isSelected ? white : ink,
+                                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                                ),
+                              ),
                             ),
-                            // 4.width,
-                            Text(
-                              'Upload image',
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: uploadTextColor,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  24.height,
+                  InkWell(
+                    onTap: () {
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 56.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        gradient: const LinearGradient(
+                          colors: [primary, primaryGradient],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: primary.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Apply Filter',
+                          style: GoogleFonts.montserrat(
+                            color: white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.1,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  16.height,
-                  CustomTextField(
-                    label: 'Style Description',
-                    labelColor: black,
-                    hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                    hintText: 'blue green dress with a touch of red',
-                    maxLines: 5,
-                  ),
-                  24.height,
-                  InkWell(
-                    onTap: () async {},
-                    child: Container(
-                      height: 56.h,
-                      decoration: BoxDecoration(
-                          // color: white,
-                          borderRadius: BorderRadius.circular(9),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [primary, primaryGradient],
-                          )),
-                      child: Center(
-                          child: Text('Send message',
-                              style: TextStyle(
-                                  fontFamily: cinta,
-                                  fontSize: 16.sp,
-                                  color: white,
-                                  fontWeight: FontWeight.bold))),
+                  10.height,
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _chatStylist(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.r),
+            topRight: Radius.circular(25.r)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: cream,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25.r),
+                topRight: Radius.circular(25.r)),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Chat Seller',
+                  style: TextStyle(
+                      fontFamily: 'Cinta',
+                      fontSize: 20.sp,
+                      color: primary,
+                      fontWeight: FontWeight.w700)),
+              16.height,
+              Text('Upload Image',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: ink,
+                      fontFamily: cinta,
+                      fontWeight: FontWeight.w500)),
+              8.height,
+              DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(12),
+                dashPattern: const [8, 4],
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    decoration: const BoxDecoration(color: uploadBtnColor),
+                    height: 48.h,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(uploadIcon, height: 24.h, width: 24.w),
+                        8.width,
+                        Text('Upload image',
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: uploadTextColor,
+                                fontFamily: cinta,
+                                fontWeight: FontWeight.w600)),
+                      ],
                     ),
                   ),
-                  24.height,
-                ],
-              ));
-        });
+                ),
+              ),
+              16.height,
+              CustomTextField(
+                label: 'Message',
+                labelColor: ink,
+                hintTextColor: const Color.fromRGBO(0, 0, 0, 0.4),
+                hintText: 'Ask about fabric availability, pricing...',
+                maxLines: 4,
+              ),
+              24.height,
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14.r),
+                    gradient: const LinearGradient(
+                        colors: [primary, primaryGradient]),
+                  ),
+                  child: Center(
+                    child: Text('Send message',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: white,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ),
+              24.height,
+            ],
+          ),
+        );
+      },
+    );
   }
 }

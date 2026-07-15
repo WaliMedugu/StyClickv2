@@ -2,11 +2,22 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/profile_service.dart';
 import 'package:stylclick/modules/success_page.dart';
+import 'package:stylclick/modules/auth/login.dart';
+import 'package:stylclick/modules/wallet/wallet.dart';
+import 'package:stylclick/modules/wallet/transaction_history.dart';
+import 'package:stylclick/modules/account.dart';
+import 'package:stylclick/modules/order/saved_order.dart';
+import 'package:stylclick/modules/vendor/index.dart';
+import 'package:stylclick/shared/widgets/nav.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -16,383 +27,555 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEA4262),
-      Color(0xFFDD6140),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String? selectedCountry;
-  String? selectedState;
-  String? selectedCity;
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
 
-  List<String> countries = ['Country 1', 'Country 2', 'Country 3'];
-  List<String> states = ['State 1', 'State 2', 'State 3'];
-  List<String> cities = ['City 1', 'City 2', 'City 3'];
+  void _openEndDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  String? selectedCountry = 'Nigeria';
+  String? selectedState = 'Abuja';
+  String? selectedCity = 'Nyanya';
+
+  List<String> countries = ['Nigeria', 'Ghana', 'Kenya'];
+  List<String> states = ['Abuja', 'Lagos', 'Kano'];
+  List<String> cities = ['Nyanya', 'Ikeja', 'Wuse'];
+
+  // Text controllers bound to the editable form fields
+  final TextEditingController _fullNameController = TextEditingController(text: getStringAsync('fName') + ' ' + getStringAsync('lName'));
+  final TextEditingController _addressController = TextEditingController();
+
+  bool _isSaving = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffefefef),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(gradient: gradient),
-              height: 160.h,
-              child: Padding(
-                padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+      key: _scaffoldKey,
+      drawer: buildDrawer(context),
+      endDrawer: buildNotificationDrawer(context),
+      backgroundColor: cream,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(gradient: brandGradient),
+                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 20.h, bottom: 24.h),
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          backIcon,
-                          color: white,
-                          width: 24.w,
-                        ),
+                      onTap: _openDrawer,
+                      child: Image.asset(
+                        menuIcon,
+                        height: 24.h,
+                        width: 24.w,
+                        color: Colors.white,
                       ),
                     ),
+                    const Spacer(),
                     Text(
-                      'Profile',
+                      'Edit Profile',
                       style: TextStyle(
+                        fontFamily: 'Cinta',
+                        fontSize: 26.sp,
                         color: Colors.white,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -1.0,
+                      ),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: _openEndDrawer,
+                      child: Image.asset(
+                        notificationIcon,
+                        height: 24.h,
+                        width: 24.w,
+                        color: Colors.white,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 110.h),
-              child: Container(
-                width: 110,
-                height: 110,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
+              40.height,
+              // Avatar Section
+              Center(
                 child: Stack(
                   children: [
-                    const Align(
-                      alignment: Alignment.center,
+                    Container(
+                      padding: EdgeInsets.all(6.w),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: primary.withOpacity(0.3), width: 2),
+                      ),
                       child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage(profileIcon),
+                        radius: 60.r,
+                        backgroundColor: white,
+                        backgroundImage: const AssetImage(defaultUserImage),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
                       child: Container(
-                        height: 36,
-                        width: 36,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Color(0xffdd6140)),
-                        child: const Center(
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          color: primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: white, width: 3),
                         ),
+                        child: Icon(FeatherIcons.camera, color: white, size: 18.sp),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 230),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 17.0, right: 17.0),
+              32.height,
+              // Form
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 48.h,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(5.r)),
-                      child: Row(
-                        children: [
-                          8.width,
-                          Image.asset(
-                            profileAvatar,
-                            height: 24,
-                            width: 24,
-                          ),
-                          8.width,
-                          Text(
-                            'Personal Information',
-                            style: TextStyle(
-                                fontSize: 15.sp,
-                                color: const Color(0xffde6041),
-                                fontFamily: cinta,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          const Spacer(),
-                          Image.asset(
-                            downArrow,
-                            height: 8,
-                            width: 24,
-                          ),
-                          8.width,
-                        ],
-                      ),
-                    ),
-                    8.height,
-                    CustomTextField(
-                      label: 'Fullname',
-                      filledColor: const Color(0xffdedede),
-                      labelColor: black,
-                      hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                      hintText: 'Oluwafemi Doe',
-                    ),
-                    8.height,
-                    CustomTextField(
-                      label: 'Address',
-                      filledColor: const Color(0xffdedede),
-                      labelColor: black,
-                      hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                      hintText: 'No 12 Asombi Street, Nyanya Abuja ',
-                    ),
-                    8.height,
+                    _buildSectionTitle('Personal Information'),
+                    20.height,
+                    _buildTextField('Full Name', _fullNameController.text.isNotEmpty ? _fullNameController.text : 'Oluwafemi Doe', FeatherIcons.user, controller: _fullNameController),
+                    16.height,
+                    _buildTextField('Address', 'No 12 Asombi Street, Nyanya Abuja', FeatherIcons.mapPin, controller: _addressController),
+                    16.height,
                     Row(
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'City',
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: black,
-                                    fontFamily: cinta,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              8.height,
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffdedede),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: selectedCity,
-                                      items: cities.map((city) {
-                                        return DropdownMenuItem<String>(
-                                          value: city,
-                                          child: Text(city),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selectedCity = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        Expanded(child: _buildDropdown('City', selectedCity, cities, (v) => setState(() => selectedCity = v))),
                         16.width,
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                'State',
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: black,
-                                    fontFamily: cinta,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              8.height,
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffdedede),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: selectedState,
-                                      items: states.map((state) {
-                                        return DropdownMenuItem<String>(
-                                          value: state,
-                                          child: Text(state),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selectedState = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        Expanded(child: _buildDropdown('State', selectedState, states, (v) => setState(() => selectedState = v))),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Country',
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: black,
-                          fontFamily: cinta,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    8.height,
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffdedede),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8),
-                          child: DropdownButton<String>(
-                            value: selectedCountry,
-                            isExpanded: true,
-                            items: countries.map((country) {
-                              return DropdownMenuItem<String>(
-                                value: country,
-                                child: Text(country),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCountry = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
                     16.height,
-                    Container(
-                      height: 48.h,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(5.r)),
-                      child: Center(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            8.width,
-                            Image.asset(
-                              kycIcon,
-                              height: 24,
-                              width: 24,
+                    _buildDropdown('Country', selectedCountry, countries, (v) => setState(() => selectedCountry = v)),
+                    32.height,
+                    _buildSectionTitle('Additional Settings'),
+                    16.height,
+                    _buildSettingsLink('KYC Settings', FeatherIcons.shield, () {}),
+                    12.height,
+                    _buildSettingsLink('Bank Account', FeatherIcons.home, () {}),
+                    40.height,
+                    // Save Button
+                    InkWell(
+                      onTap: _isSaving
+                          ? null
+                          : () async {
+                              setState(() => _isSaving = true);
+                              log('[PROFILE] Saving profile update...');
+                              final res = await ProfileService.instance.updateProfile(
+                                fullName: _fullNameController.text.trim(),
+                                address: _addressController.text.trim(),
+                                city: selectedCity ?? '',
+                                state: selectedState ?? '',
+                                country: selectedCountry ?? '',
+                              );
+                              if (mounted) {
+                                setState(() => _isSaving = false);
+                                if (res.status == true) {
+                                  const SuccessPage(message: 'Your profile has been successfully\nupdated').launch(context);
+                                } else {
+                                  showMessage(context, res.message ?? 'Failed to save profile. Please try again.');
+                                }
+                              }
+                            },
+                      child: Container(
+                        height: 56.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                          gradient: const LinearGradient(
+                            colors: [primary, primaryGradient],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primary.withOpacity(0.1),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
                             ),
-                            8.width,
-                            Text(
-                              'KYC Settings',
-                              style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: const Color(0xffde6041),
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xffde6041),
-                              size: 16,
-                            ),
-                            8.width,
                           ],
                         ),
-                      ),
-                    ),
-                    16.height,
-                    Container(
-                      height: 48.h,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(5.r)),
-                      child: Row(
-                        children: [
-                          8.width,
-                          const Icon(
-                            Icons.account_balance,
-                            color: Color(0xffde6041),
-                          ),
-                          8.width,
-                          Text(
-                            'Bank Account',
-                            style: TextStyle(
-                                fontSize: 15.sp,
-                                color: const Color(0xffde6041),
-                                fontFamily: cinta,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color(0xffde6041),
-                            size: 16,
-                          ),
-                          8.width,
-                        ],
-                      ),
-                    ),
-                    32.height,
-                    InkWell(
-                      onTap: () async {
-                        const SuccessPage(
-                          message:
-                              'Your profile has been successfully\nupdated',
-                        ).launch(context);
-                      },
-                      child: Container(
-                        height: 48.h,
-                        decoration: BoxDecoration(
-                            // color: white,
-                            borderRadius: BorderRadius.circular(9),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [primary, primaryGradient],
-                            )),
                         child: Center(
-                            child: Text('Save',
-                                style: TextStyle(
-                                    fontFamily: cinta,
-                                    fontSize: 16.sp,
+                          child: _isSaving
+                              ? const CircularProgressIndicator(color: white)
+                              : Text(
+                                  'Save Changes',
+                                  style: GoogleFonts.montserrat(
                                     color: white,
-                                    fontWeight: FontWeight.bold))),
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1.1,
+                                  ),
+                                ),
+                        ),
                       ),
                     ),
-                    32.height,
+                    40.height,
                   ],
                 ),
               ),
-            )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title.toUpperCase(),
+      style: TextStyle(
+        fontFamily: 'Cinta',
+        fontSize: 12.sp,
+        color: textLight,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.5,
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, String hint, IconData icon, {TextEditingController? controller}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontFamily: 'Cinta', 
+            fontSize: 14.sp,
+            color: ink,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        8.height,
+        Container(
+          height: 52.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: sand),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: sand, size: 18.sp),
+              16.width,
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                  decoration: InputDecoration(
+                    hintText: hint,
+                    hintStyle: TextStyle(fontFamily: 'Cinta', color: ink.withOpacity(0.3)),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDropdown(String label, String? value, List<String> items, Function(String?) onChanged) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontFamily: 'Cinta', 
+            fontSize: 14.sp,
+            color: ink,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        8.height,
+        Container(
+          height: 52.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: sand),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: value,
+              icon: Icon(FeatherIcons.chevronDown, color: sand, size: 16.sp),
+              items: items.map((item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
+                  ),
+                );
+              }).toList(),
+              onChanged: onChanged,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSettingsLink(String title, IconData icon, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 56.h,
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: sand),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: primary, size: 20.sp),
+            16.width,
+            Text(
+              title,
+              style: TextStyle(fontFamily: 'Cinta', 
+                fontSize: 15.sp,
+                color: ink,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            Icon(Icons.arrow_forward_ios, color: sand, size: 14.sp),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildDrawer(BuildContext context) {
+    return Drawer(
+      child: Container(
+        decoration: const BoxDecoration(color: cream),
+        child: Column(
+          children: [
+            40.height,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: primary.withOpacity(0.5), width: 2),
+                    ),
+                    child: CircleAvatar(
+                      radius: 35.r,
+                      backgroundColor: white,
+                      backgroundImage: const AssetImage(defaultUserImage),
+                    ),
+                  ),
+                  20.width,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'You',
+                        style: TextStyle(fontFamily: 'Cinta', 
+                          color: ink,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      4.height,
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Text(
+                          'Back to Profile',
+                          style: GoogleFonts.montserrat(
+                            color: primary,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            30.height,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Divider(color: sand, thickness: 1),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                children: [
+                  _buildDrawerItem(context, 'My Invoices', () => const TransactionHistory().launch(context)),
+                  _buildDrawerItem(context, 'My Orders', () => const SavedOrderPage().launch(context)),
+                  _buildDrawerItem(context, 'Saved', () => const SavedOrderPage().launch(context)),
+                  _buildDrawerItem(context, 'Chat', () {}),
+                  _buildDrawerItem(context, 'Wallet', () => const WalletPage().launch(context)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: Divider(color: sand, thickness: 1),
+                  ),
+                  _buildDrawerItem(context, 'Become a Vendor', () => VendorPage().launch(context)),
+                  _buildDrawerItem(context, 'Share & Earn', () {}),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: Divider(color: sand, thickness: 1),
+                  ),
+                  _buildDrawerItem(context, 'Settings', () {
+                    currentIndex = 2;
+                    const Nav().launch(context, isNewTask: true);
+                  }),
+                  _buildDrawerItem(context, 'Support', () {
+                    currentIndex = 2;
+                    const Nav().launch(context, isNewTask: true);
+                  }),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: Divider(color: sand, thickness: 1),
+                  ),
+                  _buildDrawerItem(context, 'Logout', () {
+                    setValue('home', false);
+                    LoginScreen().launch(context, isNewTask: true);
+                  }),
+                  40.height,
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(BuildContext context, String title, VoidCallback onTap) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 12.h),
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Container(
+              width: 10.w,
+              height: 10.h,
+              decoration: BoxDecoration(
+                color: sand.withOpacity(0.8),
+                shape: BoxShape.circle,
+              ),
+            ),
+            20.width,
+            Text(
+              title,
+              style: TextStyle(fontFamily: 'Cinta', 
+                fontSize: 16.sp,
+                color: ink,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildNotificationDrawer(BuildContext context) {
+    return Drawer(
+      child: Container(
+        decoration: const BoxDecoration(color: cream),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            60.height,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Text(
+                'Notifications',
+                style: TextStyle(
+                  fontFamily: 'Cinta',
+                  fontSize: 24.sp,
+                  color: primary,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -1.0,
+                ),
+              ),
+            ),
+            20.height,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Divider(color: sand, thickness: 1),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                children: [
+                  _buildNotificationItem('Order Confirmed', 'Your Aso-ebi order #4290 has been received.', '2m ago', FeatherIcons.checkCircle),
+                  _buildNotificationItem('Promotion', 'Get 20% off on all Ankara materials this weekend!', '1h ago', FeatherIcons.tag),
+                  _buildNotificationItem('Update', 'Your measurements have been successfully updated.', '5h ago', FeatherIcons.user),
+                  _buildNotificationItem('Payment Successful', 'Wallet top-up of NGN 50,000 successful.', 'Yesterday', FeatherIcons.creditCard),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotificationItem(String title, String sub, String time, IconData icon) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: white,
+              shape: BoxShape.circle,
+              border: Border.all(color: sand),
+            ),
+            child: Icon(icon, color: primary, size: 20.sp),
+          ),
+          16.width,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    8.width,
+                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
+                  ],
+                ),
+                4.height,
+                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

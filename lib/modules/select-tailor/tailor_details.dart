@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
@@ -11,526 +12,311 @@ import 'package:stylclick/shared/widgets/custom_textfield.dart';
 
 class TailorDetails extends StatelessWidget {
   final String businessName;
-  TailorDetails({Key? key, required this.businessName}) : super(key: key);
+  const TailorDetails({Key? key, required this.businessName}) : super(key: key);
 
-  Gradient gradient = const LinearGradient(
-    colors: [
-      Color(0xFFEF3F53),
-      Color(0xFFF25E38),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: cream,
       body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-              height: logicalHeight(),
-              width: logicalWidth(),
-            ),
-            Container(
-              decoration: const BoxDecoration(color: white),
-              // height: 160.h,
-              child: Padding(
-                padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Gradient header
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(gradient: brandGradient),
+                padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 16.h, bottom: 24.h),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        backIcon,
-                        width: 24.w,
-                        color: selectTailorColor,
-                      ),
+                      onTap: () => Navigator.pop(context),
+                      child: Image.asset(backIcon, width: 24.w, color: Colors.white),
                     ),
-                    8.width,
+                    20.width,
                     Text(
-                      businessName ?? '',
+                      businessName,
                       style: TextStyle(
-                        color: selectTailorColor,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Cinta',
+                        fontSize: 22.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 17.w, right: 17.w, top: 60.h),
-              child: Image.asset(bizImage),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 26.w, right: 17.w, top: 140.h),
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
+              // Business banner image
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 16.h),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: Image.asset(bizImage, width: double.infinity, height: 160.h, fit: BoxFit.cover),
                 ),
-                child: Stack(
-                  children: const [
-                    Align(
-                      alignment: Alignment.center,
-                      child: CircleAvatar(
-                        radius: 50,
+              ),
+              // Avatar + Chat button row
+              Padding(
+                padding: EdgeInsets.only(left: 26.w, right: 17.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: white, width: 3),
+                        boxShadow: [BoxShadow(color: ink.withOpacity(0.1), blurRadius: 8)],
+                      ),
+                      child: const CircleAvatar(
+                        radius: 40,
                         backgroundImage: AssetImage(profileIcon),
                       ),
                     ),
+                    InkWell(
+                      onTap: () => _chatStylist(context),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primary.withOpacity(0.1),
+                          border: Border.all(color: primary.withOpacity(0.3)),
+                        ),
+                        padding: EdgeInsets.all(10.w),
+                        child: Image.asset(chatIcon, height: 18.h, width: 18.w, color: primary),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 250,
-              left: 300,
-              child: InkWell(
-                onTap: () {
-                  chatStylist(context);
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: signinTextColor),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      chatIcon,
-                      height: 20.h,
-                      width: 20.w,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 250,
-              child: Padding(
-                padding: EdgeInsets.only(left: 17.0.w, right: 17.w),
+              16.height,
+              // Info section
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      businessName ?? '',
+                      businessName,
                       style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: cinta,
-                        color: Color(0xff313131),
+                        fontFamily: 'Cinta',
+                        fontSize: 18.sp,
+                        color: ink,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    4.height,
+                    8.height,
                     Row(
                       children: [
-                        const Icon(
-                          (Icons.location_on),
-                          color: locationIconColor,
-                          size: 14,
-                        ),
+                        Icon(Icons.location_on, color: locationIconColor, size: 14.sp),
                         4.width,
-                        Text(
-                          'Garki, Abuja',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: cinta,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        Text('Garki, Abuja', style: TextStyle(fontFamily: cinta, fontSize: 13.sp, color: textLight)),
+                        16.width,
+                        Image.asset(clock, height: 14, width: 14),
+                        4.width,
+                        Text('3y 3m on Styclick', style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight)),
                       ],
                     ),
-                    4.height,
-                    Row(
-                      children: [
-                        Image.asset(
-                          clock,
-                          height: 16,
-                          width: 16,
-                        ),
-                        4.width,
-                        Text(
-                          '3y 3m on Stylclick',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.w500,
-                              color: signinTextColor),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    4.height,
+                    8.height,
                     Row(
                       children: [
                         RatingBar.builder(
-                          initialRating: 3,
+                          initialRating: 4.5,
                           minRating: 1,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
-                          itemSize: 12,
-                          // itemPadding: EdgeInsets.symmetric(
-                          //     horizontal: 2.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 5,
-                          ),
-                          onRatingUpdate: (rating) {
-                            log(rating);
-                          },
+                          itemSize: 14,
+                          ignoreGestures: true,
+                          itemBuilder: (context, _) => const Icon(Icons.star_rounded, color: Colors.amber),
+                          onRatingUpdate: (_) {},
                         ),
-                        4.width,
-                        Text(
-                          '13 Reviews',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: cinta,
-                              fontWeight: FontWeight.bold,
-                              color: signinTextColor),
-                          textAlign: TextAlign.center,
-                        ),
+                        8.width,
+                        Text('4.5 (13 Reviews)', style: GoogleFonts.montserrat(fontSize: 11.sp, color: textLight)),
                       ],
                     ),
                     16.height,
-                    Text(
-                      'Specialized in:',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontFamily: cinta,
-                          fontWeight: FontWeight.bold,
-                          color: signinTextColor),
-                      textAlign: TextAlign.center,
-                    ),
-                    8.height,
+                    Divider(color: sand),
+                    16.height,
+                    Text('SPECIALISES IN',
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 11.sp,
+                          color: textLight,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                        )),
+                    12.height,
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: menWearColor,
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Men Wears',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        ),
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: Color(0xffe7faff),
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Traditional Wears',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        ),
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: Color(0xffecfaeb),
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Corporate Wears',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        ),
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: Color(0xffe7faff),
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Aso-ebi',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        ),
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: Color(0xffecfaeb),
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Bridal Wears',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        ),
-                        Container(
-                          height: 41.h,
-                          // width: ,
-                          decoration: BoxDecoration(
-                              color: menWearColor,
-                              borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text(
-                              'Suits',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff333232)),
-                            )),
-                          ),
-                        )
+                        _chip('Men Wears', const Color(0xffFFF3E0)),
+                        _chip('Traditional Wears', const Color(0xffe7faff)),
+                        _chip('Corporate Wears', const Color(0xffecfaeb)),
+                        _chip('Aso-ebi', const Color(0xffe7faff)),
+                        _chip('Bridal Wears', const Color(0xffecfaeb)),
+                        _chip('Suits', const Color(0xffFFF3E0)),
                       ],
                     ),
-                    16.height,
-                    Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffefefef),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      height: 100.h,
-                      width: logicalWidth() / 1.10,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          16.width,
-                          Image.asset(
-                            sewingMachine,
-                            height: 48.h,
-                            width: 48.w,
-                          ),
-                          16.width,
-                          ShaderMask(
-                            blendMode: BlendMode.srcIn,
-                            shaderCallback: (bounds) {
-                              return gradient.createShader(bounds);
-                            },
-                            child: Text(
-                              'Sew a New Style',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Image.asset(
-                                  forwardArrow,
-                                  width: 41,
-                                  color: Color(0xff999797),
-                                )),
-                          ),
-                          // 8.width
-                        ],
-                      ),
-                    ),
                     24.height,
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffefefef),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      height: 100.h,
-                      width: logicalWidth() / 1.10,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          16.width,
-                          Image.asset(
-                            readyToWear,
-                            height: 48.h,
-                            width: 63.w,
-                          ),
-                          8.width,
-                          ShaderMask(
-                            blendMode: BlendMode.srcIn,
-                            shaderCallback: (bounds) {
-                              return gradient.createShader(bounds);
-                            },
-                            child: Text(
-                              'Get a Ready to Wear',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Image.asset(
-                                  forwardArrow,
-                                  width: 41,
-                                  color: Color(0xff999797),
-                                )),
-                          ),
-                          // 6.width
-                        ],
-                      ),
-                    ),
+                    Text('QUICK ACTIONS',
+                        style: TextStyle(
+                          fontFamily: 'Cinta',
+                          fontSize: 11.sp,
+                          color: textLight,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                        )),
+                    16.height,
+                    _actionTile(sewingMachine, 'Sew a New Style', 'Commission a custom outfit'),
+                    12.height,
+                    _actionTile(readyToWear, 'Get a Ready to Wear', 'Shop available finished pieces'),
+                    40.height,
                   ],
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  chatStylist(BuildContext context) {
+  Widget _chip(String label, Color bg) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20.r)),
+      child: Text(label,
+          style: TextStyle(fontFamily: cinta, fontSize: 12.sp, fontWeight: FontWeight.w600, color: ink)),
+    );
+  }
+
+  Widget _actionTile(String icon, String title, String sub) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: sand),
+        boxShadow: [BoxShadow(color: ink.withOpacity(0.03), blurRadius: 8, offset: const Offset(0, 3))],
+      ),
+      child: Row(
+        children: [
+          Image.asset(icon, height: 40.h, width: 40.w),
+          16.width,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: TextStyle(fontFamily: cinta, fontSize: 15.sp, fontWeight: FontWeight.w700, color: ink)),
+                4.height,
+                Text(sub, style: TextStyle(fontFamily: cinta, fontSize: 12.sp, color: textLight)),
+              ],
+            ),
+          ),
+          Icon(Icons.arrow_forward_ios, color: sand, size: 14.sp),
+        ],
+      ),
+    );
+  }
+
+  void _chatStylist(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
-        ),
-        builder: (BuildContext context) {
-          return Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Chat Stylist',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      color: Color(0xffef4a47),
-                      fontWeight: FontWeight.w700,
+      context: context,
+      isScrollControlled: true,
+      elevation: 5,
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.only(topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: cream,
+            borderRadius:
+                BorderRadius.only(topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Chat Stylist',
+                style: TextStyle(
+                  fontFamily: 'Cinta',
+                  fontSize: 20.sp,
+                  color: primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              16.height,
+              Text('Upload Image',
+                  style: TextStyle(
+                      fontSize: 14.sp, color: ink, fontFamily: cinta, fontWeight: FontWeight.w500)),
+              8.height,
+              DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(12),
+                dashPattern: const [8, 4],
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    decoration: const BoxDecoration(color: uploadBtnColor),
+                    height: 48.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        24.width,
+                        Image.asset(uploadIcon, height: 24.h, width: 46.w),
+                        Text('Upload image',
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: uploadTextColor,
+                                fontFamily: cinta,
+                                fontWeight: FontWeight.w600)),
+                      ],
                     ),
                   ),
-                  16.height,
-                  Text(
-                    'Upload Image',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: black,
-                        fontFamily: cinta,
-                        fontWeight: FontWeight.w500),
+                ),
+              ),
+              16.height,
+              CustomTextField(
+                label: 'Style Description',
+                labelColor: ink,
+                hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
+                hintText: 'blue green dress with a touch of red',
+                maxLines: 5,
+              ),
+              24.height,
+              InkWell(
+                onTap: () async {},
+                child: Container(
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14.r),
+                    gradient:
+                        const LinearGradient(colors: [primary, primaryGradient]),
                   ),
-                  8.height,
-                  DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(12),
-                    dashPattern: [8, 4],
-                    // padding: EdgeInsets.all(6),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      child: Container(
-                        decoration: BoxDecoration(color: uploadBtnColor),
-                        height: 48.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            24.width,
-                            Image.asset(
-                              uploadIcon,
-                              height: 24.h,
-                              width: 46.w,
-                            ),
-                            // 4.width,
-                            Text(
-                              'Upload image',
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: uploadTextColor,
-                                  fontFamily: cinta,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                  child: Center(
+                    child: Text('Send message',
+                        style: TextStyle(
+                            fontFamily: cinta,
+                            fontSize: 16.sp,
+                            color: white,
+                            fontWeight: FontWeight.bold)),
                   ),
-                  16.height,
-                  CustomTextField(
-                    label: 'Style Description',
-                    labelColor: black,
-                    hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
-                    hintText: 'blue green dress with a touch of red',
-                    maxLines: 5,
-                  ),
-                  24.height,
-                  InkWell(
-                    onTap: () async {},
-                    child: Container(
-                      height: 56.h,
-                      decoration: BoxDecoration(
-                          // color: white,
-                          borderRadius: BorderRadius.circular(9),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [primary, primaryGradient],
-                          )),
-                      child: Center(
-                          child: Text('Send message',
-                              style: TextStyle(
-                                  fontFamily: cinta,
-                                  fontSize: 16.sp,
-                                  color: white,
-                                  fontWeight: FontWeight.bold))),
-                    ),
-                  ),
-                  24.height,
-                ],
-              ));
-        });
+                ),
+              ),
+              24.height,
+            ],
+          ),
+        );
+      },
+    );
   }
 }

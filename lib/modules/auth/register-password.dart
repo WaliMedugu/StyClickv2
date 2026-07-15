@@ -56,7 +56,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: CustomTextField(
-                  label: 'Confirm password',
+                  label: 'Confirm Password',
                   labelColor: black,
                   hintTextColor: const Color.fromRGBO(0, 0, 0, 0.5),
                   hintText: 'Enter password',
@@ -71,7 +71,7 @@ class _PasswordSettingState extends State<PasswordSetting> {
                 child: Container(
                   height: 61.h,
                   child: Center(
-                      child: Text('Sign up',
+                      child: Text('Sign Up',
                           style: TextStyle(
                               fontFamily: cinta,
                               fontSize: 16.sp,
