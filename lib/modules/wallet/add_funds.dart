@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/wallet_service.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
@@ -19,6 +20,7 @@ class AddFundsPage extends StatefulWidget {
 class _AddFundsPageState extends State<AddFundsPage> {
   TextEditingController _amountController = TextEditingController();
   String _selectedMethod = 'Card';
+  bool _isLoading = false;
 
   final List<Map<String, dynamic>> _methods = [
     {'name': 'Card', 'icon': cardIcon, 'desc': 'Visa, Mastercard, Verve'},
@@ -174,20 +176,51 @@ class _AddFundsPageState extends State<AddFundsPage> {
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: AppButton(
                   width: double.infinity,
-                  text: 'Proceed to Payment',
+                  text: _isLoading ? 'Processing...' : 'Proceed to Payment',
                   textStyle: GoogleFonts.montserrat(
                     color: white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   color: primary,
-                  onTap: () {
-                    if (_amountController.text.isEmpty) {
-                      toast('Please enter an amount');
-                      return;
-                    }
-                    showMessage(context, 'Redirecting to payment gateway...');
-                  },
+                  onTap: _isLoading
+                      ? null
+                      : () async {
+                          if (_amountController.text.isEmpty) {
+                            toast('Please enter an amount');
+                            return;
+                          }
+                          final amountVal = double.tryParse(_amountController.text);
+                          if (amountVal == null || amountVal <= 0) {
+                            toast('Enter a valid amount');
+                            return;
+                          }
+                          setState(() => _isLoading = true);
+
+                          log('[WALLET] Funding wallet — amount: ${_amountController.text}, method: $_selectedMethod');
+                          final res = await WalletService.instance.fundWallet(
+                            amount: _amountController.text.trim(),
+                            method: _selectedMethod.toLowerCase(),
+                          );
+
+                          if (mounted) {
+                            setState(() => _isLoading = false);
+                            if (res.status == true) {
+                              // Backend may return a payment URL for card payments
+                              final paymentUrl = res.data?['payment_url'] ?? res.data?['authorization_url'];
+                              if (paymentUrl != null) {
+                                showMessage(context, 'Redirecting to payment gateway...');
+                                // TODO: launch paymentUrl in webview/browser when payment plugin is added
+                                log('[WALLET] Payment URL: $paymentUrl');
+                              } else {
+                                showMessage(context, res.message ?? 'Wallet funded successfully!');
+                                Navigator.pop(context);
+                              }
+                            } else {
+                              showMessage(context, res.message ?? 'Could not initiate payment. Try again.');
+                            }
+                          }
+                        },
                   shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
                 ),
               ),

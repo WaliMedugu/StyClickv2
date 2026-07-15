@@ -179,7 +179,7 @@ class _CataloguePageState extends State<CataloguePage> {
             // Staggered Grid
             Expanded(
               child: MasonryGridView.count(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                padding: EdgeInsets.only(left: 17.w, right: 17.w, bottom: 120.h),
                 crossAxisCount: 2,
                 mainAxisSpacing: 8.w,
                 crossAxisSpacing: 8.w,

@@ -9,6 +9,7 @@ import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/core/services/auth_service.dart';
 import 'package:stylclick/shared/widgets/snack_bar.dart';
 import 'package:stylclick/shared/widgets/nav.dart';
+import 'package:stylclick/modules/auth/login.dart';
 
 class VerifyUser extends StatefulWidget {
   final String? phone;
@@ -22,6 +23,7 @@ class VerifyUser extends StatefulWidget {
 
 class _VerifyUserState extends State<VerifyUser> {
   bool isLoading = false;
+  bool isResending = false;
   TextEditingController otpController = TextEditingController();
   final GlobalKey<FormState> _verifyOtpFormKey = GlobalKey<FormState>();
   FocusNode focusNode = FocusNode();
@@ -61,6 +63,73 @@ class _VerifyUserState extends State<VerifyUser> {
     focusNode.dispose();
     _timer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _verifyCode() async {
+    log('[VERIFY] _verifyCode triggered');
+    String otp = otpController.text.trim();
+    if (otp.length < 4) {
+      log('[VERIFY] OTP code is incomplete (length: ${otp.length}). Aborting verify request.');
+      showMessage(context, 'Please enter the 4-digit code.');
+      return;
+    }
+    log('[VERIFY] Initiating actual verification request.');
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final res = await AuthService.instance.verify(
+        email: widget.email ?? '',
+        token: otp,
+      );
+      log('[VERIFY] API Response status: ${res.status}, message: ${res.message}');
+      if (res.status == true && res.data != null) {
+        final data = res.data!;
+        final String? token = data['token'] as String?;
+        final dynamic user = data['user'];
+
+        log('[VERIFY] Verification successful. Saving session.');
+        if (token != null) {
+          setValue("access_token", token);
+          log('[VERIFY] Saved access_token');
+        }
+
+        String firstName = '';
+        String lastName = '';
+        String userEmail = widget.email ?? '';
+
+        if (user != null && user is Map) {
+          firstName = user['first_name'] ?? user['firstname'] ?? '';
+          lastName = user['last_name'] ?? user['lastname'] ?? '';
+          userEmail = user['email'] ?? userEmail;
+        } else {
+          firstName = data['first_name'] ?? data['firstname'] ?? data['firstName'] ?? '';
+          lastName = data['last_name'] ?? data['lastname'] ?? data['lastName'] ?? '';
+          userEmail = data['email'] ?? userEmail;
+        }
+
+        setValue('fName', firstName);
+        setValue('lName', lastName);
+        setValue('email', userEmail);
+        setValue('home', true);
+
+        log('[VERIFY] Session saved: fName = $firstName, lName = $lastName, email = $userEmail, home = true');
+        log('[VERIFY] Navigating to Home Dashboard (Nav)');
+        const Nav().launch(context, isNewTask: true);
+      } else {
+        log('[VERIFY] Verification failed: ${res.message}');
+        showMessage(context, res.message ?? 'Verification failed. Please check the code.');
+      }
+    } catch (e) {
+      log('[VERIFY] Unexpected error during verification: ${e.toString()}');
+      showMessage(context, 'An unexpected error occurred. Please try again.');
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -120,13 +189,13 @@ class _VerifyUserState extends State<VerifyUser> {
                     ),
                     controller: otpController,
                     onComplete: (output) {
-                      log(output);
+                      log('[VERIFY] Pin code fields completed: $output');
+                      _verifyCode();
                     },
                   ),
                 ),
                 40.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: [
                     Text(
                       'I haven’t received code (0:${_start.toString().padLeft(2, '0')}) ',
@@ -135,91 +204,45 @@ class _VerifyUserState extends State<VerifyUser> {
                         color: textLight,
                       ),
                     ),
+                    8.height,
                     TextButton(
-                      onPressed: _start == 0
-                          ? () {
-                              log('[VERIFY] Resend button clicked. Restarting timer.');
-                              startTimer();
-                              // Add your resend API call here
+                      onPressed: (_start == 0 && !isResending)
+                          ? () async {
+                              log('[VERIFY] Resend button clicked.');
+                              setState(() => isResending = true);
+                              final res = await AuthService.instance.resendVerificationOtp(
+                                email: widget.email ?? '',
+                              );
+                              if (mounted) {
+                                setState(() => isResending = false);
+                                showMessage(context, res.message ?? (res.status == true ? 'Code resent!' : 'Could not resend. Try again.'));
+                                if (res.status == true) startTimer();
+                              }
                             }
                           : null,
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      child: Text(
-                        'Resend',
-                        style: TextStyle(fontFamily: 'Cinta', 
-                          fontSize: 14.sp,
-                          color: _start == 0 ? primary : textLight.withOpacity(0.5),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      child: isResending
+                          ? SizedBox(
+                              height: 14.sp,
+                              width: 14.sp,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: primary),
+                            )
+                          : Text(
+                              'Resend',
+                              style: TextStyle(
+                                fontFamily: 'Cinta',
+                                fontSize: 14.sp,
+                                color: _start == 0 ? primary : textLight.withOpacity(0.5),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                     ),
                   ],
                 ),
                 64.height,
                 ElevatedButton(
-                  onPressed: () async {
-                    log('[VERIFY] VERIFY CODE button pressed');
-                    String otp = otpController.text.trim();
-                    if (otp.length < 4) {
-                      log('[VERIFY] OTP code is incomplete (length: ${otp.length}). Aborting verify request.');
-                      showMessage(context, 'Please enter the 4-digit code.');
-                      return;
-                    }
-                    setState(() {
-                      isLoading = true;
-                    });
-                    try {
-                      log('[VERIFY] Initiating API verification request for email: ${widget.email}, code: $otp');
-                      final res = await AuthService.instance!.verify<Map<String, dynamic>>(
-                        email: widget.email ?? '',
-                        token: otp,
-                      );
-                      log('[VERIFY] API Response status: ${res.status}, message: ${res.message}');
-                      if (res.status == true && res.data != null) {
-                        final data = res.data!;
-                        final String? token = data['token'] as String?;
-                        final dynamic user = data['user'];
-
-                        log('[VERIFY] Verification succeeded. Saving session information locally.');
-                        if (token != null) {
-                          setValue("access_token", token);
-                          log('[VERIFY] Saved access_token');
-                        }
-
-                        String firstName = '';
-                        String lastName = '';
-                        String userEmail = widget.email ?? '';
-
-                        if (user != null && user is Map) {
-                          firstName = user['first_name'] ?? user['firstname'] ?? '';
-                          lastName = user['last_name'] ?? user['lastname'] ?? '';
-                          userEmail = user['email'] ?? widget.email ?? '';
-                        } else {
-                          firstName = data['first_name'] ?? data['firstname'] ?? data['firstName'] ?? '';
-                          lastName = data['last_name'] ?? data['lastname'] ?? data['lastName'] ?? '';
-                          userEmail = data['email'] ?? widget.email ?? '';
-                        }
-
-                        setValue('fName', firstName);
-                        setValue('lName', lastName);
-                        setValue('email', userEmail);
-                        setValue('home', true);
-
-                        log('[VERIFY] Session saved: fName = $firstName, lName = $lastName, email = $userEmail, home = true');
-                        log('[VERIFY] Navigating to Home Dashboard (Nav)');
-                        const Nav().launch(context, isNewTask: true);
-                      } else {
-                        log('[VERIFY] Verification failed: ${res.message}');
-                        showMessage(context, res.message ?? 'Verification failed. Please check the code.');
-                      }
-                    } catch (e) {
-                      log('[VERIFY] Unexpected error during verification: ${e.toString()}');
-                      showMessage(context, 'An unexpected error occurred. Please try again.');
-                    } finally {
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
+                   onPressed: () {
+                    _verifyCode();
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,

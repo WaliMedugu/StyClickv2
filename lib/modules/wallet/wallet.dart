@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/wallet_service.dart';
 import 'package:stylclick/modules/wallet/request_withdrawal.dart';
 import 'package:stylclick/modules/wallet/transaction_history.dart';
 import 'package:stylclick/modules/wallet/add_funds.dart';
@@ -27,12 +28,33 @@ class _WalletPageState extends State<WalletPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isBalanceVisible = false;
 
-  void _openDrawer() {
-    _scaffoldKey.currentState?.openDrawer();
+  // ── State ─────────────────────────────────────────────────────────────
+  bool _loadingBalance = true;
+  String _balance = '—';
+
+  void _openDrawer() => _scaffoldKey.currentState?.openDrawer();
+  void _openEndDrawer() => _scaffoldKey.currentState?.openEndDrawer();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchBalance();
   }
 
-  void _openEndDrawer() {
-    _scaffoldKey.currentState?.openEndDrawer();
+  Future<void> _fetchBalance() async {
+    setState(() => _loadingBalance = true);
+    final res = await WalletService.instance.getBalance();
+    if (mounted) {
+      setState(() {
+        _loadingBalance = false;
+        if (res.status == true && res.data != null) {
+          final raw = res.data!['balance'] ?? res.data!['amount'] ?? res.data!['wallet_balance'];
+          _balance = raw != null ? 'NGN ${raw.toString()}' : 'NGN 0.00';
+        } else {
+          _balance = 'Unavailable';
+        }
+      });
+    }
   }
 
   @override
@@ -56,12 +78,7 @@ class _WalletPageState extends State<WalletPage> {
                   children: [
                     InkWell(
                       onTap: _openDrawer,
-                      child: Image.asset(
-                        menuIcon,
-                        height: 24.h,
-                        width: 24.w,
-                        color: Colors.white,
-                      ),
+                      child: Image.asset(menuIcon, height: 24.h, width: 24.w, color: Colors.white),
                     ),
                     const Spacer(),
                     Text(
@@ -77,12 +94,7 @@ class _WalletPageState extends State<WalletPage> {
                     const Spacer(),
                     InkWell(
                       onTap: _openEndDrawer,
-                      child: Image.asset(
-                        notificationIcon,
-                        height: 24.h,
-                        width: 24.w,
-                        color: Colors.white,
-                      ),
+                      child: Image.asset(notificationIcon, height: 24.h, width: 24.w, color: Colors.white),
                     ),
                   ],
                 ),
@@ -126,10 +138,22 @@ class _WalletPageState extends State<WalletPage> {
                               letterSpacing: 1.5,
                             ),
                           ),
-                          Image.asset(
-                            'assets/images/logo/appIconAndroid.png',
-                            height: 24.h,
-                            width: 24.w,
+                          Row(
+                            children: [
+                              if (_loadingBalance)
+                                SizedBox(
+                                  height: 14.sp,
+                                  width: 14.sp,
+                                  child: CircularProgressIndicator(strokeWidth: 2, color: white.withOpacity(0.5)),
+                                )
+                              else
+                                InkWell(
+                                  onTap: _fetchBalance,
+                                  child: Icon(FeatherIcons.refreshCw, color: white.withOpacity(0.4), size: 14.sp),
+                                ),
+                              8.width,
+                              Image.asset('assets/images/logo/appIconAndroid.png', height: 24.h, width: 24.w),
+                            ],
                           ),
                         ],
                       ),
@@ -141,7 +165,7 @@ class _WalletPageState extends State<WalletPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                _isBalanceVisible ? 'NGN 9,500.00' : '••••••••',
+                                _isBalanceVisible ? _balance : '••••••••',
                                 style: TextStyle(
                                   fontFamily: 'Cinta',
                                   color: white,
@@ -167,14 +191,20 @@ class _WalletPageState extends State<WalletPage> {
                           _buildWalletAction(
                             label: 'Add Funds',
                             icon: FeatherIcons.plus,
-                            onTap: () => const AddFundsPage().launch(context),
+                            onTap: () async {
+                              await const AddFundsPage().launch(context);
+                              _fetchBalance(); // refresh after returning
+                            },
                             isPrimary: true,
                           ),
                           16.width,
                           _buildWalletAction(
                             label: 'Withdraw',
                             icon: FeatherIcons.arrowUpRight,
-                            onTap: () => const RequestWithdrawal().launch(context),
+                            onTap: () async {
+                              await const RequestWithdrawal().launch(context);
+                              _fetchBalance();
+                            },
                             isPrimary: false,
                           ),
                         ],
@@ -238,18 +268,11 @@ class _WalletPageState extends State<WalletPage> {
                             children: [
                               Text(
                                 'Transaction History',
-                                style: TextStyle(fontFamily: 'Cinta', 
-                                  fontSize: 16.sp,
-                                  color: ink,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: ink, fontWeight: FontWeight.w700),
                               ),
                               Text(
                                 'View all your recent activities',
-                                style: TextStyle(fontFamily: 'Cinta', 
-                                  fontSize: 12.sp,
-                                  color: textLight,
-                                ),
+                                style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight),
                               ),
                             ],
                           ),
@@ -284,14 +307,7 @@ class _WalletPageState extends State<WalletPage> {
             children: [
               Icon(icon, color: white, size: 16.sp),
               8.width,
-              Text(
-                label,
-                style: GoogleFonts.montserrat(
-                  color: white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              Text(label, style: GoogleFonts.montserrat(color: white, fontSize: 12.sp, fontWeight: FontWeight.w700)),
             ],
           ),
         ),
@@ -313,14 +329,7 @@ class _WalletPageState extends State<WalletPage> {
           children: [
             Image.asset(iconAsset, height: 24.h, width: 24.w),
             16.width,
-            Text(
-              title,
-              style: TextStyle(fontFamily: 'Cinta', 
-                fontSize: 14.sp,
-                color: ink,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            Text(title, style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w600)),
             const Spacer(),
             Icon(FeatherIcons.chevronRight, color: sand, size: 18.sp),
           ],
@@ -342,96 +351,44 @@ class _WalletPageState extends State<WalletPage> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(4.w),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: primary.withOpacity(0.5), width: 2),
-                    ),
-                    child: CircleAvatar(
-                      radius: 35.r,
-                      backgroundColor: white,
-                      backgroundImage: const AssetImage(defaultUserImage),
-                    ),
+                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: primary.withOpacity(0.5), width: 2)),
+                    child: CircleAvatar(radius: 35.r, backgroundColor: white, backgroundImage: const AssetImage(defaultUserImage)),
                   ),
                   20.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'You',
-                        style: TextStyle(fontFamily: 'Cinta', 
-                          color: ink,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      Text('You', style: TextStyle(fontFamily: 'Cinta', color: ink, fontSize: 24.sp, fontWeight: FontWeight.w700)),
                       4.height,
-                      Text(
-                        'Dashboard',
-                        style: GoogleFonts.montserrat(
-                          color: primary,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
+                      Text('Dashboard', style: GoogleFonts.montserrat(color: primary, fontSize: 10.sp, fontWeight: FontWeight.w700, letterSpacing: 1.2)),
                     ],
                   ),
                 ],
               ),
             ),
             30.height,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Divider(color: sand, thickness: 1),
-            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 24.w), child: Divider(color: sand, thickness: 1)),
             Expanded(
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
                 children: [
-                  _buildDrawerItem(context, 'Home', () {
-                    currentIndex = 0;
-                    const Nav().launch(context, isNewTask: true);
-                  }),
-                  _buildDrawerItem(context, 'Catalogue', () {
-                    currentIndex = 1;
-                    const Nav().launch(context, isNewTask: true);
-                  }),
-                  _buildDrawerItem(context, 'Account', () {
-                    currentIndex = 2;
-                    const Nav().launch(context, isNewTask: true);
-                  }),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Divider(color: sand, thickness: 1),
-                  ),
+                  _buildDrawerItem(context, 'Home', () { currentIndex = 0; const Nav().launch(context, isNewTask: true); }),
+                  _buildDrawerItem(context, 'Catalogue', () { currentIndex = 1; const Nav().launch(context, isNewTask: true); }),
+                  _buildDrawerItem(context, 'Account', () { currentIndex = 2; const Nav().launch(context, isNewTask: true); }),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 12.h), child: Divider(color: sand, thickness: 1)),
                   _buildDrawerItem(context, 'My Invoices', () => const TransactionHistory().launch(context)),
                   _buildDrawerItem(context, 'My Orders', () => const SavedOrderPage().launch(context)),
                   _buildDrawerItem(context, 'Saved', () => const SavedItemsPage().launch(context)),
                   _buildDrawerItem(context, 'Chat', () {}),
                   _buildDrawerItem(context, 'Wallet', () => const WalletPage().launch(context)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Divider(color: sand, thickness: 1),
-                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 12.h), child: Divider(color: sand, thickness: 1)),
                   _buildDrawerItem(context, 'Become a Vendor', () => VendorPage().launch(context)),
                   _buildDrawerItem(context, 'Share & Earn', () => const ShareEarnPage().launch(context)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Divider(color: sand, thickness: 1),
-                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 12.h), child: Divider(color: sand, thickness: 1)),
                   _buildDrawerItem(context, 'Settings', () => const SettingsPage().launch(context)),
-                  _buildDrawerItem(context, 'Help & Support', () {
-                    currentIndex = 2;
-                    const Nav().launch(context, isNewTask: true);
-                  }),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Divider(color: sand, thickness: 1),
-                  ),
-                  _buildDrawerItem(context, 'Logout', () {
-                    setValue('home', false);
-                    LoginScreen().launch(context, isNewTask: true);
-                  }),
+                  _buildDrawerItem(context, 'Help & Support', () { currentIndex = 2; const Nav().launch(context, isNewTask: true); }),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 12.h), child: Divider(color: sand, thickness: 1)),
+                  _buildDrawerItem(context, 'Logout', () { setValue('home', false); LoginScreen().launch(context, isNewTask: true); }),
                 ],
               ),
             ),
@@ -448,23 +405,9 @@ class _WalletPageState extends State<WalletPage> {
         onTap: onTap,
         child: Row(
           children: [
-            Container(
-              width: 10.w,
-              height: 10.h,
-              decoration: BoxDecoration(
-                color: sand.withOpacity(0.8),
-                shape: BoxShape.circle,
-              ),
-            ),
+            Container(width: 10.w, height: 10.h, decoration: BoxDecoration(color: sand.withOpacity(0.8), shape: BoxShape.circle)),
             20.width,
-            Text(
-              title,
-              style: TextStyle(fontFamily: 'Cinta', 
-                fontSize: 16.sp,
-                color: ink,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            Text(title, style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: ink, fontWeight: FontWeight.w500)),
           ],
         ),
       ),
@@ -481,80 +424,17 @@ class _WalletPageState extends State<WalletPage> {
             60.height,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Text(
-                'Notifications',
-                style: TextStyle(
-                  fontFamily: 'Cinta',
-                  fontSize: 24.sp,
-                  color: primary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -1.0,
-                ),
-              ),
+              child: Text('Notifications', style: TextStyle(fontFamily: 'Cinta', fontSize: 24.sp, color: primary, fontWeight: FontWeight.w700, letterSpacing: -1.0)),
             ),
             20.height,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Divider(color: sand, thickness: 1),
-            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 24.w), child: Divider(color: sand, thickness: 1)),
             Expanded(
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-                children: [
-                  _buildNotificationItem('Order Confirmed', 'Your Aso-ebi order #4290 has been received.', '2m ago', FeatherIcons.checkCircle),
-                  _buildNotificationItem('Promotion', 'Get 20% off on all Ankara materials this weekend!', '1h ago', FeatherIcons.tag),
-                  _buildNotificationItem('Update', 'Your measurements have been successfully updated.', '5h ago', FeatherIcons.user),
-                  _buildNotificationItem('Payment Successful', 'Wallet top-up of NGN 50,000 successful.', 'Yesterday', FeatherIcons.creditCard),
-                ],
+              child: Center(
+                child: Text('No notifications yet', style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: textLight)),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildNotificationItem(String title, String sub, String time, IconData icon) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.all(10.w),
-            decoration: BoxDecoration(
-              color: white,
-              shape: BoxShape.circle,
-              border: Border.all(color: sand),
-            ),
-            child: Icon(icon, color: primary, size: 20.sp),
-          ),
-          16.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink, fontWeight: FontWeight.w700),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    8.width,
-                    Text(time, style: GoogleFonts.montserrat(fontSize: 10.sp, color: textLight)),
-                  ],
-                ),
-                4.height,
-                Text(sub, style: TextStyle(fontFamily: 'Cinta', fontSize: 12.sp, color: textLight)),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

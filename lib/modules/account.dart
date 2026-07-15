@@ -198,7 +198,7 @@ class _AccountPageState extends State<AccountPage> {
                   setValue('home', false);
                   LoginScreen().launch(context, isNewTask: true);
                 }),
-                40.height,
+                120.height,
               ],
             ),
           ),

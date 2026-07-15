@@ -54,6 +54,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
               child: TextButton(
                 onPressed: () {
                   log('[WALKTHROUGH] SKIP tapped. Navigating to LoginScreen.');
+                  setValue('onboarding', false);
                   const LoginScreen().launch(context, isNewTask: true);
                 },
                 child: Text(
@@ -85,7 +86,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          height: 280.h,
+                          height: 220.h,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: white,
@@ -102,12 +103,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                           child: Center(
                             child: Image.asset(
                               item.image,
-                              height: 120.h,
+                              height: 100.h,
                               fit: BoxFit.contain,
                             ),
                           ),
                         ),
-                        60.height,
+                        32.height,
                         Text(
                           item.title,
                           textAlign: TextAlign.center,
@@ -118,7 +119,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        24.height,
+                        16.height,
                         Text(
                           item.description,
                           textAlign: TextAlign.center,
@@ -153,6 +154,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                     onTap: () {
                       if (_currentPage == _items.length - 1) {
                         log('[WALKTHROUGH] Finished last page. Navigating to LoginScreen.');
+                        setValue('onboarding', false);
                         const LoginScreen().launch(context, isNewTask: true);
                       } else {
                         log('[WALKTHROUGH] NEXT tapped. Animating to page: ${_currentPage + 1}');

@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:http/http.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:stylclick/core/services/api_service.dart';
 import 'package:stylclick/shared/endpoint.dart';
 import 'package:stylclick/shared/models/api_model.dart';
 
@@ -11,66 +7,29 @@ class AuthService {
 
   AuthService._();
 
-  static AuthService? get instance {
+  static AuthService get instance {
     _authService ??= AuthService._();
-    return _authService;
+    return _authService!;
   }
 
-  Future<ApiResponse<T>> login<T>(
+  final _api = ApiService.instance;
+
+  // ── Login ─────────────────────────────────────────────────────────────
+
+  Future<ApiResponse<Map<String, dynamic>>> login(
     String email,
-    String password, {
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r as T;
+    String password,
+  ) =>
+      _api.post<Map<String, dynamic>>(
+        signIn,
+        body: {"email": email, "password": password},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Register ──────────────────────────────────────────────────────────
 
-    try {
-      final url = baseUrl + signIn;
-      log('[API REQ] POST $url');
-      Response res = await post(
-          Uri.parse(url),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "password": password
-          });
-
-      log('[API RESP] Status: ${res.statusCode}');
-      log('[API RESP] Body: ${res.body}');
-
-      dynamic data;
-      try {
-        data = json.decode(res.body);
-      } catch (e) {
-        log('[API ERR] Failed to parse response JSON: $e');
-      }
-
-      if (res.statusCode.isSuccessful()) {
-        apiResponse.data = transform(data ?? res.body);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = data != null && data is Map && data.containsKey('message')
-            ? data['message'].toString()
-            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
-      }
-    } on SocketException catch (e) {
-      log('[API ERR] SocketException: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    } catch (e) {
-      log('[API ERR] Exception: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    }
-
-    return apiResponse;
-  }
-
-  Future<ApiResponse<T>> signup<T>({
+  Future<ApiResponse<Map<String, dynamic>>> signup({
     required String email,
     required String password,
     required String firstName,
@@ -78,114 +37,79 @@ class AuthService {
     required String phone,
     required String state,
     required String address,
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r as T;
+    String? referralCode,
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        register,
+        body: {
+          "email": email,
+          "password": password,
+          "firstname": firstName,
+          "lastname": lastName,
+          "phone": phone,
+          "state": state,
+          "address": address,
+          "origin": "mobile",
+          if (referralCode != null && referralCode.isNotEmpty)
+            "referral_code": referralCode,
+        },
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Verify OTP ────────────────────────────────────────────────────────
 
-    try {
-      final url = baseUrl + register;
-      log('[API REQ] POST $url');
-      Response res = await post(
-          Uri.parse(url),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "password": password,
-            "firstname": firstName,
-            "lastname": lastName,
-            "phone": phone,
-            "state": state,
-            "address": address,
-            "origin": "mobile"
-          });
-
-      log('[API RESP] Status: ${res.statusCode}');
-      log('[API RESP] Body: ${res.body}');
-
-      dynamic data;
-      try {
-        data = json.decode(res.body);
-      } catch (e) {
-        log('[API ERR] Failed to parse response JSON: $e');
-      }
-
-      if (res.statusCode.isSuccessful()) {
-        apiResponse.data = transform(data ?? res.body);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = data != null && data is Map && data.containsKey('message')
-            ? data['message'].toString()
-            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
-      }
-    } on SocketException catch (e) {
-      log('[API ERR] SocketException: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    } catch (e) {
-      log('[API ERR] Exception: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    }
-
-    return apiResponse;
-  }
-
-  Future<ApiResponse<T>> verify<T>({
+  Future<ApiResponse<Map<String, dynamic>>> verify({
     required String email,
     required String token,
-    T Function(dynamic)? transform,
-  }) async {
-    transform ??= (dynamic r) => r as T;
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        verifyUser,
+        body: {"email": email, "token": token},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-    final ApiResponse<T> apiResponse = ApiResponse<T>();
+  // ── Resend OTP ────────────────────────────────────────────────────────
 
-    try {
-      final url = baseUrl + verifyUser;
-      log('[API REQ] POST $url');
-      Response res = await post(
-          Uri.parse(url),
-          headers: {
-            "Accept": "application/json",
-          },
-          body: {
-            "email": email,
-            "token": token
-          });
+  Future<ApiResponse<Map<String, dynamic>>> resendVerificationOtp({
+    required String email,
+  }) =>
+      _api.post<Map<String, dynamic>>(
+        resendOtp,
+        body: {"email": email},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-      log('[API RESP] Status: ${res.statusCode}');
-      log('[API RESP] Body: ${res.body}');
+  // ── Forgot Password (request reset link) ─────────────────────────────
 
-      dynamic data;
-      try {
-        data = json.decode(res.body);
-      } catch (e) {
-        log('[API ERR] Failed to parse response JSON: $e');
-      }
+  Future<ApiResponse<Map<String, dynamic>>> requestPasswordReset({
+    required String email,
+  }) =>
+      _api.patch<Map<String, dynamic>>(
+        resetRequest,
+        body: {"email": email},
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 
-      if (res.statusCode.isSuccessful()) {
-        apiResponse.data = transform(data ?? res.body);
-        apiResponse.status = true;
-      } else {
-        apiResponse.status = false;
-        apiResponse.message = data != null && data is Map && data.containsKey('message')
-            ? data['message'].toString()
-            : 'Error occurred (Status: ${res.statusCode}, Body: ${res.body})';
-      }
-    } on SocketException catch (e) {
-      log('[API ERR] SocketException: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    } catch (e) {
-      log('[API ERR] Exception: ${e.toString()}');
-      apiResponse.status = false;
-      apiResponse.message = e.toString();
-    }
+  // ── Reset Password ────────────────────────────────────────────────────
 
-    return apiResponse;
-  }
+  Future<ApiResponse<Map<String, dynamic>>> resetPassword({
+    required String email,
+    required String token,
+    required String newPassword,
+  }) =>
+      _api.patch<Map<String, dynamic>>(
+        changePassword,
+        body: {
+          "email": email,
+          "token": token,
+          "password": newPassword,
+          "password_confirmation": newPassword,
+        },
+        authenticated: false,
+        transform: (r) => Map<String, dynamic>.from(r as Map),
+      );
 }

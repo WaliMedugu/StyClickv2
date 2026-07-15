@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/vendor_service.dart';
 import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
@@ -10,6 +11,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
 import 'package:stylclick/shared/utils/validator.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
 
 class BecomeVendor extends StatefulWidget {
   const BecomeVendor({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _BecomeVendorState extends State<BecomeVendor> {
   // Image Upload Paths
   String? _cacImagePath;
   String? _portfolioImagePath;
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -372,36 +376,57 @@ class _BecomeVendorState extends State<BecomeVendor> {
           Expanded(
             flex: 2,
             child: AppButton(
-              text: _currentStep == 2 ? 'Submit Application' : 'Next Step',
+              text: _currentStep == 2
+              ? (_isLoading ? 'Submitting...' : 'Submit Application')
+              : 'Next Step',
               textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
-              onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  if (_currentStep == 1 && _specializations.isEmpty) {
-                    toast('Please select at least one specialization');
-                    return;
-                  }
-                  if (_currentStep == 2) {
-                    if (_cacImagePath == null) {
-                      toast('Please upload Business Registration (CAC)');
+              onTap: _isLoading
+              ? null
+              : () async {
+                  if (_formKey.currentState!.validate()) {
+                    if (_currentStep == 1 && _specializations.isEmpty) {
+                      toast('Please select at least one specialization');
                       return;
                     }
-                    if (_portfolioImagePath == null) {
-                      toast('Please upload Portfolio/Recent Work');
-                      return;
+                    if (_currentStep == 2) {
+                      if (_cacImagePath == null) {
+                        toast('Please upload Business Registration (CAC)');
+                        return;
+                      }
+                      if (_portfolioImagePath == null) {
+                        toast('Please upload Portfolio/Recent Work');
+                        return;
+                      }
                     }
-                  }
 
-                  if (_currentStep < 2) {
-                    setState(() => _currentStep++);
-                  } else {
-                    const SuccessPage(
-                      medium: 'Application Sent',
-                      message: 'Your designer profile is being reviewed. We will contact you shortly.',
-                    ).launch(context);
+                    if (_currentStep < 2) {
+                      setState(() => _currentStep++);
+                    } else {
+                      setState(() => _isLoading = true);
+                      log('[VENDOR] Submitting vendor application...');
+                      final res = await VendorService.instance.applyAsVendor(
+                        shopName: _shopName.text.trim(),
+                        email: _email.text.trim(),
+                        phone: _phone.text.trim(),
+                        address: _address.text.trim(),
+                        specializations: _specializations,
+                        yearsOfExperience: _experience.text.trim(),
+                      );
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                        if (res.status == true) {
+                          const SuccessPage(
+                            medium: 'Application Sent',
+                            message: 'Your designer profile is being reviewed. We will contact you shortly.',
+                          ).launch(context);
+                        } else {
+                          showMessage(context, res.message ?? 'Submission failed. Please try again.');
+                        }
+                      }
+                    }
                   }
-                }
-              },
+                },
               shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/wallet_service.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/modules/settings.dart';
@@ -23,18 +24,41 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
-  String _filterType = "All"; // All, Credits, Debits
+  String _filterType = "All";
 
-  final List<Map<String, dynamic>> _allTransactions = [
-    {'title': 'Wallet Funding', 'subtitle': 'via Bank Transfer', 'time': 'Apr 28, 09:23 AM', 'amount': '+ NGN 20,000', 'isCredit': true, 'status': 'Successful'},
-    {'title': 'Aso-ebi Payment', 'subtitle': 'Order #4290', 'time': 'Apr 27, 02:15 PM', 'amount': '- NGN 15,500', 'isCredit': false, 'status': 'Successful'},
-    {'title': 'Fabric Purchase', 'subtitle': 'Order #4288', 'time': 'Apr 26, 11:40 AM', 'amount': '- NGN 45,000', 'isCredit': false, 'status': 'Successful'},
-    {'title': 'Wallet Funding', 'subtitle': 'via Card', 'time': 'Apr 25, 08:10 PM', 'amount': '+ NGN 50,000', 'isCredit': true, 'status': 'Successful'},
-    {'title': 'Tailor Deposit', 'subtitle': 'Order #4285', 'time': 'Apr 24, 01:05 PM', 'amount': '- NGN 10,000', 'isCredit': false, 'status': 'Successful'},
-    {'title': 'Wallet Funding', 'subtitle': 'via Transfer', 'time': 'Apr 23, 10:30 AM', 'amount': '+ NGN 5,000', 'isCredit': true, 'status': 'Successful'},
-    {'title': 'Logistics Fee', 'subtitle': 'Order #4280', 'time': 'Apr 22, 04:50 PM', 'amount': '- NGN 2,500', 'isCredit': false, 'status': 'Successful'},
-    {'title': 'Refund', 'subtitle': 'Order #4275', 'time': 'Apr 21, 12:00 PM', 'amount': '+ NGN 12,000', 'isCredit': true, 'status': 'Successful'},
-  ];
+  bool _isLoading = true;
+  List<Map<String, dynamic>> _allTransactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTransactions();
+  }
+
+  Future<void> _fetchTransactions() async {
+    setState(() => _isLoading = true);
+    final res = await WalletService.instance.getTransactions();
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+        if (res.status == true && res.data != null) {
+          _allTransactions = res.data!.map((tx) {
+            final isCredit = (tx['type'] ?? tx['transaction_type'] ?? '') == 'credit';
+            return {
+              'title': tx['title'] ?? tx['description'] ?? 'Transaction',
+              'subtitle': tx['subtitle'] ?? tx['reference'] ?? '',
+              'time': tx['created_at'] ?? tx['date'] ?? '',
+              'amount': (isCredit ? '+ ' : '- ') + 'NGN ${tx['amount'] ?? '0'}',
+              'isCredit': isCredit,
+              'status': tx['status'] ?? 'Successful',
+            };
+          }).toList();
+        } else {
+          _allTransactions = [];
+        }
+      });
+    }
+  }
 
   List<Map<String, dynamic>> get _filteredTransactions {
     return _allTransactions.where((tx) {
@@ -219,34 +243,44 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               ),
             ),
             16.height,
-            // Transaction List
             Expanded(
-              child: _filteredTransactions.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(FeatherIcons.fileText, size: 48.sp, color: sand),
-                          16.height,
-                          Text('No results found', style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: textLight)),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 17.w),
-                      itemCount: _filteredTransactions.length,
-                      itemBuilder: (context, index) {
-                        final tx = _filteredTransactions[index];
-                        return _buildTransactionItem(
-                          title: tx['title'],
-                          subtitle: tx['subtitle'],
-                          time: tx['time'],
-                          amount: tx['amount'],
-                          isCredit: tx['isCredit'],
-                          status: tx['status'],
-                        );
-                      },
-                    ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator(color: primary))
+                  : _filteredTransactions.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(FeatherIcons.fileText, size: 48.sp, color: sand),
+                              16.height,
+                              Text('No transactions yet', style: TextStyle(fontFamily: 'Cinta', fontSize: 16.sp, color: textLight)),
+                              8.height,
+                              TextButton(
+                                onPressed: _fetchTransactions,
+                                child: Text('Refresh', style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: primary, fontWeight: FontWeight.w700)),
+                              ),
+                            ],
+                          ),
+                        )
+                      : RefreshIndicator(
+                          color: primary,
+                          onRefresh: _fetchTransactions,
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 17.w),
+                            itemCount: _filteredTransactions.length,
+                            itemBuilder: (context, index) {
+                              final tx = _filteredTransactions[index];
+                              return _buildTransactionItem(
+                                title: tx['title'],
+                                subtitle: tx['subtitle'],
+                                time: tx['time'],
+                                amount: tx['amount'],
+                                isCredit: tx['isCredit'],
+                                status: tx['status'],
+                              );
+                            },
+                          ),
+                        ),
             ),
           ],
         ),

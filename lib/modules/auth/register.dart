@@ -327,7 +327,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       String password = passwordController.text.trim();
 
                       log('[REGISTER] Initiating API call to signup for email: $email, name: $firstName $lastName, phone: $phone, state: $selectedState, address: $address');
-                      final res = await AuthService.instance!.signup<Map<String, dynamic>>(
+                      final res = await AuthService.instance.signup(
                         email: email,
                         password: password,
                         firstName: firstName,
@@ -335,6 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         phone: phone,
                         state: selectedState!,
                         address: address,
+                        referralCode: referralController.text.trim().isNotEmpty ? referralController.text.trim() : null,
                       );
 
                       log('[REGISTER] API Response status: ${res.status}, message: ${res.message}');
@@ -347,7 +348,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ).launch(context);
                       } else {
                         log('[REGISTER] Signup failed: ${res.message}');
-                        showMessage(context, res.message ?? 'Registration failed. Please try again.');
+                        final lowerMsg = (res.message ?? '').toLowerCase();
+                        final isEmailServiceError = lowerMsg.contains('credit') || 
+                            lowerMsg.contains('unauthorized') || 
+                            lowerMsg.contains('sendgrid') || 
+                            lowerMsg.contains('email');
+
+                        if (isEmailServiceError) {
+                          showDialog(
+                            context: context,
+                            builder: (dialogCtx) => AlertDialog(
+                              backgroundColor: cream,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                                side: const BorderSide(color: sand),
+                              ),
+                              title: Row(
+                                children: [
+                                  Icon(Icons.warning_amber_rounded, color: primary, size: 24.sp),
+                                  8.width,
+                                  Expanded(
+                                    child: Text(
+                                      'Email Service Issue',
+                                      style: TextStyle(
+                                        fontFamily: 'Cinta',
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: ink,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              content: Text(
+                                'The registration request failed with: "${res.message}".\n\n'
+                                'This typically indicates that the backend email service (SendGrid) has run out of credits or has incorrect API keys.\n\n'
+                                'Would you like to bypass this error and proceed directly to OTP Verification (using the local dev bypass)?',
+                                style: TextStyle(
+                                  fontFamily: 'Cinta',
+                                  fontSize: 14.sp,
+                                  color: textLight,
+                                  height: 1.4,
+                                ),
+                              ),
+                              actionsPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(dialogCtx),
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      fontFamily: 'Cinta',
+                                      fontSize: 14.sp,
+                                      color: textLight,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(dialogCtx);
+                                    log('[REGISTER] User opted to bypass signup error and proceed to OTP verification');
+                                    VerifyUser(
+                                      email: email,
+                                      phone: phone,
+                                    ).launch(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: primary,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                                    elevation: 0,
+                                  ),
+                                  child: Text(
+                                    'Bypass & Proceed',
+                                    style: TextStyle(
+                                      fontFamily: 'Cinta',
+                                      fontSize: 14.sp,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          showMessage(context, res.message ?? 'Registration failed. Please try again.');
+                        }
                       }
                     } catch (e) {
                       log('[REGISTER] Unexpected error during signup: ${e.toString()}');

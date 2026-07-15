@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/profile_service.dart';
 import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/modules/auth/login.dart';
 import 'package:stylclick/modules/wallet/wallet.dart';
@@ -16,6 +17,7 @@ import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/constants/strings.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -42,6 +44,12 @@ class _EditProfileState extends State<EditProfile> {
   List<String> countries = ['Nigeria', 'Ghana', 'Kenya'];
   List<String> states = ['Abuja', 'Lagos', 'Kano'];
   List<String> cities = ['Nyanya', 'Ikeja', 'Wuse'];
+
+  // Text controllers bound to the editable form fields
+  final TextEditingController _fullNameController = TextEditingController(text: getStringAsync('fName') + ' ' + getStringAsync('lName'));
+  final TextEditingController _addressController = TextEditingController();
+
+  bool _isSaving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +145,9 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     _buildSectionTitle('Personal Information'),
                     20.height,
-                    _buildTextField('Full Name', 'Oluwafemi Doe', FeatherIcons.user),
+                    _buildTextField('Full Name', _fullNameController.text.isNotEmpty ? _fullNameController.text : 'Oluwafemi Doe', FeatherIcons.user, controller: _fullNameController),
                     16.height,
-                    _buildTextField('Address', 'No 12 Asombi Street, Nyanya Abuja', FeatherIcons.mapPin),
+                    _buildTextField('Address', 'No 12 Asombi Street, Nyanya Abuja', FeatherIcons.mapPin, controller: _addressController),
                     16.height,
                     Row(
                       children: [
@@ -159,11 +167,27 @@ class _EditProfileState extends State<EditProfile> {
                     40.height,
                     // Save Button
                     InkWell(
-                      onTap: () {
-                        const SuccessPage(
-                          message: 'Your profile has been successfully\nupdated',
-                        ).launch(context);
-                      },
+                      onTap: _isSaving
+                          ? null
+                          : () async {
+                              setState(() => _isSaving = true);
+                              log('[PROFILE] Saving profile update...');
+                              final res = await ProfileService.instance.updateProfile(
+                                fullName: _fullNameController.text.trim(),
+                                address: _addressController.text.trim(),
+                                city: selectedCity ?? '',
+                                state: selectedState ?? '',
+                                country: selectedCountry ?? '',
+                              );
+                              if (mounted) {
+                                setState(() => _isSaving = false);
+                                if (res.status == true) {
+                                  const SuccessPage(message: 'Your profile has been successfully\nupdated').launch(context);
+                                } else {
+                                  showMessage(context, res.message ?? 'Failed to save profile. Please try again.');
+                                }
+                              }
+                            },
                       child: Container(
                         height: 56.h,
                         decoration: BoxDecoration(
@@ -180,15 +204,17 @@ class _EditProfileState extends State<EditProfile> {
                           ],
                         ),
                         child: Center(
-                          child: Text(
-                            'Save Changes',
-                            style: GoogleFonts.montserrat(
-                              color: white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.1,
-                            ),
-                          ),
+                          child: _isSaving
+                              ? const CircularProgressIndicator(color: white)
+                              : Text(
+                                  'Save Changes',
+                                  style: GoogleFonts.montserrat(
+                                    color: white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1.1,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
@@ -216,7 +242,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget _buildTextField(String label, String hint, IconData icon) {
+  Widget _buildTextField(String label, String hint, IconData icon, {TextEditingController? controller}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -243,6 +269,7 @@ class _EditProfileState extends State<EditProfile> {
               16.width,
               Expanded(
                 child: TextField(
+                  controller: controller,
                   style: TextStyle(fontFamily: 'Cinta', fontSize: 14.sp, color: ink),
                   decoration: InputDecoration(
                     hintText: hint,

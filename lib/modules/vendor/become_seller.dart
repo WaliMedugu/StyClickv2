@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/vendor_service.dart';
 import 'package:stylclick/modules/success_page.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:stylclick/shared/widgets/custom_textfield.dart';
 import 'package:stylclick/shared/utils/validator.dart';
+import 'package:stylclick/shared/widgets/snack_bar.dart';
 
 class BecomeSeller extends StatefulWidget {
   const BecomeSeller({Key? key}) : super(key: key);
@@ -33,6 +35,8 @@ class _BecomeSellerState extends State<BecomeSeller> {
   // Image Upload Paths
   String? _idImagePath;
   String? _storeImagePath;
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -361,36 +365,56 @@ class _BecomeSellerState extends State<BecomeSeller> {
           Expanded(
             flex: 2,
             child: AppButton(
-              text: _currentStep == 2 ? 'Submit Registration' : 'Next Step',
+          text: _currentStep == 2
+              ? (_isLoading ? 'Submitting...' : 'Submit Registration')
+              : 'Next Step',
               textStyle: GoogleFonts.montserrat(color: white, fontWeight: FontWeight.w700),
               color: primary,
-              onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  if (_currentStep == 1 && _fabricTypes.isEmpty) {
-                    toast('Please select at least one fabric type');
-                    return;
-                  }
-                  if (_currentStep == 2) {
-                    if (_idImagePath == null) {
-                      toast('Please upload Government Issued ID');
+          onTap: _isLoading
+              ? null
+              : () async {
+                  if (_formKey.currentState!.validate()) {
+                    if (_currentStep == 1 && _fabricTypes.isEmpty) {
+                      toast('Please select at least one fabric type');
                       return;
                     }
-                    if (_storeImagePath == null) {
-                      toast('Please upload Store/Warehouse Photos');
-                      return;
+                    if (_currentStep == 2) {
+                      if (_idImagePath == null) {
+                        toast('Please upload Government Issued ID');
+                        return;
+                      }
+                      if (_storeImagePath == null) {
+                        toast('Please upload Store/Warehouse Photos');
+                        return;
+                      }
                     }
-                  }
 
-                  if (_currentStep < 2) {
-                    setState(() => _currentStep++);
-                  } else {
-                    const SuccessPage(
-                      medium: 'Registration Sent',
-                      message: 'Your fabrics store application is being processed.',
-                    ).launch(context);
+                    if (_currentStep < 2) {
+                      setState(() => _currentStep++);
+                    } else {
+                      setState(() => _isLoading = true);
+                      log('[SELLER] Submitting seller application...');
+                      final res = await VendorService.instance.applyAsSeller(
+                        shopName: _shopName.text.trim(),
+                        email: _email.text.trim(),
+                        phone: _phone.text.trim(),
+                        address: _address.text.trim(),
+                        fabricTypes: _fabricTypes,
+                      );
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                        if (res.status == true) {
+                          const SuccessPage(
+                            medium: 'Registration Sent',
+                            message: 'Your fabrics store application is being processed.',
+                          ).launch(context);
+                        } else {
+                          showMessage(context, res.message ?? 'Submission failed. Please try again.');
+                        }
+                      }
+                    }
                   }
-                }
-              },
+                },
               shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
             ),
           ),

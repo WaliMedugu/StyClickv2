@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:stylclick/core/services/wallet_service.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/utils/helpers.dart';
@@ -21,6 +22,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
   TextEditingController _accountNumberController = TextEditingController();
   TextEditingController _accountNameController = TextEditingController();
   String _selectedBank = 'Select Bank';
+  bool _isLoading = false;
 
   final List<String> _banks = [
     'Access Bank',
@@ -182,21 +184,43 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: AppButton(
                   width: double.infinity,
-                  text: 'Confirm Withdrawal',
+                  text: _isLoading ? 'Submitting...' : 'Confirm Withdrawal',
                   textStyle: GoogleFonts.montserrat(
                     color: white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   color: primary,
-                  onTap: () {
-                    if (_amountController.text.isEmpty || _selectedBank == 'Select Bank' || _accountNumberController.text.isEmpty) {
-                      toast('Please complete all fields');
-                      return;
-                    }
-                    showMessage(context, 'Withdrawal request submitted successfully!');
-                    pop(context);
-                  },
+                  onTap: _isLoading
+                      ? null
+                      : () async {
+                          if (_amountController.text.isEmpty ||
+                              _selectedBank == 'Select Bank' ||
+                              _accountNumberController.text.isEmpty ||
+                              _accountNameController.text.isEmpty) {
+                            toast('Please complete all fields');
+                            return;
+                          }
+                          setState(() => _isLoading = true);
+
+                          log('[WITHDRAW] Requesting withdrawal — amount: ${_amountController.text}, bank: $_selectedBank, acct: ${_accountNumberController.text}');
+                          final res = await WalletService.instance.requestWithdrawal(
+                            amount: _amountController.text.trim(),
+                            bank: _selectedBank,
+                            accountNumber: _accountNumberController.text.trim(),
+                            accountName: _accountNameController.text.trim(),
+                          );
+
+                          if (mounted) {
+                            setState(() => _isLoading = false);
+                            if (res.status == true) {
+                              showMessage(context, res.message ?? 'Withdrawal request submitted successfully!');
+                              Navigator.pop(context);
+                            } else {
+                              showMessage(context, res.message ?? 'Withdrawal failed. Please try again.');
+                            }
+                          }
+                        },
                   shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
                 ),
               ),

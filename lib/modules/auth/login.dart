@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stylclick/modules/auth/forgot_password.dart';
 import 'package:stylclick/modules/auth/register.dart';
+import 'package:stylclick/modules/auth/verify_user.dart';
 import 'package:stylclick/shared/constants/colors.dart';
 import 'package:stylclick/shared/constants/images.dart';
 import 'package:stylclick/shared/constants/strings.dart';
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                48.height,
+                24.height,
                 Center(
                   child: Container(
                     padding: EdgeInsets.all(4.w),
@@ -76,19 +77,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Image.asset(
                       loginLogo,
-                      height: 80.h,
-                      width: 80.h,
+                      height: 72.h,
+                      width: 72.h,
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
-                40.height,
+                24.height,
                 Text(
                   'Welcome Back',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Cinta',
-                    fontSize: 32.sp,
+                    fontSize: 28.sp,
                     color: ink,
                     fontWeight: FontWeight.w700,
                   ),
@@ -103,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                48.height,
+                32.height,
                 CustomTextField(
                   controller: emailController,
                   label: 'Email Address',
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                24.height,
+                16.height,
                 CustomTextField(
                   controller: passwordController,
                   label: 'Password',
@@ -169,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                40.height,
+                32.height,
                 ElevatedButton(
                   onPressed: () async {
                     log('[LOGIN] Sign In button pressed');
@@ -182,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       String email = emailController.text.trim();
                       log('[LOGIN] Initiating API call to login for email: $email');
                       try {
-                        final res = await AuthService.instance!.login<Map<String, dynamic>>(
+                        final res = await AuthService.instance.login(
                           email,
                           passwordController.text.trim(),
                         );
@@ -224,6 +225,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else {
                           log('[LOGIN] Login failed: ${res.message}');
                           showMessage(context, res.message ?? 'Login failed. Please check your credentials.');
+                          if (res.message != null && res.message!.toLowerCase().contains('verify your email')) {
+                            log('[LOGIN] Unverified email. Navigating to VerifyUser screen.');
+                            VerifyUser(email: email).launch(context);
+                          }
                         }
                       } catch (e) {
                         log('[LOGIN] Unexpected error during login: ${e.toString()}');
@@ -267,46 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                     ),
-                  ),
-                ),
-                24.height,
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: sand, thickness: 1)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        'OR',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 12.sp,
-                          color: textLight,
-                        ),
-                      ),
-                    ),
-                    Expanded(child: Divider(color: sand, thickness: 1)),
-                  ],
-                ),
-                24.height,
-                OutlinedButton.icon(
-                  onPressed: () {
-                    showMessage(context, 'Coming soon');
-                  },
-                  icon: Image.asset(fingerprint, height: 24.h),
-                  label: Text(
-                    'Sign In with Biometrics',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 12.sp,
-                      color: ink,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 56.h),
-                    side: BorderSide(color: sand),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.r),
-                    ),
-                    backgroundColor: white,
                   ),
                 ),
                 32.height,
