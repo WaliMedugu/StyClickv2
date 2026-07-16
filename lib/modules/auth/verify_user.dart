@@ -157,7 +157,7 @@ class _VerifyUserState extends State<VerifyUser> {
                 ),
                 16.height,
                 Text(
-                  'Enter the 4-digit code sent to\n${widget.phone ?? widget.email ?? "your device"}',
+                  'Enter the 4-digit code sent to\n${widget.email ?? "your email address"}',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontFamily: 'Cinta', 
                     fontSize: 16.sp,
