@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 const String baseUrl = "https://styclick-backend.onrender.com/api/v1/";
-final String email = "blueparticlestudios@gmail.com";
-final String password = "Astronomy#1";
+final String email = Platform.environment["STYCLICK_TEST_EMAIL"] ?? (throw StateError("Set STYCLICK_TEST_EMAIL"));
+final String password = Platform.environment["STYCLICK_TEST_PASSWORD"] ?? (throw StateError("Set STYCLICK_TEST_PASSWORD"));
 
 void main() async {
   print('==============================================');
